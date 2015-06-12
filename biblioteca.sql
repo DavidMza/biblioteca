@@ -37,6 +37,7 @@ DROP TABLE IF EXISTS `autores`;
 CREATE TABLE `autores` (
   `id_autor` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_autor` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_autor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -49,6 +50,7 @@ DROP TABLE IF EXISTS `caracteristicas`;
 CREATE TABLE `caracteristicas` (
   `id_caracteristicas` int(11) NOT NULL AUTO_INCREMENT,
   `denominacion_caracteristica` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_caracteristicas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -62,6 +64,7 @@ CREATE TABLE `clasificaciones` (
   `id_clasificacion` int(11) NOT NULL AUTO_INCREMENT,
   `denominacion_clasificacion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `id_clasificacion_padre` int(11) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_clasificacion`),
   KEY `id_clasificacion_padre` (`id_clasificacion_padre`),
   CONSTRAINT `clasificaciones_ibfk_1` FOREIGN KEY (`id_clasificacion_padre`) REFERENCES `clasificaciones` (`id_clasificacion`)
@@ -76,6 +79,7 @@ DROP TABLE IF EXISTS `editoriales`;
 CREATE TABLE `editoriales` (
   `id_editorial` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_editorial` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_editorial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -89,6 +93,7 @@ CREATE TABLE `fotos` (
   `id_foto` int(11) NOT NULL AUTO_INCREMENT,
   `rutaArchivo_foto` varchar(250) COLLATE utf8_spanish_ci NOT NULL,
   `id_libro_foto` int(11) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_foto`),
   KEY `id_libro_foto` (`id_libro_foto`),
   CONSTRAINT `fotos_ibfk_1` FOREIGN KEY (`id_libro_foto`) REFERENCES `libro` (`id_libro`)
@@ -111,6 +116,7 @@ CREATE TABLE `libro` (
   `destacado_libro` tinyint(1) NOT NULL,
   `id_autor_libro` int(11) NOT NULL,
   `id_editorial_libro` int(11) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_libro`),
   KEY `id_autor_libro` (`id_autor_libro`),
   KEY `id_editorial_libro` (`id_editorial_libro`),
@@ -149,6 +155,28 @@ CREATE TABLE `libro_clasificacion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*Data for the table `libro_clasificacion` */
+
+/*Table structure for table `log_autores` */
+
+DROP TABLE IF EXISTS `log_autores`;
+
+CREATE TABLE `log_autores` (
+  `id_log_autor` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_log_autor` date NOT NULL,
+  `hora_log_autor` time NOT NULL,
+  `id_accion_log_autor` int(11) NOT NULL,
+  `id_autor_log_autor` int(11) NOT NULL,
+  `id_usuario_log_autor` int(11) NOT NULL,
+  PRIMARY KEY (`id_log_autor`),
+  KEY `id_autor_log_autor` (`id_autor_log_autor`),
+  KEY `id_usuario_log_autor` (`id_usuario_log_autor`),
+  KEY `id_accion_log_autor` (`id_accion_log_autor`),
+  CONSTRAINT `log_autores_ibfk_3` FOREIGN KEY (`id_accion_log_autor`) REFERENCES `acciones` (`id_accion`),
+  CONSTRAINT `log_autores_ibfk_1` FOREIGN KEY (`id_autor_log_autor`) REFERENCES `autores` (`id_autor`),
+  CONSTRAINT `log_autores_ibfk_2` FOREIGN KEY (`id_usuario_log_autor`) REFERENCES `usuario` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+/*Data for the table `log_autores` */
 
 /*Table structure for table `log_caracteristicas` */
 
@@ -193,6 +221,28 @@ CREATE TABLE `log_clasificaciones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*Data for the table `log_clasificaciones` */
+
+/*Table structure for table `log_editoriales` */
+
+DROP TABLE IF EXISTS `log_editoriales`;
+
+CREATE TABLE `log_editoriales` (
+  `id_log_editorial` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_log_editorial` date NOT NULL,
+  `hora_log_editorial` time NOT NULL,
+  `id_accion_log_editorial` int(11) NOT NULL,
+  `id_editorial_log_editorial` int(11) NOT NULL,
+  `id_usuario_log_editorial` int(11) NOT NULL,
+  PRIMARY KEY (`id_log_editorial`),
+  KEY `id_editorial_log_editorial` (`id_editorial_log_editorial`),
+  KEY `id_usuario_log_editorial` (`id_usuario_log_editorial`),
+  KEY `id_accion_log_editorial` (`id_accion_log_editorial`),
+  CONSTRAINT `log_editoriales_ibfk_3` FOREIGN KEY (`id_accion_log_editorial`) REFERENCES `acciones` (`id_accion`),
+  CONSTRAINT `log_editoriales_ibfk_1` FOREIGN KEY (`id_editorial_log_editorial`) REFERENCES `editoriales` (`id_editorial`),
+  CONSTRAINT `log_editoriales_ibfk_2` FOREIGN KEY (`id_usuario_log_editorial`) REFERENCES `usuario` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+/*Data for the table `log_editoriales` */
 
 /*Table structure for table `log_libros` */
 
@@ -239,6 +289,7 @@ CREATE TABLE `usuario` (
   `fecha_alta_usuario` date NOT NULL,
   `fecha_baja_usuario` date DEFAULT NULL,
   `id_tipo_tipo_usuario` int(11) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_usuario`),
   KEY `id_tipo_tipo_usuario` (`id_tipo_tipo_usuario`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_tipo_tipo_usuario`) REFERENCES `tipos_usuario` (`id_tipo_usuario`)
