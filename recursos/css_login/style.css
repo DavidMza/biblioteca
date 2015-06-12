@@ -22,6 +22,7 @@ body{
 	background-image: url(../imagenes/login/background.jpg);
 	background-size: cover;
 	-webkit-filter: blur(5px);
+        filter: blur(5px);
 	z-index: 0;
 }
 
