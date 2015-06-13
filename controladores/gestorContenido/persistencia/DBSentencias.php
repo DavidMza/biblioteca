@@ -1,15 +1,10 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author David
- */
+/*********** GESTOR CONTENIDO ***********/
 interface DBSentencias {
-    //put your code here
+    //Eliminaciones logicas
+    const ELIMINAR = "UPDATE ? SET borrado = TRUE WHERE ? = ?"; //Tabla editoriales
+    
+    //EDITORIALES
+    const AGREGAR_EDITORIAL = "INSERT INTO editoriales (nombre_editorial) VALUES(?)";
+    const MODIFICAR_EDITORIAL = "UPDATE editoriales SET nombre_editorial = ? WHERE id_editorial = ?";
 }
