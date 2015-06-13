@@ -11,13 +11,17 @@ abstract class ControladorGeneral {
         $this->refControladorPersistencia = ControladorPersistencia::obtenerCP();
     }
     
-    abstract function listar($datos);
+    abstract function listar();
 
     abstract function agregar($datos);
 
     abstract function modificar($datos);
 
     function eliminar($datos){
-        $this->refControladorPersistencia->ejecutarSentencia(DBSentencias::ELIMINAR, $datos);
+        try{
+            $this->refControladorPersistencia->ejecutarSentencia(DBSentencias::ELIMINAR, $datos);
+        }catch (Exception $e){
+            throw new Exception($datos["tabla"] . "-eliminar: " . $e->getMessage());
+        }  
     }
 }
