@@ -1,7 +1,9 @@
 <?php
-
-require_once '../persistencia/ControladorPersistencia.php';
-require_once '../persistencia/DBSentencias.php';
+//echo $_SERVER['DOCUMENT_ROOT'];
+//echo dirname(__FILE__);
+//echo __DIR__;
+require_once __DIR__.'/../persistencia/ControladorPersistencia.php';
+require_once __DIR__.'/../persistencia/DBSentencias.php';
 
 abstract class ControladorGeneral implements DBSentencias {
 

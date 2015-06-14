@@ -24,4 +24,7 @@ interface DBSentencias {
     const LISTAR_TODO_AUTORES = "SELECT * FROM autores";
     const AGREGAR_AUTOR = "INSERT INTO autores (nombre_autor) VALUES(?)";
     const MODIFICAR_AUTOR = "UPDATE autores SET nombre_autor = ? WHERE id_autor = ?";
+    
+    //TIPOS USUARIOS
+    const LISTAR_TIPOS_USUARIO = "SELECT * FROM tipos_usuario";
 }
