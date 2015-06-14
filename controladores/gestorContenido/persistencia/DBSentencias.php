@@ -19,5 +19,9 @@ interface DBSentencias {
     const MODIFICAR_FOTO = "UPDATE fotos SET rutaArchivo_foto = ? WHERE id_foto = ?";
     const LISTAR_FOTO_ORDER_LIBROS = "SELECT * FROM fotos INNER JOIN libro ON id_libro_foto = id_libro ORDER BY id_libro_foto";
     
-    
+    //AUTORES
+    const LISTAR_AUTORES = "SELECT * FROM autores where borrado = 0";
+    const LISTAR_TODO_AUTORES = "SELECT * FROM autores";
+    const AGREGAR_AUTOR = "INSERT INTO autores (nombre_autor) VALUES(?)";
+    const MODIFICAR_AUTOR = "UPDATE autores SET nombre_autor = ? WHERE id_autor = ?";
 }

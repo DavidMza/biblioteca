@@ -3,7 +3,7 @@
 require_once '../persistencia/ControladorPersistencia.php';
 require_once '../persistencia/DBSentencias.php';
 
-abstract class ControladorGeneral {
+abstract class ControladorGeneral implements DBSentencias {
 
     protected $refControladorPersistencia;
 
