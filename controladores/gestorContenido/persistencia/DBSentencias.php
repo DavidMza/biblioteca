@@ -27,4 +27,7 @@ interface DBSentencias {
     
     //TIPOS USUARIOS
     const LISTAR_TIPOS_USUARIO = "SELECT * FROM tipos_usuario";
+    
+    //LOGIN
+    const LOGIN = "SELECT `usuario`.`nombre_usuario` AS `nombre`,`usuario`.`clave_usuario`, `tipos_usuario`.`id_tipo_usuario` AS `value` FROM `biblioteca`.`usuario` INNER JOIN `biblioteca`.`tipos_usuario` ON (`usuario`.`id_tipo_tipo_usuario` = `tipos_usuario`.`id_tipo_usuario`)WHERE nombre_usuario = ? AND borrado = 0;";
 }
