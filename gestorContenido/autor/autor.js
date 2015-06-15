@@ -30,7 +30,7 @@ $(function () {
                 $('#id').val(data.id_autor);
                 $('#index').val(datosAutores.row(this).index());
                 $("#nombre").val(data.nombre_autor);
-                if (data.oculto == "0") {
+                if (data.borrado == "0") {
                     $("#oculto").prop('checked', false);
                 } else {
                     $("#oculto").prop('checked', true);
@@ -153,6 +153,7 @@ $(function () {
                     }
                 ]
             }).api();
+            app.bindings();
         };
 
         app.actualizarTabla = function (idAutor, id) {
