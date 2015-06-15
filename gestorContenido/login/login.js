@@ -29,8 +29,8 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    sessionStorage.usuario = data[0].nombre;
-                    sessionStorage.value = data[0].value;
+                    sessionStorage.usuario = data.nombre;
+                    sessionStorage.value = data.value;
                     $('form').fadeOut(500);
                     $('.wrapper').addClass('form-success');
                 },

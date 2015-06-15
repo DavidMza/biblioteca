@@ -24,10 +24,15 @@ interface DBSentencias {
     const LISTAR_TODO_AUTORES = "SELECT * FROM autores";
     const AGREGAR_AUTOR = "INSERT INTO autores (nombre_autor) VALUES(?)";
     const MODIFICAR_AUTOR = "UPDATE autores SET nombre_autor = ? WHERE id_autor = ?";
+    const ULTIMO_ID = "SELECT MAX(id_autor) FROM autores;";
+    
+    //LOG AUTORES
+    const LOG_AGREGAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),1,?,?);";
+    const LOG_MODIFICAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),3,?,?);";
     
     //TIPOS USUARIOS
     const LISTAR_TIPOS_USUARIO = "SELECT * FROM tipos_usuario";
     
     //LOGIN
-    const LOGIN = "SELECT `usuario`.`nombre_usuario` AS `nombre`,`usuario`.`clave_usuario`, `tipos_usuario`.`id_tipo_usuario` AS `value` FROM `biblioteca`.`usuario` INNER JOIN `biblioteca`.`tipos_usuario` ON (`usuario`.`id_tipo_tipo_usuario` = `tipos_usuario`.`id_tipo_usuario`)WHERE nombre_usuario = ? AND borrado = 0;";
+    const LOGIN = "SELECT `usuario`.`id_usuario` AS `usuario`,`usuario`.`nombre_usuario` AS `nombre`,`usuario`.`clave_usuario`, `tipos_usuario`.`id_tipo_usuario` AS `value` FROM `biblioteca`.`usuario` INNER JOIN `biblioteca`.`tipos_usuario` ON (`usuario`.`id_tipo_tipo_usuario` = `tipos_usuario`.`id_tipo_usuario`)WHERE nombre_usuario = ? AND borrado = 0;";
 }

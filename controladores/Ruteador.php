@@ -1,4 +1,5 @@
 <?php
+//print_r($_POST);
 if ($_POST['seccion'] == "gestor") {
     require_once './gestorContenido/persistencia/ControladorPersistencia.php';
 } else {

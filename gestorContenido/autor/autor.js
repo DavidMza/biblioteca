@@ -64,10 +64,15 @@ $(function () {
 
         app.guardar = function () {
             var url = locacion+"controladores/Ruteador.php";
-            var datos = $("#formAutor").serialize();
+            var datos = {};
+            //datos.form = $("#formAutor").serialize();
+            datos.nombre = $("#nombre").val();
+            datos.oculto = $("#oculto").prop('checked');
             datos.accion = "agregar";
             datos.formulario = "Autor";
             datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
+            //console.log(datos);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -85,10 +90,14 @@ $(function () {
 
         app.modificar = function () {
             var url = locacion+"controladores/Ruteador.php";
-            var datos = $("#formAutor").serialize();
+            //var datos = $("#formAutor").serialize();
+            var datos = {};
+            datos.id = $("#id").val();
+            datos.nombre = $("#nombre").val();
             datos.accion = "modificar";
             datos.formulario = "Autor";
             datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -146,11 +155,11 @@ $(function () {
             }).api();
         };
 
-        app.actualizarTabla = function (autor, id) {
+        app.actualizarTabla = function (idAutor, id) {
             if (id == 0) { //ES guardar
                 $('#tablaAutor').DataTable().row.add({
-                    "id_autor": autor.id_autor,
-                    "nombre_autor": autor.nombre_autor,
+                    "id_autor": idAutor,
+                    "nombre_autor": $("#nombre").val(),
                 }).draw();
             } else {    //Es Modificar
                 datosAutores.row($("#index").val()).data({
