@@ -30,11 +30,6 @@ $(function () {
                 $('#id').val(data.id_autor);
                 $('#index').val(datosAutores.row(this).index());
                 $("#nombre").val(data.nombre_autor);
-                if (data.borrado == "0") {
-                    $("#oculto").prop('checked', false);
-                } else {
-                    $("#oculto").prop('checked', true);
-                }
                 $("#tituloModal").html("Editar Autor");
                 $("#modalAutor").modal({show: true});
             });
@@ -47,10 +42,40 @@ $(function () {
                     app.modificar();
                 }
             });
+            
+            $("#btnEliminar").on("click", function (event) {
+                app.eliminar($("#id").val());
+            });
 
             $("#formAutor").bootstrapValidator({
                 excluded: [],
             });
+        };
+        
+        app.eliminar = function (id) {    //funcion para eliminar
+            var url = locacion+"controladores/Ruteador.php";
+            var datos = {};
+            datos.id = id;
+            datos.accion = "eliminar";
+            datos.formulario = "Autor";
+            datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: datos,
+                success: function (data) {
+                    $("#modalAutor").modal('hide');
+                    app.borrarFila($("#index").val());
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        };
+        
+        app.borrarFila = function (index) {
+            $("#cuerpoTablaAutor").children('tr')[index].remove();
         };
 
         app.imprimir = function () {    //funcion para imprimir
@@ -67,7 +92,6 @@ $(function () {
             var datos = {};
             //datos.form = $("#formAutor").serialize();
             datos.nombre = $("#nombre").val();
-            datos.oculto = $("#oculto").prop('checked');
             datos.accion = "agregar";
             datos.formulario = "Autor";
             datos.seccion = "gestor";
@@ -153,7 +177,6 @@ $(function () {
                     }
                 ]
             }).api();
-            app.bindings();
         };
 
         app.actualizarTabla = function (idAutor, id) {
@@ -174,7 +197,6 @@ $(function () {
             $("#id").val(0);
             $("#index").val(-1);
             $("#nombre").val('');
-            $("#oculto").prop('checked', false);
         };
 
         app.init();

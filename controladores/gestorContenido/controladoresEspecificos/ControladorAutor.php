@@ -35,7 +35,7 @@ class ControladorAutor extends ControladorGeneral {
             $parametros = array("nombreAutor" => $datos["nombre"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_AUTOR, $parametros);
             $id_autor = $this->ultimoID();
-            $parametros = array("id" => $id_autor,"usuario" => $_SESSION["usuario"]);
+            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["usuario"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_AGREGAR_AUTORES, $parametros);
             return $id_autor;
         } catch (Exception $e) {
@@ -49,7 +49,7 @@ class ControladorAutor extends ControladorGeneral {
             $parametros = array("nombreAutor" => $datos["nombre"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_AUTOR, $parametros);
             $id_autor = $datos["id"];
-            $parametros = array("id" => $id_autor,"usuario" => $_SESSION["usuario"]);
+            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["usuario"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_MODIFICAR_AUTORES, $parametros);
         } catch (Exception $e) {
             throw new Exception("Autor-modificar: " . $e->getMessage());
@@ -57,10 +57,15 @@ class ControladorAutor extends ControladorGeneral {
     }
 
     public function eliminar($datos) {
-        $tabla = "autores";
-        $nombreID = "id_autor";
-        $parametros = array("tabla" => $tabla, "nombreID" => $nombreID, "id" => $datos["id"]);
-        parent::eliminar($parametros);
+        try {
+            session_start();
+            $parametros = array("id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_AUTOR, $parametros);
+            $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["usuario"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_AUTORES, $parametros);
+        } catch (Exception $e) {
+            throw new Exception("Autor-eliminar: " . $e->getMessage());
+        }
     }
 
     private function ultimoID() {

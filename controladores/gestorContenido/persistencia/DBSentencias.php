@@ -2,7 +2,7 @@
 /*********** GESTOR CONTENIDO ***********/
 interface DBSentencias {
     //Eliminaciones logicas
-    const ELIMINAR = "UPDATE ? SET borrado = TRUE WHERE ? = ?"; //Tabla editoriales
+    const ELIMINAR = "UPDATE ? SET borrado = 1 WHERE ? = ?;"; //Tabla editoriales
     
     //EDITORIALES
     const LISTAR_EDITORIALES = "SELECT * FROM editoriales";
@@ -25,10 +25,12 @@ interface DBSentencias {
     const AGREGAR_AUTOR = "INSERT INTO autores (nombre_autor) VALUES(?)";
     const MODIFICAR_AUTOR = "UPDATE autores SET nombre_autor = ? WHERE id_autor = ?";
     const ULTIMO_ID = "SELECT MAX(id_autor) FROM autores;";
+    const ELIMINAR_AUTOR = "UPDATE autores SET borrado = 1 WHERE id_autor = ?;";
     
     //LOG AUTORES
     const LOG_AGREGAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),1,?,?);";
     const LOG_MODIFICAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),3,?,?);";
+    const LOG_ELIMINAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),2,?,?);";
     
     //TIPOS USUARIOS
     const LISTAR_TIPOS_USUARIO = "SELECT * FROM tipos_usuario";
