@@ -1,0 +1,72 @@
+<?php
+
+require_once 'ControladorGeneral.php';
+
+class ControladorAutor extends ControladorGeneral {
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    public function listar() {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Autor-listar: " . $e->getMessage());
+        }
+    }
+
+    public function listarTodo() {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES);
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Autor-listarTodo: " . $e->getMessage());
+        }
+    }
+
+    public function agregar($datos) {
+        try {
+            //print_r($datos);
+            session_start();
+            $parametros = array("nombreAutor" => $datos["nombre"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_AUTOR, $parametros);
+            $id_autor = $this->ultimoID();
+            $parametros = array("id" => $id_autor,"usuario" => $_SESSION["usuario"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_AGREGAR_AUTORES, $parametros);
+            return $id_autor;
+        } catch (Exception $e) {
+            throw new Exception("Autor-agregar: " . $e->getMessage());
+        }
+    }
+
+    public function modificar($datos) {
+        try {
+            session_start();
+            $parametros = array("nombreAutor" => $datos["nombre"], "id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_AUTOR, $parametros);
+            $id_autor = $datos["id"];
+            $parametros = array("id" => $id_autor,"usuario" => $_SESSION["usuario"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_MODIFICAR_AUTORES, $parametros);
+        } catch (Exception $e) {
+            throw new Exception("Autor-modificar: " . $e->getMessage());
+        }
+    }
+
+    public function eliminar($datos) {
+        $tabla = "autores";
+        $nombreID = "id_autor";
+        $parametros = array("tabla" => $tabla, "nombreID" => $nombreID, "id" => $datos["id"]);
+        parent::eliminar($parametros);
+    }
+
+    private function ultimoID() {
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID);
+        $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        return $listado[0]["MAX(id_autor)"];
+    }
+
+}
