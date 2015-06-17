@@ -2,12 +2,18 @@
 /*********** GESTOR CONTENIDO ***********/
 interface DBSentencias {
     //Eliminaciones logicas
-    const ELIMINAR = "UPDATE ? SET borrado = 1 WHERE ? = ?;"; //Tabla editoriales
+    const ELIMINAR = "UPDATE ? SET borrado = 1 WHERE ? = ?;"; // no funca T-T
     
     //EDITORIALES
-    const LISTAR_EDITORIALES = "SELECT * FROM editoriales";
+    const LISTAR_EDITORIALES = "SELECT * FROM editoriales WHERE borrado = 0";
+    const LISTAR_TODO_EDITORIALES = "SELECT * FROM editoriales";
     const AGREGAR_EDITORIAL = "INSERT INTO editoriales (nombre_editorial) VALUES(?)";
     const MODIFICAR_EDITORIAL = "UPDATE editoriales SET nombre_editorial = ? WHERE id_editorial = ?";
+    const ELIMINAR_EDITORIAL = "UPDATE editoriales SET borrado = 1 WHERE id_editorial = ?";
+    const ULTIMO_ID_EDITORIAL = "SELECT MAX(id_editorial) AS ultimo FROM editoriales";
+    
+    //LOg EDITORIALES
+    const NUEVO_LOG_EDITORIAL = "INSERT INTO log_editoriales(`fecha_log_editorial`,`hora_log_editorial`,`id_accion_log_editorial`,`id_editorial_log_editorial`,`id_usuario_log_editorial`) VALUES(CURDATE(),CURTIME(),?,?,?);";
     
     //CARACTERISTICAS
     const LISTAR_CARACTERISTICAS = "SELECT * FROM caracteristicas";

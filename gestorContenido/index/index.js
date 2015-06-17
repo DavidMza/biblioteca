@@ -22,6 +22,10 @@ $(function () {
                 $("#contenido").load('../autor/autor.html #contenido');
                 $.getScript("../autor/autor.js");
             });
+            $("#refEditorial").on('click', function (event) {
+                $("#contenido").load('../editorial/editorial.html #contenido');
+                $.getScript("../editorial/editorial.js");
+            });
         };
 
         app.logout = function () {
