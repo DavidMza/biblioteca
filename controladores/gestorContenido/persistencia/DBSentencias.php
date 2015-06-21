@@ -10,10 +10,15 @@ interface DBSentencias {
     const AGREGAR_EDITORIAL = "INSERT INTO editoriales (nombre_editorial) VALUES(?)";
     const MODIFICAR_EDITORIAL = "UPDATE editoriales SET nombre_editorial = ? WHERE id_editorial = ?";
     const ELIMINAR_EDITORIAL = "UPDATE editoriales SET borrado = 1 WHERE id_editorial = ?";
-    const ULTIMO_ID_EDITORIAL = "SELECT MAX(id_editorial) AS ultimo FROM editoriales";
+    const ULTIMA_EDITORIAL = "SELECT MAX(id_editorial) AS id FROM editoriales";
+    const NOMBRE_EDITORIAL = "SELECT nombre_editorial AS nombre FROM editoriales WHERE id_editorial = ?";
     
-    //LOg EDITORIALES
-    const NUEVO_LOG_EDITORIAL = "INSERT INTO log_editoriales(`fecha_log_editorial`,`hora_log_editorial`,`id_accion_log_editorial`,`id_editorial_log_editorial`,`id_usuario_log_editorial`) VALUES(CURDATE(),CURTIME(),?,?,?);";
+    //LOG EDITORIALES
+    const NUEVO_LOG_EDITORIAL = "INSERT INTO log_editoriales(`fecha_log_editorial`,`hora_log_editorial`, editorial_nombre_anterior_log_editorial, editorial_nombre_nuevo_log_editorial,`id_accion_log_editorial`,`id_editorial_log_editorial`,`id_usuario_log_editorial`) VALUES(CURDATE(),CURTIME(),?,?,?,?,?)";
+    const LISTAR_LOG_EDITORIAL = "SELECT fecha_log_editorial, hora_log_editorial, nombre_usuario, nombre_editorial, nombre_editorial_log_editorial, nombre_accion FROM log_editoriales
+    INNER JOIN usuario ON id_usuario = id_usuario_log_editorial 
+    INNER JOIN editoriales ON id_editorial = id_editorial_log_editorial
+    INNER JOIN acciones ON id_accion = id_accion_log_editorial";
     
     //CARACTERISTICAS
     const LISTAR_CARACTERISTICAS = "SELECT * FROM caracteristicas";

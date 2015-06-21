@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 5.6.17 : Database - biblioteca
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -230,6 +231,8 @@ CREATE TABLE `log_editoriales` (
   `id_log_editorial` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_log_editorial` date NOT NULL,
   `hora_log_editorial` time NOT NULL,
+  `editorial_nombre_anterior_log_editorial` varchar(25),
+  `editorial_nombre_nuevo_log_editorial` varchar(25),
   `id_accion_log_editorial` int(11) NOT NULL,
   `id_editorial_log_editorial` int(11) NOT NULL,
   `id_usuario_log_editorial` int(11) NOT NULL,

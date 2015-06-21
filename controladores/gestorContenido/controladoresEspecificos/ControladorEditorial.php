@@ -32,11 +32,12 @@ class ControladorEditorial extends ControladorGeneral{
             session_start();
             $parametros = array("nombreEditorial" => $datos["nombre"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_EDITORIAL, $parametros);
-            //Rescato la editorial insertada
             unset($parametros);
-            $ultimaEditorial = $this->ultimoID();
-            $parametros = array("id_Editorial" => $ultimaEditorial, "id_Usuario" => $_SESSION["usuario"]);
+            //Rescato la editorial insertada
+            $idUltimaEditorial = $this->ultimoID();
             
+            $parametros = array("id_Editorial" => $idUltimaEditorial, "nuevo_nombre_Editorial" => $datos["nombre"], "id_Usuario" => $_SESSION["usuario"]);
+            //print_r($_SESSION);
             $this->refLog = new Controlador_LogEditoriales($parametros);
             $this->refLog->agregar();
             
@@ -48,11 +49,18 @@ class ControladorEditorial extends ControladorGeneral{
     public function modificar($datos) {
         try{
             session_start();
+            //Primero rescato el nombre de la editorial que voy a modificar
+            $nombreEditorialAnterior = $this->traerNombreEditorial($datos["id"]);
+            //Cargo los parametros y aplico la modificacion
             $parametros = array("nombreEditorial" => $datos["nombre"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_EDITORIAL, $parametros);
             
             unset($parametros);
-            $parametros = array("id_Editorial" => $datos["id"], "id_Usuario" => $_SESSION["usuario"]);
+            $parametros = array("id_Editorial" => $datos["id"],
+                                "id_Usuario" => $_SESSION["usuario"],
+                                "nuevo_nombre_Editorial" => $datos["nombre"],
+                                "anterior_nombre_Editorial" => $nombreEditorialAnterior
+                                );
             
             $this->refLog = new Controlador_LogEditoriales($parametros);
             $this->refLog->modificar();
@@ -65,11 +73,16 @@ class ControladorEditorial extends ControladorGeneral{
     public function eliminar($datos) {
         try {
             session_start();
+            //Primero rescato el nombre de la editorial que voy a eliminar
+            $nombreEditorialAnterior = $this->traerNombreEditorial($datos["id"]);
             $parametros = array("id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_EDITORIAL, $parametros);
             
             unset($parametros);
-            $parametros = array("id_Editorial" => $datos["id"], "id_Usuario" => $_SESSION["usuario"]);
+            $parametros = array("id_Editorial" => $datos["id"],
+                                "id_Usuario" => $_SESSION["usuario"],
+                                "anterior_nombre_Editorial" => $nombreEditorialAnterior
+                                );
             
             $this->refLog = new Controlador_LogEditoriales($parametros);
             $this->refLog->eliminar();
@@ -79,9 +92,16 @@ class ControladorEditorial extends ControladorGeneral{
     }
     
     private function ultimoID() {
-        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID_EDITORIAL);
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMA_EDITORIAL);
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
-        return $listado[0]["ultimo"];
+        return $listado[0]["id"];
+    }
+    
+    private function traerNombreEditorial($id){
+        $parametros = array("id" => $id);
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::NOMBRE_EDITORIAL, $parametros);
+        $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        return $listado[0]["nombre"];
     }
 
 

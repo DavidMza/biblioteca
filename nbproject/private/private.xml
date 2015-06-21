@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.js</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/login/login.html</file>
+            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/controladoresEspecificos/Controlador_LogEditoriales.php</file>
+            <file>file:/var/www/html/biblioteca/gestorContenido/editorial/editorial.html</file>
+            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorEditorial.php</file>
+            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/persistencia/DBSentencias.php</file>
+            <file>file:/var/www/html/biblioteca/gestorContenido/logs/logEditorial.html</file>
+            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorCaracteristica.php</file>
         </group>
     </open-files>
 </project-private>
