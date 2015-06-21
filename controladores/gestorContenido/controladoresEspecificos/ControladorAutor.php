@@ -10,7 +10,15 @@ class ControladorAutor extends ControladorGeneral {
 
     public function listar() {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
+            session_start();
+            $resultado = null;
+            if ($_SESSION["tipo"] == '3') {
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
+            }else{
+                $parametros = array("usuario" => $_SESSION["usuario"]);
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES_X_USUARIO,$parametros);
+            }
+            
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {
@@ -20,7 +28,15 @@ class ControladorAutor extends ControladorGeneral {
 
     public function listarTodo() {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES);
+            session_start();
+            $resultado = null;
+            if ($_SESSION["tipo"] == '3') {
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES);
+            }else{
+                $parametros = array("usuario" => $_SESSION["usuario"]);
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES_X_USUARIO,$parametros);
+            }
+            
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {

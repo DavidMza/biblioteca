@@ -4,6 +4,9 @@ $(function () {
     (function (app) {
         var datosAutores;
         app.init = function () {
+            if (sessionStorage.value == '3') {
+                $("#log").html('<a id="refLog"> Ver Log de Autores</a>');
+            }
             app.listar();
             app.bindings();
         };

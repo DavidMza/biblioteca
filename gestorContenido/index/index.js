@@ -7,6 +7,9 @@ $(function () {
             if (!sessionStorage.usuario && !sessionStorage.value) {
                 window.location = "../login/login.html";
             }
+            if (sessionStorage.value == '3') {
+                $("#liUsuario").html('<a id="refUsuario"><i class="fa fa-square-o fa-3x"></i> Usuarios</a>');
+            }
             app.bindings();
 
 
