@@ -15,27 +15,29 @@ class Controlador_LogEditoriales extends ControladorGeneral {
 
     function __construct($datos) {
         parent::__construct();
-        $this->idEditorial = $datos["id_Editorial"];
-        $this->idUsuario = $datos["id_Usuario"];
-        //Se inseratará una nueva editorial
-        if (isset($datos["anterior_nombre_Editorial"])) {
-            $this->nombreEditorialAnterior = $datos["anterior_nombre_Editorial"];
-        }
         
-        if (isset($datos["nuevo_nombre_Editorial"])) {
-            $this->nombreEditorialNuevo = $datos["nuevo_nombre_Editorial"];
+        if (isset($datos["id_Editorial"])) {
+            $this->idEditorial = $datos["id_Editorial"];
+            $this->idUsuario = $datos["id_Usuario"];
+            //Se inseratará una nueva editorial
+            if (isset($datos["anterior_nombre_Editorial"])) {
+                $this->nombreEditorialAnterior = $datos["anterior_nombre_Editorial"];
+            }
+
+            if (isset($datos["nuevo_nombre_Editorial"])) {
+                $this->nombreEditorialNuevo = $datos["nuevo_nombre_Editorial"];
+            }
         }
-        
     }
 
     public function agregar($datos = null) {
         try {
             $parametros = array($this->nombreEditorialAnterior,
-                                $this->nombreEditorialNuevo,
-                                $this->accion["A"],
-                                $this->idEditorial,
-                                $this->idUsuario
-                                );
+                $this->nombreEditorialNuevo,
+                $this->accion["A"],
+                $this->idEditorial,
+                $this->idUsuario
+            );
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::NUEVO_LOG_EDITORIAL, $parametros);
         } catch (Exception $e) {
             throw new Exception("Log-Editorial-agregar: " . $e->getMessage());
@@ -45,11 +47,11 @@ class Controlador_LogEditoriales extends ControladorGeneral {
     public function modificar($datos = null) {
         try {
             $parametros = array($this->nombreEditorialAnterior,
-                                $this->nombreEditorialNuevo,
-                                $this->accion["M"],
-                                $this->idEditorial,
-                                $this->idUsuario
-                                );
+                $this->nombreEditorialNuevo,
+                $this->accion["M"],
+                $this->idEditorial,
+                $this->idUsuario
+            );
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::NUEVO_LOG_EDITORIAL, $parametros);
         } catch (Exception $e) {
             throw new Exception("Log-Editorial-modificar: " . $e->getMessage());
@@ -59,11 +61,11 @@ class Controlador_LogEditoriales extends ControladorGeneral {
     public function eliminar($datos = null) {
         try {
             $parametros = array($this->nombreEditorialAnterior,
-                                $this->nombreEditorialNuevo,
-                                $this->accion["B"],
-                                $this->idEditorial,
-                                $this->idUsuario
-                                );
+                $this->nombreEditorialNuevo,
+                $this->accion["B"],
+                $this->idEditorial,
+                $this->idUsuario
+            );
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::NUEVO_LOG_EDITORIAL, $parametros);
         } catch (Exception $e) {
             throw new Exception("Log-Editorial-eliminar: " . $e->getMessage());

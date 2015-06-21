@@ -15,10 +15,7 @@ interface DBSentencias {
     
     //LOG EDITORIALES
     const NUEVO_LOG_EDITORIAL = "INSERT INTO log_editoriales(`fecha_log_editorial`,`hora_log_editorial`, editorial_nombre_anterior_log_editorial, editorial_nombre_nuevo_log_editorial,`id_accion_log_editorial`,`id_editorial_log_editorial`,`id_usuario_log_editorial`) VALUES(CURDATE(),CURTIME(),?,?,?,?,?)";
-    const LISTAR_LOG_EDITORIAL = "SELECT fecha_log_editorial, hora_log_editorial, nombre_usuario, nombre_editorial, nombre_editorial_log_editorial, nombre_accion FROM log_editoriales
-    INNER JOIN usuario ON id_usuario = id_usuario_log_editorial 
-    INNER JOIN editoriales ON id_editorial = id_editorial_log_editorial
-    INNER JOIN acciones ON id_accion = id_accion_log_editorial";
+    const LISTAR_LOG_EDITORIAL = "SELECT fecha_log_editorial AS fecha, hora_log_editorial AS hora, editorial_nombre_anterior_log_editorial AS nombreEditorialAnterior, editorial_nombre_nuevo_log_editorial AS nombreEditorialNuevo, nombre_accion AS accion, nombre_editorial AS nombreActual, nombre_usuario AS usuario FROM log_editoriales INNER JOIN acciones ON id_accion = id_accion_log_editorial INNER JOIN editoriales ON id_editorial_log_editorial = id_editorial INNER JOIN usuario ON id_usuario_log_editorial = id_usuario";
     
     //CARACTERISTICAS
     const LISTAR_CARACTERISTICAS = "SELECT * FROM caracteristicas";

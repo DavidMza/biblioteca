@@ -26,6 +26,11 @@ $(function () {
                 $("#contenido").load('../editorial/editorial.html #contenido');
                 $.getScript("../editorial/editorial.js");
             });
+            $("#refLogsEditorial").on('click', function (event) {
+                $("#contenido").load('../logs/logEditorial.html #contenido');
+                $.getScript("../logs/logEditorial.js");
+            });
+            
         };
 
         app.logout = function () {
