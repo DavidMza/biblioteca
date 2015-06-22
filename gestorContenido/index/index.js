@@ -38,7 +38,11 @@ $(function () {
                 $.getScript("../usuario/usuario.js");
                 $.getScript("../../recursos/md5/md5.js");
             });
-            
+            $("#refClasificacion").on('click', function (event) {
+                $("#contenido").load('../clasificacion/clasificacion.html #contenido');
+                $.getScript("../clasificacion/clasificacion.js");
+                $.getScript("../../recursos/jsTree/jstree.min.js");
+            });
         };
 
         app.logout = function () {

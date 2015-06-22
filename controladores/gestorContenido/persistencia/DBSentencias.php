@@ -51,8 +51,17 @@ interface DBSentencias {
     const ULTIMO_ID_USUARIO = "SELECT MAX(id_usuario) FROM usuario;";
     const ELIMINAR_USUARIO = "UPDATE usuario SET borrado = 1, fecha_baja_usuario = CURDATE() WHERE id_usuario = ?;";
     
-    //TIPOS USUARIOS
-    const LISTAR_TIPOS_USUARIO = "SELECT * FROM tipos_usuario";
+    //CLASIFICACIONES
+    const LISTAR_CLASIFICACIONES = "SELECT id_clasificacion AS id, id_clasificacion_padre AS parent, denominacion_clasificacion AS 'text' FROM clasificaciones WHERE borrado = 0";
+    const AGREGAR_CLASIFICACION = "INSERT INTO clasificaciones (denominacion_clasificacion,id_clasificacion_padre) VALUES(?,?)";
+    const ULTIMO_ID_CLASIFICACION = "SELECT MAX(id_clasificacion) FROM clasificaciones;";
+    const MODIFICAR_CLASIFICACION = "UPDATE clasificaciones SET denominacion_clasificacion = ?, id_clasificacion_padre = ? WHERE id_clasificacion = ?";
+    const ELIMINAR_CLASIFICACION = "UPDATE clasificaciones SET borrado = 1 WHERE id_clasificacion = ?;";
+    
+    //LOG CLASIFICACIONES
+    const LOG_AGREGAR_CLASIFICACION = "INSERT INTO log_clasificaciones(`fecha_log_clasificacion`,`hora_log_clasificacion`,`id_accion_log_clasificacion`,`id_clasificacion_log_clasificacion`,`id_usuario_log_clasificacion`) VALUES(CURDATE(),CURTIME(),1,?,?);";
+    const LOG_MODIFICAR_CLASIFICACION = "INSERT INTO log_clasificaciones(`fecha_log_clasificacion`,`hora_log_clasificacion`,`id_accion_log_clasificacion`,`id_clasificacion_log_clasificacion`,`id_usuario_log_clasificacion`) VALUES(CURDATE(),CURTIME(),3,?,?);";
+    const LOG_ELIMINAR_CLASIFICACION = "INSERT INTO log_clasificaciones(`fecha_log_clasificacion`,`hora_log_clasificacion`,`id_accion_log_clasificacion`,`id_clasificacion_log_clasificacion`,`id_usuario_log_clasificacion`) VALUES(CURDATE(),CURTIME(),2,?,?);";
     
     //LOGIN
     const LOGIN = "SELECT `usuario`.`id_usuario` AS `usuario`,`usuario`.`nombre_usuario` AS `nombre`,`usuario`.`clave_usuario`, `tipos_usuario`.`id_tipo_usuario` AS `value` FROM `biblioteca`.`usuario` INNER JOIN `biblioteca`.`tipos_usuario` ON (`usuario`.`id_tipo_tipo_usuario` = `tipos_usuario`.`id_tipo_usuario`)WHERE nombre_usuario = ? AND borrado = 0;";
