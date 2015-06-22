@@ -34,13 +34,22 @@ interface DBSentencias {
     const LISTAR_TODO_AUTORES_X_USUARIO = "SELECT id_autor, nombre_autor FROM autores INNER JOIN log_autores ON id_autor = id_autor_log_autor WHERE id_usuario_log_autor = ? AND id_accion_log_autor = 1;";
     const AGREGAR_AUTOR = "INSERT INTO autores (nombre_autor) VALUES(?)";
     const MODIFICAR_AUTOR = "UPDATE autores SET nombre_autor = ? WHERE id_autor = ?";
-    const ULTIMO_ID = "SELECT MAX(id_autor) FROM autores;";
+    const ULTIMO_ID_AUTOR = "SELECT MAX(id_autor) FROM autores;";
     const ELIMINAR_AUTOR = "UPDATE autores SET borrado = 1 WHERE id_autor = ?;";
     
     //LOG AUTORES
     const LOG_AGREGAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),1,?,?);";
     const LOG_MODIFICAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),3,?,?);";
     const LOG_ELIMINAR_AUTORES = "INSERT INTO log_autores(`fecha_log_autor`,`hora_log_autor`,`id_accion_log_autor`,`id_autor_log_autor`,`id_usuario_log_autor`) VALUES(CURDATE(),CURTIME(),2,?,?);";
+    const LOG_LISTAR_AUTORES = "SELECT fecha_log_autor AS fecha, hora_log_autor AS hora, nombre_autor AS autor, nombre_usuario AS usuario, nombre_accion AS accion FROM log_autores INNER JOIN acciones ON id_accion_log_autor = id_accion INNER JOIN autores ON id_autor_log_autor = id_autor INNER JOIN usuario ON id_usuario_log_autor = id_usuario";
+    
+    //USUARIOS
+    const LISTAR_USUARIOS = "SELECT id_usuario, nombre_usuario, descripcion_usuario AS tipo_usuario FROM usuario INNER JOIN tipos_usuario ON id_tipo_tipo_usuario = id_tipo_usuario WHERE borrado = 0";
+    const LISTAR_TODO_USUARIOS = "SELECT id_usuario, nombre_usuario, descripcion_usuario AS tipo_usuario FROM usuario INNER JOIN tipos_usuario ON id_tipo_tipo_usuario = id_tipo_usuario";
+    const MODIFICAR_USUARIO = "UPDATE usuario SET nombre_usuario = ?, clave_usuario = ? WHERE id_usuario = ?";
+    const AGREGAR_USUARIO = "INSERT INTO usuario (nombre_usuario,clave_usuario,fecha_alta_usuario,id_tipo_tipo_usuario) VALUES(?,?,CURDATE(),1)";
+    const ULTIMO_ID_USUARIO = "SELECT MAX(id_usuario) FROM usuario;";
+    const ELIMINAR_USUARIO = "UPDATE usuario SET borrado = 1, fecha_baja_usuario = CURDATE() WHERE id_usuario = ?;";
     
     //TIPOS USUARIOS
     const LISTAR_TIPOS_USUARIO = "SELECT * FROM tipos_usuario";

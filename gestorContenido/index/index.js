@@ -7,8 +7,8 @@ $(function () {
             if (!sessionStorage.usuario && !sessionStorage.value) {
                 window.location = "../login/login.html";
             }
-            if (sessionStorage.value == '3') {
-                $("#liUsuario").html('<a id="refUsuario"><i class="fa fa-square-o fa-3x"></i> Usuarios</a>');
+            if (sessionStorage.value == '2') {
+                $("#liUsuario").html('<a id="refUsuario"><i class="fa fa-user fa-3x"></i> Usuarios</a>');
             }
             app.bindings();
 
@@ -32,6 +32,11 @@ $(function () {
             $("#refLogsEditorial").on('click', function (event) {
                 $("#contenido").load('../logs/logEditorial.html #contenido');
                 $.getScript("../logs/logEditorial.js");
+            });
+            $("#refUsuario").on('click', function (event) {
+                $("#contenido").load('../usuario/usuario.html #contenido');
+                $.getScript("../usuario/usuario.js");
+                $.getScript("../../recursos/md5/md5.js");
             });
             
         };

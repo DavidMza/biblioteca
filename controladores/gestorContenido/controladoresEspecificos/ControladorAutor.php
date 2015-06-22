@@ -12,7 +12,7 @@ class ControladorAutor extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '3') {
+            if ($_SESSION["tipo"] == '2') {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
             }else{
                 $parametros = array("usuario" => $_SESSION["usuario"]);
@@ -30,7 +30,7 @@ class ControladorAutor extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '3') {
+            if ($_SESSION["tipo"] == '2') {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES);
             }else{
                 $parametros = array("usuario" => $_SESSION["usuario"]);
@@ -41,6 +41,20 @@ class ControladorAutor extends ControladorGeneral {
             return $listado;
         } catch (Exception $e) {
             throw new Exception("Autor-listarTodo: " . $e->getMessage());
+        }
+    }
+    
+    public function listarLogs() {
+        try {
+            session_start();
+            $resultado = null;
+            if ($_SESSION["tipo"] == '2') {
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_AUTORES);
+            }
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Autor-listarLogs: " . $e->getMessage());
         }
     }
 
@@ -85,7 +99,7 @@ class ControladorAutor extends ControladorGeneral {
     }
 
     private function ultimoID() {
-        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID);
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID_AUTOR);
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
         return $listado[0]["MAX(id_autor)"];
     }

@@ -4,7 +4,7 @@ $(function () {
     (function (app) {
         var datosAutores;
         app.init = function () {
-            if (sessionStorage.value == '3') {
+            if (sessionStorage.value == '2') {
                 $("#log").html('<a id="refLog"> Ver Log de Autores</a>');
             }
             app.listar();
@@ -12,6 +12,12 @@ $(function () {
         };
 
         app.bindings = function () {
+            
+            $("#refLog").on('click', function (event) {
+                $("#contenido").load('../autor/log/logAutor.html #contenido');
+                $.getScript("../autor/log/logAutor.js");
+            });
+            
             $("#agregarAutor").on('click', function (event) {
                 app.limpiarModal();
                 $("#id").val(0);
@@ -85,9 +91,9 @@ $(function () {
             var aux = $("#tablaAutor").html();//recupero el html del la tablaAutor
             aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
             aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
-            $("#html").val(aux);
-            $("#imprimirAutor").attr("action", locacion+"controladores/Imprimir.php");
-            $("#imprimirAutor").submit();//imprimo
+            $("#html").val('<table border="1">'+aux+'</table>');
+            $("#formImprimir").attr("action", locacion+"controladores/Imprimir.php");
+            $("#formImprimir").submit();//imprimo
         };
 
         app.guardar = function () {

@@ -4,19 +4,24 @@ $(function () {
     (function (app) {
         var datosUsuarios;
         app.init = function () {
-            app.listarTiposUsuarios();
             app.listar();
             app.bindings();
         };
 
         app.bindings = function () {
+            
+            $("#refLog").on('click', function (event) {
+                $("#contenido").load('../usuario/log/logUsuario.html #contenido');
+                $.getScript("../usuario/log/logUsuario.js");
+            });
+            
             $("#agregarUsuario").on('click', function (event) {
                 app.limpiarModal();
                 $("#id").val(0);
                 $("#tituloModal").html("Agregar Nuevo Usuario");
                 $("#modalUsuario").modal({show: true});
             });
-
+            
             $("#listarTodo").on('click', function (event) {
                 app.listar();
             });
@@ -31,11 +36,7 @@ $(function () {
                 $('#id').val(data.id_usuario);
                 $('#index').val(datosUsuarios.row(this).index());
                 $("#nombre").val(data.nombre_usuario);
-                if (data.oculto == "0") {
-                    $("#oculto").prop('checked', false);
-                } else {
-                    $("#oculto").prop('checked', true);
-                }
+                $("#clave").val('');
                 $("#tituloModal").html("Editar Usuario");
                 $("#modalUsuario").modal({show: true});
             });
@@ -48,51 +49,62 @@ $(function () {
                     app.modificar();
                 }
             });
+            
+            $("#btnEliminar").on("click", function (event) {
+                app.eliminar($("#id").val());
+            });
 
             $("#formUsuario").bootstrapValidator({
                 excluded: [],
             });
         };
-
-        app.listarTiposUsuarios = function () {
-            var url = locacion + "controladores/Ruteador.php";
+        
+        app.eliminar = function (id) {    //funcion para eliminar
+            var url = locacion+"controladores/Ruteador.php";
             var datos = {};
-            datos.accion = "listar";
-            datos.formulario = "TiposUsuario";
+            datos.id = id;
+            datos.accion = "eliminar";
+            datos.formulario = "Usuario";
             datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
             $.ajax({
                 url: url,
                 method: 'POST',
-                dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    $('#tipo').empty();
-                    $('#tipo').append('<option value=' + 0 + ' >Selecciona un tipo</option>');
-                    $.each(data, function (clave, tipo) {
-                        $('#tipo').append('<option value=' + tipo.id_tipo_usuario + ' >' + tipo.descripcion_usuario + '</option>');
-                    });
+                    $("#modalUsuario").modal('hide');
+                    app.borrarFila($("#index").val());
                 },
                 error: function (data) {
                     alert(data.responseText);
                 }
             });
         };
+        
+        app.borrarFila = function (index) {
+            $("#cuerpoTablaUsuario").children('tr')[index].remove();
+        };
 
         app.imprimir = function () {    //funcion para imprimir
             var aux = $("#tablaUsuario").html();//recupero el html del la tablaUsuario
             aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
             aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
-            $("#html").val(aux);
-            $("#imprimirUsuario").attr("action", locacion + "controladores/Imprimir.php");
-            $("#imprimirUsuario").submit();//imprimo
+            $("#html").val('<table border="1">'+aux+'</table>');
+            $("#formImprimir").attr("action", locacion+"controladores/Imprimir.php");
+            $("#formImprimir").submit();//imprimo
         };
 
         app.guardar = function () {
-            var url = locacion + "controladores/Ruteador.php";
-            var datos = $("#formUsuario").serialize();
+            var url = locacion+"controladores/Ruteador.php";
+            var datos = {};
+            //datos.form = $("#formUsuario").serialize();
+            datos.nombre = $("#nombre").val();
+            datos.clave = $.md5($("#clave").val());
             datos.accion = "agregar";
             datos.formulario = "Usuario";
             datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
+            //console.log(datos);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -109,11 +121,16 @@ $(function () {
         };
 
         app.modificar = function () {
-            var url = locacion + "controladores/Ruteador.php";
-            var datos = $("#formUsuario").serialize();
+            var url = locacion+"controladores/Ruteador.php";
+            //var datos = $("#formUsuario").serialize();
+            var datos = {};
+            datos.id = $("#id").val();
+            datos.nombre = $("#nombre").val();
+            datos.clave = $.md5($("#clave").val());
             datos.accion = "modificar";
             datos.formulario = "Usuario";
             datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -129,11 +146,11 @@ $(function () {
         };
 
         app.listar = function () {
-            var url = locacion + "controladores/Ruteador.php";
+            var url = locacion+"controladores/Ruteador.php";
             var datos = {};
             if ($("#listarTodo").prop('checked')) {
                 datos.accion = "listarTodo";
-            } else {
+            }else{
                 datos.accion = "listar";
             }
             datos.formulario = "Usuario";
@@ -160,7 +177,7 @@ $(function () {
                 "columns": [
                     {"data": "id_usuario"},
                     {"data": "nombre_usuario"},
-                    {"data": "descripcion_usuario"}
+                    {"data": "tipo_usuario"}
                 ],
                 "columnDefs": [
                     {
@@ -172,18 +189,18 @@ $(function () {
             }).api();
         };
 
-        app.actualizarTabla = function (usuario, id) {
+        app.actualizarTabla = function (idUsuario, id) {
             if (id == 0) { //ES guardar
                 $('#tablaUsuario').DataTable().row.add({
-                    "id_usuario": usuario.id_usuario,
-                    "nombre_usuario": usuario.nombre_usuario,
-                    "descripcion_usuario": usuario.descripcion_usuario,
+                    "id_usuario": idUsuario,
+                    "nombre_usuario": $("#nombre").val(),
+                    "tipo_usuario": 'administrador',
                 }).draw();
             } else {    //Es Modificar
                 datosUsuarios.row($("#index").val()).data({
                     "id_usuario": id,
                     "nombre_usuario": $("#nombre").val(),
-                    "descripcion_usuario": $("#tipo").val(),
+                    "tipo_usuario": 'administrador',
                 }).draw();
             }
         };
@@ -192,7 +209,7 @@ $(function () {
             $("#id").val(0);
             $("#index").val(-1);
             $("#nombre").val('');
-            $("#oculto").prop('checked', false);
+            $("#clave").val('');
         };
 
         app.init();
