@@ -26,13 +26,27 @@ class ControladorClasificacion extends ControladorGeneral {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_CLASIFICACIONES);
             } else {
                 $parametros = array("usuario" => $_SESSION["usuario"]);
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES_X_USUARIO, $parametros);
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_CLASIFICACIONES_X_USUARIO, $parametros);
             }
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             $listado[0]["parent"] = "#";
             return $listado;
         } catch (Exception $e) {
             throw new Exception("Clasificacion-listar: " . $e->getMessage());
+        }
+    }
+    
+    public function listarLogs() {
+        try {
+            session_start();
+            $resultado = null;
+            if ($_SESSION["tipo"] == '2') {
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_CLASIFICACIONES);
+            }
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Clasificacion-listarLogs: " . $e->getMessage());
         }
     }
 

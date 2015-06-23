@@ -53,6 +53,7 @@ interface DBSentencias {
     
     //CLASIFICACIONES
     const LISTAR_CLASIFICACIONES = "SELECT id_clasificacion AS id, id_clasificacion_padre AS parent, denominacion_clasificacion AS 'text' FROM clasificaciones WHERE borrado = 0";
+    const LISTAR_CLASIFICACIONES_X_USUARIO = "SELECT id_clasificacion AS id, id_clasificacion_padre AS parent, denominacion_clasificacion AS 'text' FROM clasificaciones INNER JOIN log_clasificaciones ON id_clasificacion = id_clasificacion_log_clasificacion WHERE borrado = 0 AND ((id_usuario_log_clasificacion = ? AND id_accion_log_clasificacion = 1) OR ISNULL(id_clasificacion_padre));";
     const AGREGAR_CLASIFICACION = "INSERT INTO clasificaciones (denominacion_clasificacion,id_clasificacion_padre) VALUES(?,?)";
     const ULTIMO_ID_CLASIFICACION = "SELECT MAX(id_clasificacion) FROM clasificaciones;";
     const MODIFICAR_CLASIFICACION = "UPDATE clasificaciones SET denominacion_clasificacion = ?, id_clasificacion_padre = ? WHERE id_clasificacion = ?";
@@ -62,6 +63,7 @@ interface DBSentencias {
     const LOG_AGREGAR_CLASIFICACION = "INSERT INTO log_clasificaciones(`fecha_log_clasificacion`,`hora_log_clasificacion`,`id_accion_log_clasificacion`,`id_clasificacion_log_clasificacion`,`id_usuario_log_clasificacion`) VALUES(CURDATE(),CURTIME(),1,?,?);";
     const LOG_MODIFICAR_CLASIFICACION = "INSERT INTO log_clasificaciones(`fecha_log_clasificacion`,`hora_log_clasificacion`,`id_accion_log_clasificacion`,`id_clasificacion_log_clasificacion`,`id_usuario_log_clasificacion`) VALUES(CURDATE(),CURTIME(),3,?,?);";
     const LOG_ELIMINAR_CLASIFICACION = "INSERT INTO log_clasificaciones(`fecha_log_clasificacion`,`hora_log_clasificacion`,`id_accion_log_clasificacion`,`id_clasificacion_log_clasificacion`,`id_usuario_log_clasificacion`) VALUES(CURDATE(),CURTIME(),2,?,?);";
+    const LOG_LISTAR_CLASIFICACIONES = "SELECT fecha_log_clasificacion AS fecha, hora_log_clasificacion AS hora, denominacion_clasificacion AS clasificacion, nombre_usuario AS usuario, nombre_accion AS accion FROM log_clasificaciones INNER JOIN acciones ON id_accion_log_clasificacion = id_accion INNER JOIN clasificaciones ON id_clasificacion_log_clasificacion = id_clasificacion INNER JOIN usuario ON id_usuario_log_clasificacion = id_usuario";
     
     //LOGIN
     const LOGIN = "SELECT `usuario`.`id_usuario` AS `usuario`,`usuario`.`nombre_usuario` AS `nombre`,`usuario`.`clave_usuario`, `tipos_usuario`.`id_tipo_usuario` AS `value` FROM `biblioteca`.`usuario` INNER JOIN `biblioteca`.`tipos_usuario` ON (`usuario`.`id_tipo_tipo_usuario` = `tipos_usuario`.`id_tipo_usuario`)WHERE nombre_usuario = ? AND borrado = 0;";

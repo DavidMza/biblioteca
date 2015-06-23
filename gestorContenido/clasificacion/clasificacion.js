@@ -4,11 +4,19 @@ $(function () {
     (function (app) {
         var datosClasificaciones;
         app.init = function () {
+            if (sessionStorage.value == '2') {
+                $("#log").html('<a id="refLog"> Ver Log de Clasificaciones</a>');
+            }
             app.listar();
             app.bindings();
         };
 
         app.bindings = function () {
+            
+            $("#refLog").on('click', function (event) {
+                $("#contenido").load('../clasificacion/log/logClasificacion.html #contenido');
+                $.getScript("../clasificacion/log/logClasificacion.js");
+            });
 
             $("#arbol").bind("select_node.jstree", function (e, data) {
                 if (data.node.id != '1') {
