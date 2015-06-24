@@ -127,7 +127,7 @@ $(function () {
         app.eliminar = function (id) {    //funcion para eliminar
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
-            datos.id = id;
+            datos.id = $("#id").val();
             datos.accion = "eliminar";
             datos.formulario = "Libro";
             datos.seccion = "gestor";
@@ -137,8 +137,7 @@ $(function () {
                 method: 'POST',
                 data: datos,
                 success: function (data) {
-                    $("#modalLibro").modal('hide');
-                    app.borrarFila($("#index").val());
+
                 },
                 error: function (data) {
                     alert(data.responseText);

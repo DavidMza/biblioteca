@@ -52,6 +52,38 @@ class ControladorLibro extends ControladorGeneral {
             throw new Exception("Libro-listar: " . $e->getMessage());
         }
     }
+    
+    public function listarTodo() {
+        try {
+            session_start();
+            $resultado = null;
+            if ($_SESSION["tipo"] == '2') {
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_LIBROS);
+            }else{
+                $parametros = array("usuario" => $_SESSION["usuario"]);
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_LIBROS_X_USUARIO,$parametros);
+            }
+            
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Libro-listarTodo: " . $e->getMessage());
+        }
+    }
+    
+    public function listarLogs() {
+        try {
+            session_start();
+            $resultado = null;
+            if ($_SESSION["tipo"] == '2') {
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_LIBROS);
+            }
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Libro-listarLogs: " . $e->getMessage());
+        }
+    }
 
     public function modificar($datos) {
         try {
@@ -75,6 +107,18 @@ class ControladorLibro extends ControladorGeneral {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_MODIFICAR_LIBROS, $parametros);
         } catch (Exception $e) {
             throw new Exception("Libro-modificar: " . $e->getMessage());
+        }
+    }
+    
+    public function eliminar($datos) {
+        try {
+            session_start();
+            $parametros = array("id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO, $parametros);
+            $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["usuario"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_AUTORES, $parametros);
+        } catch (Exception $e) {
+            throw new Exception("Libro-eliminar: " . $e->getMessage());
         }
     }
 

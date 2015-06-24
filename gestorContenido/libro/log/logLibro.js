@@ -2,7 +2,7 @@ $(function () {
     var TallerAvanzada = {};
     var locacion = "http://" + window.location.host + "/biblioteca/";
     (function (app) {
-        var datosLogAutores;
+        var datosLogLibros;
         app.init = function () {
             app.listar();
             app.bindings();
@@ -15,7 +15,7 @@ $(function () {
         };
 
         app.imprimir = function () {    //funcion para imprimir
-            var aux = $("#tablaLogAutor").html();//recupero el html del la tablaAutor
+            var aux = $("#tablaLogLibro").html();//recupero el html del la tablaLibro
             aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
             aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
             $("#html").val('<table border="1">'+aux+'</table>');
@@ -27,7 +27,7 @@ $(function () {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listarLogs";
-            datos.formulario = "Autor";
+            datos.formulario = "Libro";
             datos.seccion = "gestor";
             $.ajax({
                 url: url,
@@ -35,7 +35,7 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    datosLogAutores = data;
+                    datosLogLibros = data;
                     app.rellenarTabla(data);
                 },
                 error: function (data) {
@@ -45,13 +45,13 @@ $(function () {
         };
 
         app.rellenarTabla = function (data) {
-            $('#tablaLogAutor').dataTable().fnDestroy();
-            datosLogAutores = $('#tablaLogAutor').dataTable({
+            $('#tablaLogLibro').dataTable().fnDestroy();
+            datosLogLibros = $('#tablaLogLibro').dataTable({
                 data: data,
                 "columns": [
                     {"data": "fecha"},
                     {"data": "hora"},
-                    {"data": "autor"},
+                    {"data": "libro"},
                     {"data": "usuario"},
                     {"data": "accion"}
                 ]
