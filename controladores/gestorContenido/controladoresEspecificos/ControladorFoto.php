@@ -21,6 +21,11 @@ class ControladorFoto extends ControladorGeneral {
     public function agregar($datos) {
         try {
             //print_r($datos);
+            
+            $data = base64_decode($datos["imagen"]);
+            print_r(new DateTime());
+            print_r($data);
+            file_put_contents(__DIR__.'/../../../recursos/imagenes/libros/image.png', $data);
             return $datos["imagen"];
             //$file = $_FILES['imagen']['name'];
             //var_dump($_FILES);

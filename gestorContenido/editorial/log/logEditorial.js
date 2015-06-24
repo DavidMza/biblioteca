@@ -47,8 +47,8 @@ $(function () {
         };
 
         app.rellenarTabla = function (data) {
-            $('#tablaEditorial').dataTable().fnDestroy();
-            datosLogsEditoriales = $('#tablaEditorial').dataTable({
+            $('#tablaHistorialEditorial').dataTable().fnDestroy();
+            datosLogsEditoriales = $('#tablaHistorialEditorial').dataTable({
                 data: data,
                 "columns": [
                     {"data": "fecha"},
