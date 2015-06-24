@@ -20,7 +20,8 @@ class ControladorFoto extends ControladorGeneral {
 
     public function agregar($datos) {
         try {
-            
+            //print_r($datos);
+            return $datos["imagen"];
             //$file = $_FILES['imagen']['name'];
             //var_dump($_FILES);
             /*

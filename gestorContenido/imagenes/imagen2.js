@@ -9,7 +9,18 @@ $(function () {
 
         app.bindings = function () {
             $(':file').change(function () {
-                app.mostrarVistaPrevia();
+                var arch = $('#archivo')[0].files[0];
+                var canvas = $("#canv")[0];
+                var contexto = canvas.getContext('2d');
+                var url = URL.createObjectURL(arch);
+                var img = new Image();
+                img.onload = function () {
+                    contexto.drawImage(img, 0, 0);
+                };
+                img.src = url;
+                var data = canvas.toDataURL().split('base64,')[1];
+                console.log(data);
+                //app.mostrarVistaPrevia();
             });
 
             $('#guardar').click(function () {
@@ -19,13 +30,17 @@ $(function () {
         };
 
         app.convertB64 = function (file) {
-            var canvas = document.createElement('canvas'),
-                    ctx = canvas.getContext('2d');
-            canvas.width = 64;
-            canvas.height = 64;
-            ctx.drawImage(file, 0, 0, 64, 64);
-            var b64 = canvas.toDataURL().split('base64,')[1];
-            console.log(b64);
+            var arch = file;
+            var canvas = $("#canv")[0];
+            var contexto = canvas.getContext('2d');
+            var url = URL.createObjectURL(arch);
+            var img = new Image();
+            img.onload = function () {
+                contexto.drawImage(img, 0, 0);
+            };
+            img.src = url;
+            var data = canvas.toDataURL().split('base64,')[1];
+            return data;
         };
 
         app.guardar = function () {
@@ -33,9 +48,9 @@ $(function () {
             var message = "";
             var datos = {};
             //var formData = new FormData($(".form-horizontal")[0]);
-            var formData = $("#archivo")[0].files[0];
-            app.convertB64($("#archivo")[0].files[0]);
-            datos.imagen = formData;
+            //var formData = $("#archivo")[0].files[0];
+            //app.convertB64($("#archivo")[0].files[0]);
+            datos.imagen = app.convertB64($("#archivo")[0].files[0]);
             datos.accion = "agregar";
             datos.formulario = "Foto";
             datos.seccion = "gestor";
@@ -52,7 +67,9 @@ $(function () {
                 //processData: false,
                 data: datos,
                 success: function (data) {
-                    console.log(data);
+                    var img = new Image();
+                    img.src = 'data:image/png;base64,'+data;
+                    $("#resul").append(img);
                 },
                 error: function () {
                     alert("fallo loco");
