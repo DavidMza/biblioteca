@@ -4,11 +4,20 @@ $(function () {
     (function (app) {
         var datosCaracteristicas;
         app.init = function () {
+            if (sessionStorage.value == '2') {
+                $("#log").html('<a id="refLog"> Ver Log de Caracteristicas</a>');
+            }
             app.listar();
             app.bindings();
         };
 
         app.bindings = function () {
+            
+            $("#refLog").on('click', function (event) {
+                $("#contenido").load('../caracteristica/log/logCaracteristica.html #contenido');
+                $.getScript("../caracteristica/log/logCaracteristica.js");
+            });
+            
             $("#agregarCaracteristica").on('click', function (event) {
                 app.limpiarModal();
                 $("#id").val(0);

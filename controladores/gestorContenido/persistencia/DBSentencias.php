@@ -18,10 +18,13 @@ interface DBSentencias {
     const LISTAR_LOG_EDITORIAL = "SELECT fecha_log_editorial AS fecha, hora_log_editorial AS hora, editorial_nombre_anterior_log_editorial AS nombreEditorialAnterior, editorial_nombre_nuevo_log_editorial AS nombreEditorialNuevo, nombre_accion AS accion, nombre_editorial AS nombreActual, nombre_usuario AS usuario FROM log_editoriales INNER JOIN acciones ON id_accion = id_accion_log_editorial INNER JOIN editoriales ON id_editorial_log_editorial = id_editorial INNER JOIN usuario ON id_usuario_log_editorial = id_usuario";
     
     //CARACTERISTICAS
-    const LISTAR_CARACTERISTICAS = "SELECT * FROM caracteristicas";
+    const LISTAR_CARACTERISTICAS = "SELECT * FROM caracteristicas WHERE borrado = 0";
+    const LISTAR_TODO_CARACTERISTICAS = "SELECT * FROM caracteristicas";
     const AGREGAR_CARACTERISTICA = "INSERT INTO caracteristicas(denominacion_caracteristica) VALUES(?)";
     const MODIFICAR_CARACTERISTICA = "UPDATE caracteristicas SET denominacion_caracteristica = ? WHERE id_caracteristicas = ?";
     const ULTIMA_CARACTERISTICA = "SELECT MAX(id_caracteristicas) AS id FROM caracteristicas";
+    const NOMBRE_CARACTERISTICA = "SELECT denominacion_caracteristica AS nombre FROM caracteristicas WHERE id_caracteristicas = ?";
+    const ELIMINAR_CARACTERISTICA = "UPDATE caracteristicas SET borrado = 1 WHERE id_caracteristicas = ?";
     
     //LOG CARACTERISTICAS
     const NUEVO_LOG_CARACTERISTICA = "INSERT INTO log_caracteristicas(`fecha_log_caracteristica`,`hora_log_caracteristica`, caracteristica_nombre_anterior_log_caracteristica, caracteristica_nombre_nuevo_log_caracteristica,`id_accion_log_caracteristica`,`id_caracteristica_log_caracteristica`,`id_usuario_log_caracteristica`) VALUES(CURDATE(),CURTIME(),?,?,?,?,?)";

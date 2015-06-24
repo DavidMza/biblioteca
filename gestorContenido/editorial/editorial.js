@@ -5,7 +5,7 @@ $(function () {
         var datosEditoriales;
         app.init = function () {
             if (sessionStorage.value == '2') {
-                $("#log").html('<a id="refLog"> Ver Log de Autores</a>');
+                $("#log").html('<a id="refLog"> Ver Log de Editoriales</a>');
             }
             app.listar();
             app.bindings();
