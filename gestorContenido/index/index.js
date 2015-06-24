@@ -53,7 +53,6 @@ $(function () {
                 $.getScript("../caracteristica/caracteristica.js");
             });
             
-            
         };
 
         app.logout = function () {
