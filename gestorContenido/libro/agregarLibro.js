@@ -96,15 +96,21 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    datosCaracteristicas = data;
-                    console.log(datosCaracteristicas);
+                    //datosCaracteristicas = data;
+                    //console.log(datosCaracteristicas);
+                    
+                    app.cargarTablaCaract(data)                    ;
                 },
                 error: function (data) {
                     alert(data.responseText);
                 }
             });
-            var data = datosCaracteristicas;
+            
 
+            
+        };
+        
+        app.cargarTablaCaract = function(data){
             $('#tablaCaract').dataTable().fnDestroy();
             datosCaracteristicas = $('#tablaCaract').dataTable({
                 data: data,
