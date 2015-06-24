@@ -56,12 +56,12 @@ $(function () {
                 if (data.node.id != '1') {
                     if (clasif.indexOf(data.node.id) == -1) {
                         clasif.push(data.node.id);
-                        $("#clasif").append("<label>"+data.node.text + "</label><br>");
+                        $("#clasif").append("<label>" + data.node.text + "</label><br>");
                         console.log(clasif);
                     }
                 }
             });
-            
+
             $("#btnLimpiarClasif").on("click", function (event) {
                 clasif = [];
                 $("#clasif").html("");
@@ -80,6 +80,46 @@ $(function () {
             app.autocompletarAutor();
             app.autocompletarEditorial();
             app.listarClasificaciones();
+            app.listarCaracteristicas();
+        };
+
+        app.listarCaracteristicas = function () {
+            var datosCaracteristicas = null;
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.accion = "listar";
+            datos.formulario = "Caracteristica";
+            datos.seccion = "gestor";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+                    datosCaracteristicas = data;
+                    console.log(datosCaracteristicas);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+            var data = datosCaracteristicas;
+
+            $('#tablaCaract').dataTable().fnDestroy();
+            datosCaracteristicas = $('#tablaCaract').dataTable({
+                data: data,
+                "columns": [
+                    {"data": "id_caracteristicas"},
+                    {"data": "denominacion_caracteristica"}
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
+            }).api();
         };
 
         app.listarClasificaciones = function () {
