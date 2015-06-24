@@ -1,0 +1,88 @@
+<div id="contenido">
+    <div class="col-md-3"></div>
+    <div id="page-wrapper" class="container">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-9 col-sm-6 col-xs-6">
+                    <div class="page-header">
+                        <h1>Administrar Caracteristicas</h1>
+                    </div>
+                    <table width="100%">
+                        <tr>
+                            <td align="left" width="33%">
+                                <button class="btn btn-primary btn-lg" id="agregarCaracteristica">
+                                    Nueva Caracteristica
+                                </button>
+                            </td>
+                            <td align="right" width="33%">
+                                <button class="btn btn-primary btn-lg" id="imprimir">
+                                    Imprimir
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>listar todo </label><input type="checkbox" id="listarTodo"></td>
+                        </tr>
+                    </table>
+
+                    <form id="formImprimir" target="_blank" method="POST">
+                        <input type="hidden" id="Formulario" name="Formulario" value="Caracteristica"/>
+                        <input type="hidden" id="html" name="html" value="html" />
+                    </form>
+
+                    <table class="table" id="tablaCaracteristica">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre caracteristica</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTablaCaracteristica"></tbody>
+                    </table>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCaracteristica" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formCaracteristica" class="form-horizontal"
+                      data-bv-message="Este valor No es válido"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                      data-bv-submitbuttons='button[type="submit"]'
+                      data-bv-trigger="focus blur"
+                      data-bv-live="enabled">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="tituloModal">Nueva Caracteristica</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" id="id" name="id">
+                            <input class="form-control" type="hidden" id="index" name="index">
+                        </div>
+                        <div class="form-group">
+                            <label class='col-lg-2'>Nombre</label>
+                            <div class='col-lg-10'>
+                                <input class="form-control" type="text" id="nombre" name="nombre"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar el Nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnEliminar" class="btn btn-danger pull-left">Eliminar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

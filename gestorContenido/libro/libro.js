@@ -22,6 +22,7 @@ $(function () {
             $("#agregarLibro").on('click', function (event) {
                 $("#cuerpoFormulario").load('../libro/agregarLibro.html #cuerpoFormulario');
                 $.getScript("../libro/agregarLibro.js");
+                $.getScript("../../recursos/jsTree/jstree.min.js");
             });
 
             $("#listarTodo").on('click', function (event) {
@@ -38,6 +39,7 @@ $(function () {
                 sessionStorage.aux = JSON.stringify(data);
                 $("#cuerpoFormulario").load('../libro/agregarLibro.html #cuerpoFormulario');
                 $.getScript("../libro/agregarLibro.js");
+                $.getScript("../../recursos/jsTree/jstree.min.js");
             });
 
         };

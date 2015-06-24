@@ -21,6 +21,11 @@ interface DBSentencias {
     const LISTAR_CARACTERISTICAS = "SELECT * FROM caracteristicas";
     const AGREGAR_CARACTERISTICA = "INSERT INTO caracteristicas(denominacion_caracteristica) VALUES(?)";
     const MODIFICAR_CARACTERISTICA = "UPDATE caracteristicas SET denominacion_caracteristica = ? WHERE id_caracteristicas = ?";
+    const ULTIMA_CARACTERISTICA = "SELECT MAX(id_caracteristicas) AS id FROM caracteristicas";
+    
+    //LOG CARACTERISTICAS
+    const NUEVO_LOG_CARACTERISTICA = "INSERT INTO log_caracteristicas(`fecha_log_caracteristica`,`hora_log_caracteristica`, caracteristica_nombre_anterior_log_caracteristica, caracteristica_nombre_nuevo_log_caracteristica,`id_accion_log_caracteristica`,`id_caracteristica_log_caracteristica`,`id_usuario_log_caracteristica`) VALUES(CURDATE(),CURTIME(),?,?,?,?,?)";
+    const LISTAR_LOG_CARACTERISTICA = "SELECT fecha_log_caracteristica AS fecha, hora_log_caracteristica AS hora, caracteristica_nombre_anterior_log_caracteristica AS nombreCaracteristicaAnterior, caracteristica_nombre_nuevo_log_caracteristica AS nombreCaracteristicaNuevo, nombre_accion AS accion, denominacion_caracteristica AS nombreActual, nombre_usuario AS usuario FROM log_caracteristicas INNER JOIN acciones ON id_accion = id_accion_log_caracteristica INNER JOIN caracteristicas ON id_caracteristica_log_caracteristica = id_caracteristicas INNER JOIN usuario ON id_usuario_log_caracteristica = id_usuario";
     
     //FOTOS
     const AGREGAR_FOTO = "INSERT INTO fotos (rutaArchivo_foto, id_libro_foto) VALUES(?, ?)";

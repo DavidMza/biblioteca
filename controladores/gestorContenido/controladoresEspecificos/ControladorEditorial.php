@@ -41,6 +41,8 @@ class ControladorEditorial extends ControladorGeneral{
             $this->refLog = new Controlador_LogEditoriales($parametros);
             $this->refLog->agregar();
             
+            return $idUltimaEditorial;
+            
         }  catch (Exception $e){
             throw new Exception("Editorial-agregar: " . $e->getMessage());
         }

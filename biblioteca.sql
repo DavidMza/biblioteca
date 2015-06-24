@@ -194,6 +194,8 @@ CREATE TABLE `log_caracteristicas` (
   `id_log_caracteristica` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_log_caracteristica` date NOT NULL,
   `hora_log_caracteristica` time NOT NULL,
+  `caracteristica_nombre_anterior_log_caracteristica` varchar(25) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `caracteristica_nombre_nuevo_log_caracteristica` varchar(25) COLLATE utf8_spanish_ci DEFAULT NULL,
   `id_accion_log_caracteristica` int(11) NOT NULL,
   `id_caracteristica_log_caracteristica` int(11) NOT NULL,
   `id_usuario_log_caracteristica` int(11) NOT NULL,
