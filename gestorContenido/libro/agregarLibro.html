@@ -1,0 +1,106 @@
+<div id="cuerpoFormulario">
+    <form id="formLibro" class="form-horizontal"
+          data-bv-message="Este valor No es válido"
+          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+          data-bv-submitbuttons='button[type="submit"]'
+          data-bv-trigger="focus blur"
+          data-bv-live="enabled">
+        <div class="modal-header">
+            <h3 class="modal-title" id="tituloModal">Nuevo Libro</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <input class="form-control" type="hidden" id="id" name="id">
+                <input class="form-control" type="hidden" id="index" name="index">
+            </div>
+            <div class="form-group">
+                <label class='col-lg-2'>Titulo</label>
+                <div class='col-lg-4'>
+                    <input class="form-control" type="text" id="titulo" name="titulo"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="Debes completar este campo">
+                </div>
+                <label class='col-lg-2'>ISBN</label>
+                <div class='col-lg-4'>
+                    <input class="form-control" type="text" id="isbn" name="isbn"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="Debes completar este campo"
+
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="[0-9]+"
+                           data-bv-regexp-message="Solo números en este campo"
+
+                           data-bv-stringlength="true"
+                           data-bv-stringlength-min="13"
+                           data-bv-stringlength-max="13"
+                           data-bv-stringlength-message="El ISBN debe tener 13 caracteres">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-lg-2'>Paginas</label>
+                <div class='col-lg-4'>
+                    <input class="form-control" type="text" id="pag" name="pag"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="Debes completar este campo"
+
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="[0-9]+"
+                           data-bv-regexp-message="Solo números en este campo">
+                </div>
+                <label class='col-lg-2'>Año Publicación</label>
+                <div class='col-lg-4'>
+                    <input class="form-control" type="text" id="publi" name="publi"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="Debes completar este campo"
+
+                           data-bv-regexp="true"
+                           data-bv-regexp-regexp="[0-9]+"
+                           data-bv-regexp-message="Solo números en este campo"
+
+                           data-bv-stringlength="true"
+                           data-bv-stringlength-min="4"
+                           data-bv-stringlength-max="4"
+                           data-bv-stringlength-message="El año esta mal">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-lg-2'>Autor</label>
+                <div class='col-lg-4'>
+                    <input class="form-control" type="text" id="autor" name="autor">
+                    <input type="hidden" id="hiddenAutor">
+                </div>
+                <label class='col-lg-2'>Editorial</label>
+                <div class='col-lg-4'>
+                    <input class="form-control" type="text" id="editorial" name="editorial">
+                    <input type="hidden" id="hiddenEditorial">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-lg-2'>Idioma</label>
+                <div class='col-lg-4'>
+                    <input class="form-control" type="text" id="idioma" name="idioma"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="Debes completar este campo">
+                </div>
+                <div class='col-lg-3'>
+                    <label>Disponible
+                        <input class="form-control" type="checkbox" id="disponible" name="disponible"></label>
+                </div>
+                <div class='col-lg-3'>
+                    <label>Destacado
+                        <input class="form-control" type="checkbox" id="destacado" name="destacado"></label>
+                </div>
+            </div>
+            <hr>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btnEliminar" class="btn btn-danger pull-left">Eliminar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
+        </div>
+    </form>
+
+</div>

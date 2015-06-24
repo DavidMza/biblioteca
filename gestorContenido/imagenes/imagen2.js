@@ -11,42 +11,53 @@ $(function () {
             $(':file').change(function () {
                 app.mostrarVistaPrevia();
             });
-            
+
             $('#guardar').click(function () {
                 app.guardar();
             });
-            
+
         };
-        
-        app.guardar = function (){
+
+        app.convertB64 = function (file) {
+            var canvas = document.createElement('canvas'),
+                    ctx = canvas.getContext('2d');
+            canvas.width = 64;
+            canvas.height = 64;
+            ctx.drawImage(file, 0, 0, 64, 64);
+            var b64 = canvas.toDataURL().split('base64,')[1];
+            console.log(b64);
+        };
+
+        app.guardar = function () {
             var url = locacion + "controladores/Ruteador.php";
-                var message = "";
-                var datos = {};
-                //var formData = new FormData($(".form-horizontal")[0]);
-                var formData = $("#archivo")[0].files[0];
-                datos.imagen = formData;
-                datos.accion = "agregar";
-                datos.formulario = "Foto";
-                datos.seccion = "gestor";
-                datos.usuario = sessionStorage.usuario;
-                console.log(datos.imagen);
-                
-                $.ajax({
-                    url: url,
-                    method: 'POST',
-                    dataType: 'json',
-                    //necesario para subir archivos via ajax
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: datos[0],
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function () {
-                        alert("fallo loco");
-                    }
-                });
+            var message = "";
+            var datos = {};
+            //var formData = new FormData($(".form-horizontal")[0]);
+            var formData = $("#archivo")[0].files[0];
+            app.convertB64($("#archivo")[0].files[0]);
+            datos.imagen = formData;
+            datos.accion = "agregar";
+            datos.formulario = "Foto";
+            datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
+            console.log(datos);
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                //necesario para subir archivos via ajax
+                //cache: false,
+                //contentType: false,
+                //processData: false,
+                data: datos,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function () {
+                    alert("fallo loco");
+                }
+            });
         };
 
         app.mostrarVistaPrevia = function () {

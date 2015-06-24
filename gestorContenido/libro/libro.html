@@ -1,0 +1,158 @@
+
+<div id="contenido">
+    <div class="col-md-3"></div>
+    <div id="page-wrapper" class="container">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-9 col-sm-6 col-xs-6">
+                    <div class="page-header">
+                        <h1>Administrar Libros</h1>
+                        <div id="log"></div>
+                    </div>
+                    <div id="cuerpoFormulario">
+                        <table width="100%">
+                            <tr>
+                                <td align="left" width="33%">
+                                    <button class="btn btn-primary btn-lg" id="agregarLibro">
+                                        Nuevo Libro
+                                    </button>
+                                </td>
+                                <td align="right" width="33%">
+                                    <button class="btn btn-primary btn-lg" id="imprimir">
+                                        Imprimir
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Mostrar Todos </label><input type="checkbox" id="listarTodo"></td>
+                            </tr>
+                        </table>
+
+                        <form id="formImprimir" target="_blank" method="POST">
+                            <input type="hidden" id="Formulario" name="Formulario" value="Libro"/>
+                            <input type="hidden" id="html" name="html" value="html" />
+                        </form>
+
+                        <table class="table" id="tablaLibro">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titulo</th>
+                                    <th>Autor</th>
+                                    <th>Editorial</th>
+                                    <th>Disponible?</th>
+                                    <th>Destacado?</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTablaLibro"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalLibro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formLibro" class="form-horizontal"
+                      data-bv-message="Este valor No es válido"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                      data-bv-submitbuttons='button[type="submit"]'
+                      data-bv-trigger="focus blur"
+                      data-bv-live="enabled">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="tituloModal">Nuevo Libro</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" id="id" name="id">
+                            <input class="form-control" type="hidden" id="index" name="index">
+                        </div>
+                        <div class="form-group">
+                            <label class='col-lg-2'>Nombre</label>
+                            <div class='col-lg-4'>
+                                <input class="form-control" type="text" id="nombre" name="nombre"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar este campo">
+                            </div>
+                            <label class='col-lg-2'>ISBN</label>
+                            <div class='col-lg-4'>
+                                <input class="form-control" type="text" id="isbn" name="isbn"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar este campo"
+
+                                       data-bv-regexp="true"
+                                       data-bv-regexp-regexp="[0-9]+"
+                                       data-bv-regexp-message="Solo números en este campo"
+
+                                       data-bv-stringlength="true"
+                                       data-bv-stringlength-min="13"
+                                       data-bv-stringlength-max="13"
+                                       data-bv-stringlength-message="El ISBN debe tener 13 caracteres">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class='col-lg-2'>Paginas</label>
+                            <div class='col-lg-4'>
+                                <input class="form-control" type="text" id="pag" name="pag"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar este campo"
+
+                                       data-bv-regexp="true"
+                                       data-bv-regexp-regexp="[0-9]+"
+                                       data-bv-regexp-message="Solo números en este campo">
+                            </div>
+                            <label class='col-lg-2'>Fecha Publicación</label>
+                            <div class='col-lg-4'>
+                                <input class="form-control" type="date" id="publi" name="publi"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar este campo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class='col-lg-2'>Autor</label>
+                            <div class='col-lg-4'>
+                                <input class="form-control" type="text" id="autor" name="autor">
+                            </div>
+                            <label class='col-lg-2'>Editorial</label>
+                            <div class='col-lg-4'>
+                                <input class="form-control" type="text" id="editorial" name="editorial"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar este campo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class='col-lg-2'>Idioma</label>
+                            <div class='col-lg-4'>
+                                <input class="form-control" type="text" id="idioma" name="idioma"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar este campo">
+                            </div>
+                            <div class='col-lg-3'>
+                                <label>Disponible
+                                    <input class="form-control" type="checkbox" id="disponible" name="disponible"></label>
+                            </div>
+                            <div class='col-lg-3'>
+                                <label>Destacado
+                                    <input class="form-control" type="checkbox" id="destacado" name="destacado"></label>
+                            </div>
+                        </div>
+                        <hr>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnEliminar" class="btn btn-danger pull-left">Eliminar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

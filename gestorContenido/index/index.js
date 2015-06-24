@@ -21,6 +21,10 @@ $(function () {
             $("#logout-button").click(function (event) {
                 app.logout();
             });
+            $("#refLibro").on('click', function (event) {
+                $("#contenido").load('../libro/libro.html #contenido');
+                $.getScript("../libro/libro.js");
+            });
             $("#refAutor").on('click', function (event) {
                 $("#contenido").load('../autor/autor.html #contenido');
                 $.getScript("../autor/autor.js");

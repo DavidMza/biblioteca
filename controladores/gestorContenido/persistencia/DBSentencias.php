@@ -65,6 +65,17 @@ interface DBSentencias {
     const LOG_ELIMINAR_CLASIFICACION = "INSERT INTO log_clasificaciones(`fecha_log_clasificacion`,`hora_log_clasificacion`,`id_accion_log_clasificacion`,`id_clasificacion_log_clasificacion`,`id_usuario_log_clasificacion`) VALUES(CURDATE(),CURTIME(),2,?,?);";
     const LOG_LISTAR_CLASIFICACIONES = "SELECT fecha_log_clasificacion AS fecha, hora_log_clasificacion AS hora, denominacion_clasificacion AS clasificacion, nombre_usuario AS usuario, nombre_accion AS accion FROM log_clasificaciones INNER JOIN acciones ON id_accion_log_clasificacion = id_accion INNER JOIN clasificaciones ON id_clasificacion_log_clasificacion = id_clasificacion INNER JOIN usuario ON id_usuario_log_clasificacion = id_usuario";
     
+    //LIBROS
+    const LISTAR_LIBROS = "SELECT id_libro AS id, titulo_libro AS titulo, nombre_autor AS autor, id_autor_libro AS hidAutor, nombre_editorial AS editorial, id_editorial_libro AS hidEditorial, disponibilidad_libro AS 'disponible', destacado_libro AS 'destacado', ISBN_libro AS isbn, idioma_libro AS idioma, paginas_libro AS paginas, publicacion_libro AS 'publicacion' FROM libro INNER JOIN autores ON id_autor = id_autor_libro INNER JOIN editoriales ON id_editorial = id_editorial_libro where libro.borrado = 0";
+    const LISTAR_LIBROS_X_USUARIO = "SELECT id_libro AS id, titulo_libro AS titulo, id_autor_libro AS autor, id_editorial_libro AS editorial, disponibilidad_libro AS 'disponible', destacado_libro AS 'destacado', ISBN_libro AS isbn, idioma_libro AS idioma, paginas_libro AS paginas, publicacion_libro AS 'publicacion' FROM libro INNER JOIN log_libros ON id_libro = id_libro_log_libro WHERE borrado = 0 AND id_usuario_log_libro = ? AND id_accion_log_libro = 1;";
+    const AGREGAR_LIBRO = "INSERT INTO `biblioteca`.`libro` (`titulo_libro`,`ISBN_libro`,`paginas_libro`,`idioma_libro`,`publicacion_libro`,`disponibilidad_libro`,`destacado_libro`,`id_autor_libro`,`id_editorial_libro`) VALUES (?,?,?,?,?,?,?,?,?);";
+    const ULTIMO_ID_LIBRO = "SELECT MAX(id_libro) FROM libro;";
+    const MODIFICAR_LIBRO = "UPDATE `biblioteca`.`libro` SET  `titulo_libro` = ?,  `ISBN_libro` = ?,  `paginas_libro` = ?,  `idioma_libro` = ?,  `publicacion_libro` = ?,  `disponibilidad_libro` = ?,  `destacado_libro` = ?,  `id_autor_libro` = ?,  `id_editorial_libro` = ? WHERE `id_libro` = ?;";
+    
+    //LOGS LIBROS
+    const LOG_AGREGAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),1,?,?);";
+    const LOG_MODIFICAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),3,?,?);";
+    
     //LOGIN
     const LOGIN = "SELECT `usuario`.`id_usuario` AS `usuario`,`usuario`.`nombre_usuario` AS `nombre`,`usuario`.`clave_usuario`, `tipos_usuario`.`id_tipo_usuario` AS `value` FROM `biblioteca`.`usuario` INNER JOIN `biblioteca`.`tipos_usuario` ON (`usuario`.`id_tipo_tipo_usuario` = `tipos_usuario`.`id_tipo_usuario`)WHERE nombre_usuario = ? AND borrado = 0;";
 }

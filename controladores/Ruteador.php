@@ -2,6 +2,7 @@
 //print_r($_POST);
 //print_r($_FILES);
 //var_dump($_FILES);
+//print_r($_POST);
 if ($_POST['seccion'] == "gestor") {
     require_once './gestorContenido/persistencia/ControladorPersistencia.php';
 } else {
