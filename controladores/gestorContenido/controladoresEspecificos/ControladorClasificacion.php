@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
+require_once 'Constantes.php';
 
 class ControladorClasificacion extends ControladorGeneral {
 
@@ -22,7 +23,7 @@ class ControladorClasificacion extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_CLASIFICACIONES);
             } else {
                 $parametros = array("usuario" => $_SESSION["usuario"]);
@@ -36,11 +37,29 @@ class ControladorClasificacion extends ControladorGeneral {
         }
     }
     
+    public function listarTodo() {
+        try {
+            session_start();
+            $resultado = null;
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_CLASIFICACIONES);
+            }else{
+                $parametros = array("usuario" => $_SESSION["usuario"]);
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_CLASIFICACIONES_X_USUARIO,$parametros);
+            }
+            
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Clasificacion-listarTodo: " . $e->getMessage());
+        }
+    }
+    
     public function listarLogs() {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_CLASIFICACIONES);
             }
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -69,9 +88,9 @@ class ControladorClasificacion extends ControladorGeneral {
             $parametros = array("id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_CLASIFICACION, $parametros);
             $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["usuario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_AUTORES, $parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_CLASIFICACION, $parametros);
         } catch (Exception $e) {
-            throw new Exception("Autor-eliminar: " . $e->getMessage());
+            throw new Exception("Clasificacion-eliminar: " . $e->getMessage());
         }
     }
 

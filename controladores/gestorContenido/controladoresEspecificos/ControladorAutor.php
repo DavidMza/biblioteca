@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
+require_once 'Constantes.php';
 
 class ControladorAutor extends ControladorGeneral {
 
@@ -12,7 +13,7 @@ class ControladorAutor extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
             }else{
                 $parametros = array("usuario" => $_SESSION["usuario"]);
@@ -30,11 +31,11 @@ class ControladorAutor extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES);
             }else{
                 $parametros = array("usuario" => $_SESSION["usuario"]);
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES_X_USUARIO,$parametros);
+                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES_X_USUARIO,$parametros);
             }
             
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +49,7 @@ class ControladorAutor extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_AUTORES);
             }
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
+require_once 'Constantes.php';
 
 class ControladorLibro extends ControladorGeneral {
     
@@ -39,7 +40,7 @@ class ControladorLibro extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LIBROS);
             }else{
                 $parametros = array("usuario" => $_SESSION["usuario"]);
@@ -57,7 +58,7 @@ class ControladorLibro extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_LIBROS);
             }else{
                 $parametros = array("usuario" => $_SESSION["usuario"]);
@@ -75,7 +76,7 @@ class ControladorLibro extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == '2') {
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_LIBROS);
             }
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
