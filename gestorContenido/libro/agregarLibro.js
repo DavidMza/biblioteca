@@ -4,6 +4,7 @@ $(function () {
     (function (app) {
         var autores;
         var editoriales;
+        var clasif = [];
         app.init = function () {
             app.cargarFormulario();
             app.bindings();
@@ -22,22 +23,90 @@ $(function () {
                 $("#hiddenEditorial").val(libro.hidEditorial);
                 $("#idioma").val(libro.idioma);
                 if (libro.destacado == "0") {
-                    $("#destacado").prop('checked',false);
-                }else{
-                    $("#destacado").prop('checked',true);
+                    $("#destacado").prop('checked', false);
+                } else {
+                    $("#destacado").prop('checked', true);
                 }
                 if (libro.disponible == "0") {
-                    $("#disponible").prop('checked',false);
-                }else{
-                    $("#disponible").prop('checked',true);
+                    $("#disponible").prop('checked', false);
+                } else {
+                    $("#disponible").prop('checked', true);
                 }
                 console.log(libro);
             }
         };
 
+        app.bindings = function () {
+
+            $("#refLog").on('click', function (event) {
+                $("#contenido").load('../libro/log/logLibro.html #contenido');
+                $.getScript("../libro/log/logLibro.js");
+            });
+
+            $("#guardar").on("click", function (event) {
+                //event.preventDefault();
+                if ($("#id").val() == 0) {
+                    app.guardar();
+                } else {
+                    app.modificar();
+                }
+            });
+
+            $("#arbol").bind("select_node.jstree", function (e, data) {
+                if (data.node.id != '1') {
+                    if (clasif.indexOf(data.node.id) == -1) {
+                        clasif.push(data.node.id);
+                        $("#clasif").append("<label>"+data.node.text + "</label><br>");
+                        console.log(clasif);
+                    }
+                }
+            });
+            
+            $("#btnLimpiarClasif").on("click", function (event) {
+                clasif = [];
+                $("#clasif").html("");
+            });
+
+            $("#btnEliminar").on("click", function (event) {
+                app.eliminar($("#id").val());
+            });
+
+            $("#formLibro").bootstrapValidator({
+                excluded: [],
+            });
+        };
+
         app.cargarFormulario = function () {
             app.autocompletarAutor();
             app.autocompletarEditorial();
+            app.listarClasificaciones();
+        };
+
+        app.listarClasificaciones = function () {
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.accion = "listar";
+            datos.formulario = "Clasificacion";
+            datos.seccion = "gestor";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+                    app.ArmarArbol(data);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        };
+
+        app.ArmarArbol = function (data) {
+            $('#arbol').jstree({'core': {
+                    'data': data
+                }});
+            $("#arbol").jstree('open_all');
         };
 
         app.autocompletarAutor = function () {
@@ -96,31 +165,6 @@ $(function () {
                     $("#editorial").val(ui.item.value);
                     $("#hiddenEditorial").val(ui.item.id);
                 }
-            });
-        };
-
-        app.bindings = function () {
-
-            $("#refLog").on('click', function (event) {
-                $("#contenido").load('../libro/log/logLibro.html #contenido');
-                $.getScript("../libro/log/logLibro.js");
-            });
-
-            $("#guardar").on("click", function (event) {
-                //event.preventDefault();
-                if ($("#id").val() == 0) {
-                    app.guardar();
-                } else {
-                    app.modificar();
-                }
-            });
-
-            $("#btnEliminar").on("click", function (event) {
-                app.eliminar($("#id").val());
-            });
-
-            $("#formLibro").bootstrapValidator({
-                excluded: [],
             });
         };
 
@@ -194,7 +238,7 @@ $(function () {
             datos.idioma = $("#idioma").val();
             datos.disponible = $("#disponible").prop('checked');
             datos.destacado = $("#destacado").prop('checked');
-            
+
             datos.accion = "modificar";
             datos.formulario = "Libro";
             datos.seccion = "gestor";
