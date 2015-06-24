@@ -23,8 +23,11 @@ class ControladorFoto extends ControladorGeneral {
             //print_r($datos);
             
             $data = base64_decode($datos["imagen"]);
-            print_r(new DateTime());
-            print_r($data);
+
+            $fecha = new DateTime();
+            print_r($fecha->getTimestamp());
+            //print_r($data);
+
             file_put_contents(__DIR__.'/../../../recursos/imagenes/libros/image.png', $data);
             return $datos["imagen"];
             //$file = $_FILES['imagen']['name'];
