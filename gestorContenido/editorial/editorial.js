@@ -4,11 +4,20 @@ $(function () {
     (function (app) {
         var datosEditoriales;
         app.init = function () {
+            if (sessionStorage.value == '2') {
+                $("#log").html('<a id="refLog"> Ver Log de Autores</a>');
+            }
             app.listar();
             app.bindings();
         };
 
         app.bindings = function () {
+            
+            $("#refLog").on('click', function (event) {
+                $("#contenido").load('../editorial/log/logEditorial.html #contenido');
+                $.getScript("../editorial/log/logEditorial.js");
+            });
+            
             $("#agregarEditorial").on('click', function (event) {
                 app.limpiarModal();
                 $("#id").val(0);

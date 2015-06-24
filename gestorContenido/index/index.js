@@ -33,10 +33,6 @@ $(function () {
                 $("#contenido").load('../editorial/editorial.html #contenido');
                 $.getScript("../editorial/editorial.js");
             });
-            $("#refLogsEditorial").on('click', function (event) {
-                $("#contenido").load('../logs/logEditorial.html #contenido');
-                $.getScript("../logs/logEditorial.js");
-            });
             $("#refUsuario").on('click', function (event) {
                 $("#contenido").load('../usuario/usuario.html #contenido');
                 $.getScript("../usuario/usuario.js");
@@ -70,7 +66,7 @@ $(function () {
                 data: datos,
                 success: function (data) {
                     sessionStorage.clear();
-                    window.location = "../../portalWeb/index.html";
+                    window.location = "../login/login.html";
                 },
                 error: function (data) {
                     alert(data.responseText);
