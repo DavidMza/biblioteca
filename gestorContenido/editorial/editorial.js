@@ -90,7 +90,6 @@ $(function () {
         app.guardar = function () {
             var url = locacion+"controladores/Ruteador.php";
             var datos = {};
-            //datos.form = $("#formEditorial").serialize();
             datos.nombre = $("#nombre").val();
             datos.accion = "agregar";
             datos.formulario = "Editorial";

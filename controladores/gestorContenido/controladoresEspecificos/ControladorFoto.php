@@ -1,11 +1,13 @@
 <?php
-require_once '../persistencia/DBSentencias.php';
 
-class ControladorFoto extends ControladorGeneral{
+require_once 'ControladorGeneral.php';
+
+class ControladorFoto extends ControladorGeneral {
+
     function __construct() {
         parent::__construct();
     }
-    
+
     public function listar() {
         try {
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_FOTO_ORDER_LIBROS);
@@ -15,29 +17,42 @@ class ControladorFoto extends ControladorGeneral{
             throw new Exception("Foto-listar: " . $e->getMessage());
         }
     }
-    
+
     public function agregar($datos) {
-        try{
-            $parametros = array("urlFoto" => "urlFoto");
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_FOTO, $parametros);
-        }  catch (Exception $e){
+        try {
+            
+            //$file = $_FILES['imagen']['name'];
+            //var_dump($_FILES);
+            /*
+            if ($file && move_uploaded_file($_FILES['imagen']['tmp_name'], 
+                    "../../recursos/imagenes/libros/" . $file)) {
+                sleep(3); //retrasamos la petición 3 segundos
+                echo $file; //devolvemos el nombre del archivo para pintar la imagen
+            }
+            */
+
+
+            //$parametros = array("urlFoto" => "urlFoto");
+            //$this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_FOTO, $parametros);
+        } catch (Exception $e) {
             throw new Exception("Foto-agregar: " . $e->getMessage());
         }
     }
 
     public function modificar($datos) {
-        try{
+        try {
             $parametros = array("urlFoto" => "urlFoto", "id" => "idFoto");
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_FOTO, $parametros);
-        }  catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception("Foto-modificar: " . $e->getMessage());
-        }    
+        }
     }
 
     public function eliminar($datos) {
         $tabla = "fotos";
         $nombreID = "id_foto";
-        $parametros = array("tabla" => $tabla, "nombreID" => $nombreID , "id" => $datos["id_editorial"]);
+        $parametros = array("tabla" => $tabla, "nombreID" => $nombreID, "id" => $datos["id_editorial"]);
         parent::eliminar($parametros);
     }
+
 }
