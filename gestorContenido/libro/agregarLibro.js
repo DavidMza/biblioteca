@@ -113,6 +113,10 @@ $(function () {
         app.cargarTablaCaract = function(data){
             $('#tablaCaract').dataTable().fnDestroy();
             datosCaracteristicas = $('#tablaCaract').dataTable({
+                scrollY:"150px",
+                scrollCollapse: true,
+                paging: false,
+                jQueryUI: true,
                 data: data,
                 "columns": [
                     {"data": "id_caracteristicas"},
