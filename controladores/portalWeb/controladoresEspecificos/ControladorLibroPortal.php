@@ -11,6 +11,7 @@ class ControladorLibroPortal extends ControladorGeneralPortal{
             $parametros = array("id" => $datos["id"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DBSentenciasPortal::TRAER_LIBRO, $parametros);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            //print_r($listado);
             return $listado;
         } catch (Exception $e) {
             throw new Exception("portal-listar-UN-libro: " . $e->getMessage());

@@ -29,7 +29,6 @@ $(function () {
                 url: url,
                 method: 'POST',
                 data: datos,
-                type: 'json',
                 success: function (data) {
                     console.log(data);
                     
