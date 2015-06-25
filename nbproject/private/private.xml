@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorEditorial.php</file>
-            <file>file:/var/www/html/biblioteca/portalWeb/index.php</file>
-            <file>file:/var/www/html/biblioteca/controladores/portalWeb/persistencia/DBSentencias.php</file>
-            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/persistencia/ControladorPersistencia.php</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorFoto.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/libro/agregarLibro.html</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/libro/agregarLibro.js</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorLibro.php</file>
         </group>
     </open-files>
 </project-private>
