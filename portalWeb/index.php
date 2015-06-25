@@ -2,77 +2,8 @@
 <html lang="en">
     <?php
     require_once '../controladores/portalWeb/persistencia/ControladorPersistencia.php';
-    require_once '../controladores/portalWeb/persistencia/DBSentencias.php';
-
-    $refControladorPersistencia = ControladorPersistencia::obtenerCP();
-    if (isset($_GET["pag"])) {
-        $pag = $_GET["pag"];
-    }
-    if (!isset($pag)) {
-        $pag = 1; // Por defecto, pagina 1
-    }
-    /* Funcion paginar
-     * actual:          Pagina actual
-     * total:           Total de registros
-     * por_pagina:      Registros por pagina
-     * enlace:          Texto del enlace
-     * Devuelve un texto que representa la paginacion
-     */
-    function paginar($actual, $total, $por_pagina, $enlace) {
-        $total_paginas = ceil($total / $por_pagina);
-        $anterior = $actual - 1;
-        $posterior = $actual + 1;
-        $texto = "";
-        if ($actual > 1) {
-            $texto .= "<li>";
-            $texto .= "<a href='$enlace$anterior'>Anterior</a>";
-            $texto .= "</li>";
-        } else {
-            $texto .= "<li>";
-            $texto .= "NadaA";
-            $texto .= "</li>";
-        }
-        for ($i = 1; $i < $actual; $i++) {
-            $texto .= "<li>";
-            $texto .= "<a href='$enlace$i'>$i</a> ";
-            $texto .= "</li>";
-        }
-        $texto .= "<li class='active'>";
-        $texto .= "<a href='#'>$actual</a>";
-        $texto .= "</li>";
-        for ($i = $actual + 1; $i <= $total_paginas; $i++) {
-            $texto .= "<li>";
-            $texto .= "<a href='$enlace$i'>$i</a> ";
-            $texto .= "</li>";
-        }
-
-        if ($actual < $total_paginas) {
-            $texto .= "</li>";
-            $texto .= "<a href='$enlace$posterior'>Siguiente</a>";
-            $texto .= "</li>";
-        } else {
-            $texto .= "<b>NadaS</b>";
-        }
-        return $texto;
-    }
-    //Total de registros
-    $total = $refControladorPersistencia->ejecutarSentencia(DbSentencias::TOTAL_LOG);
-    $total = $total->fetchAll(PDO::FETCH_ASSOC);
-    $total = $total[0]["total"]; 
-    //echo '<script> alert("Hay ' . $total . ' registros")</script>';
-
-    $tampag = 3; //Cantidad de registros a mostrar pr pagina
-    $reg1 = ($pag - 1) * $tampag; // No se, luego lo miro bien xDD
-
-    function reemplazarSignos($p) {
-        $query = str_replace("?, ?", $p["reg1"] . " , " . $p["tampag"], DbSentencias::LOG_LIMIT);
-        return $query;
-    }
-
-    $parametros = array("reg1" => $reg1, "tampag" => $tampag);
-    $resultado = $refControladorPersistencia->ejecutarSentencia(reemplazarSignos($parametros));
-
-    $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+    require_once '../controladores/portalWeb/persistencia/DBSentenciasPortal.php';
+    include_once 'funciones.php';
     ?>
     <head>
         <meta charset="utf-8">
@@ -128,56 +59,14 @@
             <!-- Page Header -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Page Heading
-                        <small>Secondary Text</small>
+                    <h1 class="page-header">Libros
+                        <small>Destacados</small>
                     </h1>
                 </div>
             </div>
             <!-- /.row -->
             <?php
-                $i = 1;
-                iniciarRow();
-                while (current($listado)) {
-                    //Estoy en el actual
-                    iniciarCelda(current($listado));
-                    while (next($listado)) {
-                        //Estoy en el siguiente, si es que existe
-                        iniciarCelda(current($listado));
-                    }
-                }
-                terminarRow();
-
-                //foreach ($listado as $valor) {
-                function iniciarRow() {
-            ?>
-                <!-- Projects Row -->
-                <div class="row">
-            <?php
-                }
-            ?>
-            <?php
-                function terminarRow() {
-            ?>
-                </div>
-                <!-- /.row -->
-            <?php
-                }
-            ?>
-            <?php
-
-                function iniciarCelda($datos) {
-            ?>
-                <div class="col-md-4 portfolio-item">
-                    <a href="#">
-                        <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                    </a>
-                    <h3>
-                        <a href="#"><?php echo $datos["hora_log_caracteristica"] ?></a>
-                    </h3>
-                    <p><?php echo $datos["fecha_log_caracteristica"] ?></p>
-                </div>
-            <?php
-                }
+            dibujarContenido($listado);
             ?>
 
             <hr>
@@ -187,7 +76,7 @@
                 <div class="col-lg-12">
                     <ul class="pagination">
                         <?php
-                        //Dibujo los botones para navegar
+//Dibujo los botones para navegar
                         echo paginar($pag, $total, $tampag, "index.php?pag=");
                         ?>
                     </ul>
@@ -207,10 +96,37 @@
 
         </div>
         <!-- /.container -->
+
+        <!-- INICIO MODAL -->
+
+        <div class="modal fade" id="modalLibroPortal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label id="titulo" />
+                            <label id="isbn" />
+                            <label id="Paginas" />
+                            <label id="idioma" />
+                            <label id="pubicacion" />
+                            <label id="autor" />
+                            <label id="editorial" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIN MODAL -->
+
         <!-- jQuery -->
         <script src="../recursos/portalWeb/js/jquery.js" type="text/javascript"></script>
 
         <!-- Bootstrap Core JavaScript -->
         <script src="../recursos/portalWeb/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/funciones.js" type="text/javascript"></script>
     </body>
 </html>

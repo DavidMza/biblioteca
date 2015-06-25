@@ -22,15 +22,6 @@ class ControladorClasificacion extends ControladorGeneral {
     public function listar() {
         try {
             session_start();
-            /*
-            $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_CLASIFICACIONES);
-            } else {
-                $parametros = array("usuario" => $_SESSION["usuario"]);
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_CLASIFICACIONES_X_USUARIO, $parametros);
-            }
-            */
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_CLASIFICACIONES);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             $listado[0]["parent"] = "#";
