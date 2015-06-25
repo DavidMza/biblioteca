@@ -11,7 +11,6 @@
     if (!isset($pag)) {
         $pag = 1; // Por defecto, pagina 1
     }
-    
     /* Funcion paginar
      * actual:          Pagina actual
      * total:           Total de registros
@@ -19,7 +18,6 @@
      * enlace:          Texto del enlace
      * Devuelve un texto que representa la paginacion
      */
-
     function paginar($actual, $total, $por_pagina, $enlace) {
         $total_paginas = ceil($total / $por_pagina);
         $anterior = $actual - 1;
