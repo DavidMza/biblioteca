@@ -30,11 +30,6 @@ interface DBSentencias {
     const NUEVO_LOG_CARACTERISTICA = "INSERT INTO log_caracteristicas(`fecha_log_caracteristica`,`hora_log_caracteristica`, caracteristica_nombre_anterior_log_caracteristica, caracteristica_nombre_nuevo_log_caracteristica,`id_accion_log_caracteristica`,`id_caracteristica_log_caracteristica`,`id_usuario_log_caracteristica`) VALUES(CURDATE(),CURTIME(),?,?,?,?,?)";
     const LISTAR_LOG_CARACTERISTICA = "SELECT fecha_log_caracteristica AS fecha, hora_log_caracteristica AS hora, caracteristica_nombre_anterior_log_caracteristica AS nombreCaracteristicaAnterior, caracteristica_nombre_nuevo_log_caracteristica AS nombreCaracteristicaNuevo, nombre_accion AS accion, denominacion_caracteristica AS nombreActual, nombre_usuario AS usuario FROM log_caracteristicas INNER JOIN acciones ON id_accion = id_accion_log_caracteristica INNER JOIN caracteristicas ON id_caracteristica_log_caracteristica = id_caracteristicas INNER JOIN usuario ON id_usuario_log_caracteristica = id_usuario";
     
-    //FOTOS
-    const AGREGAR_FOTO = "INSERT INTO fotos (rutaArchivo_foto, id_libro_foto) VALUES(?, ?)";
-    const MODIFICAR_FOTO = "UPDATE fotos SET rutaArchivo_foto = ? WHERE id_foto = ?";
-    const LISTAR_FOTO_ORDER_LIBROS = "SELECT * FROM fotos INNER JOIN libro ON id_libro_foto = id_libro ORDER BY id_libro_foto";
-    
     //AUTORES
     const LISTAR_AUTORES = "SELECT * FROM autores where borrado = 0";
     const LISTAR_AUTORES_X_USUARIO = "SELECT id_autor, nombre_autor FROM autores INNER JOIN log_autores ON id_autor = id_autor_log_autor WHERE borrado = 0 AND id_usuario_log_autor = ? AND id_accion_log_autor = 1;";
@@ -85,11 +80,27 @@ interface DBSentencias {
     const MODIFICAR_LIBRO = "UPDATE `biblioteca`.`libro` SET  `titulo_libro` = ?,  `ISBN_libro` = ?,  `paginas_libro` = ?,  `idioma_libro` = ?,  `publicacion_libro` = ?,  `disponibilidad_libro` = ?,  `destacado_libro` = ?,  `id_autor_libro` = ?,  `id_editorial_libro` = ? WHERE `id_libro` = ?;";
     const ELIMINAR_LIBRO = "UPDATE libro SET borrado = 1 WHERE id_libro = ?;";
     
+    //FOTOS EMMA
+    const AGREGAR_FOTO = "INSERT INTO fotos (rutaArchivo_foto, id_libro_foto) VALUES(?, ?)";
+    const MODIFICAR_FOTO = "UPDATE fotos SET rutaArchivo_foto = ? WHERE id_foto = ?";
+    const LISTAR_FOTO_ORDER_LIBROS = "SELECT * FROM fotos INNER JOIN libro ON id_libro_foto = id_libro ORDER BY id_libro_foto";
+    
+    //FOTOS
+    //const AGREGAR_FOTO = "INSERT INTO `biblioteca`.`fotos`(`rutaArchivo_foto`,`id_libro_foto`) VALUES (?,?);";
+    
+    //LIBROS-CLASIFICACION
+    const AGREGAR_LIBRO_CLASIFICACION = "INSERT INTO `biblioteca`.`libro_clasificacion`(`fk_clasificacion`,`fk_libro`) VALUES (?,?);";
+    
+    //LIBROS-CARACTERISTICAS
+    const AGREGAR_LIBRO_CARACTERISTICA = "INSERT INTO `biblioteca`.`libro_caracteristica`(`fk_caracteristica`,`fk_libro`) VALUES (?,?);";
+    
     //LOGS LIBROS
     const LOG_AGREGAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),1,?,?);";
     const LOG_MODIFICAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),3,?,?);";
     const LOG_ELIMINAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),2,?,?);";
     const LOG_LISTAR_LIBROS = "SELECT fecha_log_libro AS fecha, hora_log_libro AS hora, titulo_libro AS libro, nombre_usuario AS usuario, nombre_accion AS accion FROM log_libros INNER JOIN acciones ON id_accion_log_libro = id_accion INNER JOIN libro ON id_libro_log_libro = id_libro INNER JOIN usuario ON id_usuario_log_libro = id_usuario";
+    
+    
     
     //LOGIN
     const LOGIN = "SELECT `usuario`.`id_usuario` AS `usuario`,`usuario`.`nombre_usuario` AS `nombre`,`usuario`.`clave_usuario`, `tipos_usuario`.`id_tipo_usuario` AS `value` FROM `biblioteca`.`usuario` INNER JOIN `biblioteca`.`tipos_usuario` ON (`usuario`.`id_tipo_tipo_usuario` = `tipos_usuario`.`id_tipo_usuario`)WHERE nombre_usuario = ? AND borrado = 0;";
