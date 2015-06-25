@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
+require_once 'ControladorFoto.php';
 require_once 'Constantes.php';
 
 class ControladorLibro extends ControladorGeneral {
@@ -11,13 +12,9 @@ class ControladorLibro extends ControladorGeneral {
     
     public function agregar($datos) {
         try {
-            //print_r($datos);
-            echo count($datos["fotos"]);
-            for ($index = 0; $index < count($datos["fotos"]); $index++) {
-                $data = base64_decode($datos["fotos"][$index]);
-                $nombre = explode(".", $_SERVER["REQUEST_TIME_FLOAT"])[0].".png";
-                file_put_contents(__DIR__.'/../../../recursos/imagenes/libros/'.$nombre, $data);
-            }
+            $contrFoto = new ControladorFoto();
+            $nombreFoto = $contrFoto->guardarFoto($datos["fotos"]);
+            print_r($nombreFoto);
             
             //echo explode(".", $_SERVER["REQUEST_TIME_FLOAT"])[0];
             throw new Exception();

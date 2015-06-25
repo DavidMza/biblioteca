@@ -18,33 +18,15 @@ class ControladorFoto extends ControladorGeneral {
         }
     }
 
-    public function agregar($datos) {
+    public function guardarFoto($fotoB64) {
         try {
-            //print_r($datos);
-            
-            $data = base64_decode($datos["imagen"]);
-
-            $fecha = new DateTime();
-            print_r($fecha->getTimestamp());
-            //print_r($data);
-
-            file_put_contents(__DIR__.'/../../../recursos/imagenes/libros/image.png', $data);
-            return $datos["imagen"];
-            //$file = $_FILES['imagen']['name'];
-            //var_dump($_FILES);
-            /*
-            if ($file && move_uploaded_file($_FILES['imagen']['tmp_name'], 
-                    "../../recursos/imagenes/libros/" . $file)) {
-                sleep(3); //retrasamos la petición 3 segundos
-                echo $file; //devolvemos el nombre del archivo para pintar la imagen
-            }
-            */
-
-
-            //$parametros = array("urlFoto" => "urlFoto");
-            //$this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_FOTO, $parametros);
+            //print_r($fotoB64);
+            $data = base64_decode($fotoB64[0]);
+            $nombre = explode(".", $_SERVER["REQUEST_TIME_FLOAT"])[0] . ".png";
+            file_put_contents(__DIR__ . '/../../../recursos/imagenes/libros/' . $nombre, $data);
+            return $nombre;
         } catch (Exception $e) {
-            throw new Exception("Foto-agregar: " . $e->getMessage());
+            throw new Exception("Foto-guardar: " . $e->getMessage());
         }
     }
 
@@ -62,6 +44,10 @@ class ControladorFoto extends ControladorGeneral {
         $nombreID = "id_foto";
         $parametros = array("tabla" => $tabla, "nombreID" => $nombreID, "id" => $datos["id_editorial"]);
         parent::eliminar($parametros);
+    }
+
+    public function agregar($datos) {
+        
     }
 
 }
