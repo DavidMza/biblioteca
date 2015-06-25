@@ -8,22 +8,21 @@ $(function () {
         var clasif = [];
         var caract = [];
         var fotos = [];
+        var libro;
         app.init = function () {
             app.cargarFormulario();
             app.bindings();
             if (sessionStorage.aux != null) {
                 $('#tituloModal').html("Editar Libro");
-                var libro = JSON.parse(sessionStorage.aux);
+                libro = JSON.parse(sessionStorage.aux);
                 sessionStorage.removeItem("aux");
                 $("#id").val(libro.id);
                 $("#titulo").val(libro.titulo);
                 $("#isbn").val(libro.isbn);
                 $("#pag").val(libro.paginas);
                 $("#publi").val(libro.publicacion);
-                $("#autor").val(libro.autor);
-                $("#hiddenAutor").val(libro.hidAutor);
-                $("#editorial").val(libro.editorial);
-                $("#hiddenEditorial").val(libro.hidEditorial);
+                $("#autor").val(libro.hidAutor);
+                $("#editorial").val(libro.hidEditorial);
                 $("#idioma").val(libro.idioma);
                 if (libro.destacado == "0") {
                     $("#destacado").prop('checked', false);
@@ -35,8 +34,30 @@ $(function () {
                 } else {
                     $("#disponible").prop('checked', true);
                 }
+                app.recuperarCaracteristicas(libro.id);
+                app.recuperarClasificaciones(libro.id);
                 console.log(libro);
             }
+        };
+
+        app.recuperarClasificaciones = function () {
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.accion = "buscar";
+            datos.formulario = "Clasificacion";
+            datos.seccion = "gestor";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
         };
 
         app.bindings = function () {
@@ -133,10 +154,48 @@ $(function () {
         };
 
         app.cargarFormulario = function () {
-            app.autocompletarAutor();
-            app.autocompletarEditorial();
+            app.comboPublicacion();
+            app.comboAutor();
+            app.comboEditorial();
+            app.comboIdioma();
             app.listarClasificaciones();
             app.listarCaracteristicas();
+        };
+
+        app.comboPublicacion = function () {
+            var inicio = 2000;
+            var fin = 2015;
+            var html = "";
+            for (; inicio < fin; inicio++) {
+                html += '<option value="' + inicio + '">' + inicio + '</option>';
+            }
+            $("#publi").html(html);
+        };
+
+        app.comboIdioma = function () {
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.accion = "listar";
+            datos.formulario = "Idioma";
+            datos.seccion = "gestor";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+                    var inicio = 0;
+                    var fin = data.length;
+                    var html = "";
+                    for (; inicio < fin; inicio++) {
+                        html += '<option value="' + data[inicio].id_idioma + '">' + data[inicio].nombre + '</option>';
+                    }
+                    $("#idioma").html(html);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
         };
 
         app.listarCaracteristicas = function () {
@@ -151,13 +210,13 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    app.cargarTablaCaract(data)                    ;
+                    app.cargarTablaCaract(data);
                 },
                 error: function (data) {
                     alert(data.responseText);
                 }
             });
-            
+
         };
 
         app.cargarTablaCaract = function (data) {
@@ -210,8 +269,7 @@ $(function () {
             $("#arbol").jstree('open_all');
         };
 
-        app.autocompletarAutor = function () {
-            autores = new Array();
+        app.comboAutor = function () {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -223,25 +281,18 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    $.each(data, function (clave, autor) {
-                        autores.push({id: autor.id_autor, label: autor.nombre_autor, value: autor.nombre_autor});
-                    });
-                }
-            });
-            $("#autor").autocomplete({
-                source: autores,
-                autoFocus: true,
-                minLength: 2,
-                select: function (event, ui) {
-                    //console.log(ui);
-                    $("#autor").val(ui.item.value);
-                    $("#hiddenAutor").val(ui.item.id);
+                    var inicio = 0;
+                    var fin = data.length;
+                    var html = "";
+                    for (; inicio < fin; inicio++) {
+                        html += '<option value="' + data[inicio].id_autor + '">' + data[inicio].nombre_autor + '</option>';
+                    }
+                    $("#autor").html(html);
                 }
             });
         };
 
-        app.autocompletarEditorial = function () {
-            editoriales = new Array();
+        app.comboEditorial = function () {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -253,18 +304,13 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    $.each(data, function (clave, editorial) {
-                        editoriales.push({id: editorial.id_editorial, label: editorial.nombre_editorial, value: editorial.nombre_editorial});
-                    });
-                }
-            });
-            $("#editorial").autocomplete({
-                source: editoriales,
-                autoFocus: true,
-                minLength: 2,
-                select: function (event, ui) {
-                    $("#editorial").val(ui.item.value);
-                    $("#hiddenEditorial").val(ui.item.id);
+                    var inicio = 0;
+                    var fin = data.length;
+                    var html = "";
+                    for (; inicio < fin; inicio++) {
+                        html += '<option value="' + data[inicio].id_editorial + '">' + data[inicio].nombre_editorial + '</option>';
+                    }
+                    $("#editorial").html(html);
                 }
             });
         };
@@ -299,8 +345,8 @@ $(function () {
             datos.isbn = $("#isbn").val();
             datos.paginas = $("#pag").val();
             datos.publicacion = $("#publi").val();
-            datos.autor = $("#hiddenAutor").val();
-            datos.editorial = $("#hiddenEditorial").val();
+            datos.autor = $("#autor").val();
+            datos.editorial = $("#editorial").val();
             datos.idioma = $("#idioma").val();
             datos.disponible = $("#disponible").prop('checked');
             datos.destacado = $("#destacado").prop('checked');

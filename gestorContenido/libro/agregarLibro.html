@@ -1,4 +1,7 @@
 <div id="cuerpoFormulario">
+
+    
+    
     <form id="formLibro" class="form-horizontal"
           data-bv-message="Este valor No es válido"
           data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
@@ -51,38 +54,23 @@
                 </div>
                 <label class='col-lg-2'>Año Publicación</label>
                 <div class='col-lg-4'>
-                    <input class="form-control" type="text" id="publi" name="publi"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="Debes completar este campo"
-
-                           data-bv-regexp="true"
-                           data-bv-regexp-regexp="[0-9]+"
-                           data-bv-regexp-message="Solo números en este campo"
-
-                           data-bv-stringlength="true"
-                           data-bv-stringlength-min="4"
-                           data-bv-stringlength-max="4"
-                           data-bv-stringlength-message="El año esta mal">
+                    <select id="publi"></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class='col-lg-2'>Autor</label>
                 <div class='col-lg-4'>
-                    <input class="form-control" type="text" id="autor" name="autor">
-                    <input type="hidden" id="hiddenAutor">
+                    <select id="autor"></select>
                 </div>
                 <label class='col-lg-2'>Editorial</label>
                 <div class='col-lg-4'>
-                    <input class="form-control" type="text" id="editorial" name="editorial">
-                    <input type="hidden" id="hiddenEditorial">
+                    <select id="editorial"></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class='col-lg-2'>Idioma</label>
                 <div class='col-lg-4'>
-                    <input class="form-control" type="text" id="idioma" name="idioma"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="Debes completar este campo">
+                    <select id="idioma"></select>
                 </div>
                 <div class='col-lg-3'>
                     <label>Disponible
