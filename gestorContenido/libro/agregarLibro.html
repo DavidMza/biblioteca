@@ -1,4 +1,18 @@
 <div id="cuerpoFormulario">
+    
+    <script src="../../recursos/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <link href="../../recursos/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../../recursos/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
+    <link href="../../recursos/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/datatable/dataTables.bootstrap.js" type="text/javascript"></script>
+    <link href="../../recursos/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+    <link href="../../recursos/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="../../recursos/jsTree/jstree.min.js" type="text/javascript"></script>
+    <script src="agregarLibro.js" type="text/javascript"></script>
+    
     <form id="formLibro" class="form-horizontal"
           data-bv-message="Este valor No es válido"
           data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
@@ -127,6 +141,11 @@
                     </td>
                 </tr>
             </table>
+            <h4>Subir Fotos</h4>
+            <input type="button" id="btnLimpiarFotos" class="btn btn-info" value="Limpiar"/>
+            <input class="form-group" id="archivo" type="file" accept="image/*"/>
+            <br>
+            <div id="canvasFoto"></div>
 
         </div>
         <div class="modal-footer">

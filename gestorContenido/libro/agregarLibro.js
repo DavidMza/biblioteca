@@ -4,7 +4,10 @@ $(function () {
     (function (app) {
         var autores;
         var editoriales;
+        var caracteristicas;
         var clasif = [];
+        var caract = [];
+        var fotos = [];
         app.init = function () {
             app.cargarFormulario();
             app.bindings();
@@ -38,9 +41,51 @@ $(function () {
 
         app.bindings = function () {
 
+            $("input:file").change(function () {
+                var arch = $(this)[0].files[0];
+                var div = $("#canvasFoto")[0];
+                //$(div).html("");
+                var canvas = document.createElement('canvas');
+                canvas.width = 199;
+                canvas.height = 299;
+                var contexto = canvas.getContext('2d');
+                var url = URL.createObjectURL(arch);
+                var img = new Image();
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    contexto.drawImage(img, 0, 0, img.width, img.height);
+                };
+                img.src = url;
+                div.appendChild(canvas);
+                /*console.log(canvas.width);
+                if (canvas.width <= 200 && canvas.width >= 100) {
+                    if (canvas.height <= 300 && canvas.height >= 200) {
+                        div.appendChild(canvas);
+                    } else {
+                        alert("alto de la imagen esta mal");
+                    }
+                } else {
+                    alert("ancho de la imagen esta mal");
+                }*/
+                //var data = canvas.toDataURL().split('base64,')[1];
+                //fotos.push(data);
+                //console.log(data);
+                //app.mostrarVistaPrevia();
+            });
+
             $("#refLog").on('click', function (event) {
                 $("#contenido").load('../libro/log/logLibro.html #contenido');
                 $.getScript("../libro/log/logLibro.js");
+            });
+
+            $('#tablaCaract tbody').on('click', 'tr', function () {
+                var data = caracteristicas.row(this).data();
+                if (caract.indexOf(data.id_caracteristicas) == -1) {
+                    caract.push(data.id_caracteristicas);
+                    $("#caract").append("<label>" + data.denominacion_caracteristica + "</label><br>");
+                    console.log(caract);
+                }
             });
 
             $("#guardar").on("click", function (event) {
@@ -67,6 +112,16 @@ $(function () {
                 $("#clasif").html("");
             });
 
+            $("#btnLimpiarCaract").on("click", function (event) {
+                caract = [];
+                $("#caract").html("");
+            });
+
+            $("#btnLimpiarFotos").on("click", function (event) {
+                var div = $("#canvasFoto")[0];
+                $(div).html("");
+            });
+
             $("#btnEliminar").on("click", function (event) {
                 app.eliminar($("#id").val());
             });
@@ -84,7 +139,6 @@ $(function () {
         };
 
         app.listarCaracteristicas = function () {
-            var datosCaracteristicas = null;
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -96,24 +150,23 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    //datosCaracteristicas = data;
-                    //console.log(datosCaracteristicas);
-                    
-                    app.cargarTablaCaract(data)                    ;
+                    caracteristicas = data;
+                    app.cargarTablaCaract(data);
                 },
                 error: function (data) {
                     alert(data.responseText);
                 }
             });
-            
 
-            
+
+
         };
-        
-        app.cargarTablaCaract = function(data){
+
+        app.cargarTablaCaract = function (data) {
             $('#tablaCaract').dataTable().fnDestroy();
-            datosCaracteristicas = $('#tablaCaract').dataTable({
-                scrollY:"150px",
+            caracteristicas = $('#tablaCaract').dataTable({
+                scrollY: "150px",
+                searching: false,
                 scrollCollapse: true,
                 paging: false,
                 jQueryUI: true,
@@ -254,6 +307,13 @@ $(function () {
             datos.disponible = $("#disponible").prop('checked');
             datos.destacado = $("#destacado").prop('checked');
 
+            datos.clasificaciones = clasif;
+            datos.caracteristicas = caract;
+            var a = $("canvas");
+            for (var i = 0, max = a.length; i < max; i++) {
+                fotos.push(a[i].toDataURL().split('base64,')[1]);
+            }
+            datos.fotos = fotos;
             datos.accion = "agregar";
             datos.formulario = "Libro";
             datos.seccion = "gestor";
