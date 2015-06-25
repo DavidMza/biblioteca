@@ -12,6 +12,15 @@ class ControladorLibro extends ControladorGeneral {
     public function agregar($datos) {
         try {
             //print_r($datos);
+            echo count($datos["fotos"]);
+            for ($index = 0; $index < count($datos["fotos"]); $index++) {
+                $data = base64_decode($datos["fotos"][$index]);
+                $nombre = explode(".", $_SERVER["REQUEST_TIME_FLOAT"])[0].".png";
+                file_put_contents(__DIR__.'/../../../recursos/imagenes/libros/'.$nombre, $data);
+            }
+            
+            //echo explode(".", $_SERVER["REQUEST_TIME_FLOAT"])[0];
+            throw new Exception();
             session_start();
             $destacado = null;
             if ($datos["destacado"] == "true") {
