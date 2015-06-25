@@ -42,6 +42,7 @@ $(function () {
         app.bindings = function () {
 
             $("input:file").change(function () {
+                app.limpiarFotos();
                 var arch = $(this)[0].files[0];
                 var div = $("#canvasFoto")[0];
                 //$(div).html("");
@@ -59,15 +60,15 @@ $(function () {
                 img.src = url;
                 div.appendChild(canvas);
                 /*console.log(canvas.width);
-                if (canvas.width <= 200 && canvas.width >= 100) {
-                    if (canvas.height <= 300 && canvas.height >= 200) {
-                        div.appendChild(canvas);
-                    } else {
-                        alert("alto de la imagen esta mal");
-                    }
-                } else {
-                    alert("ancho de la imagen esta mal");
-                }*/
+                 if (canvas.width <= 200 && canvas.width >= 100) {
+                 if (canvas.height <= 300 && canvas.height >= 200) {
+                 div.appendChild(canvas);
+                 } else {
+                 alert("alto de la imagen esta mal");
+                 }
+                 } else {
+                 alert("ancho de la imagen esta mal");
+                 }*/
                 //var data = canvas.toDataURL().split('base64,')[1];
                 //fotos.push(data);
                 //console.log(data);
@@ -117,11 +118,6 @@ $(function () {
                 $("#caract").html("");
             });
 
-            $("#btnLimpiarFotos").on("click", function (event) {
-                var div = $("#canvasFoto")[0];
-                $(div).html("");
-            });
-
             $("#btnEliminar").on("click", function (event) {
                 app.eliminar($("#id").val());
             });
@@ -129,6 +125,11 @@ $(function () {
             $("#formLibro").bootstrapValidator({
                 excluded: [],
             });
+        };
+
+        app.limpiarFotos = function () {
+            var div = $("#canvasFoto")[0];
+            $(div).html("");
         };
 
         app.cargarFormulario = function () {
@@ -306,10 +307,7 @@ $(function () {
 
             datos.clasificaciones = clasif;
             datos.caracteristicas = caract;
-            var a = $("canvas");
-            for (var i = 0, max = a.length; i < max; i++) {
-                fotos.push(a[i].toDataURL().split('base64,')[1]);
-            }
+            fotos.push($("canvas")[0].toDataURL().split('base64,')[1]);
             datos.fotos = fotos;
             datos.accion = "agregar";
             datos.formulario = "Libro";
