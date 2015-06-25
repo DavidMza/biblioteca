@@ -34,7 +34,6 @@
             $texto .= "NadaA";
             $texto .= "</li>";
         }
-
         for ($i = 1; $i < $actual; $i++) {
             $texto .= "<li>";
             $texto .= "<a href='$enlace$i'>$i</a> ";
