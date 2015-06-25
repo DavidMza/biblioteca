@@ -12,14 +12,8 @@ class ControladorAutor extends ControladorGeneral {
     public function listar() {
         try {
             session_start();
-            $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
-            }else{
-                $parametros = array("usuario" => $_SESSION["usuario"]);
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES_X_USUARIO,$parametros);
-            }
             
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {
