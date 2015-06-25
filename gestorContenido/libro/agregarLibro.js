@@ -96,9 +96,6 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    //datosCaracteristicas = data;
-                    //console.log(datosCaracteristicas);
-                    
                     app.cargarTablaCaract(data)                    ;
                 },
                 error: function (data) {
@@ -106,13 +103,11 @@ $(function () {
                 }
             });
             
-
-            
         };
         
         app.cargarTablaCaract = function(data){
             $('#tablaCaract').dataTable().fnDestroy();
-            datosCaracteristicas = $('#tablaCaract').dataTable({
+            $('#tablaCaract').dataTable({
                 scrollY:"150px",
                 scrollCollapse: true,
                 paging: false,
