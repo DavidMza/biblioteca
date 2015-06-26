@@ -47,7 +47,7 @@ function paginar($actual, $total, $por_pagina, $enlace, $bandera = null) {
     }
 
     if ($actual < $total_paginas) {
-        $texto .= "</li>";
+        $texto .= "<li>";
         $texto .= "<a href='$enlace$posterior'>Siguiente</a>";
         $texto .= "</li>";
     } else {

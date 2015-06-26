@@ -96,7 +96,7 @@
             <footer>
                 <div class="row">
                     <div class="col-lg-12">
-                        <p>Copyright &copy; Your Website 2014</p>
+                        <p>Copyright &copy; Proyecto Integrador Laboratorio VI - Cáceres | Senese</p>
                     </div>
                 </div>
                 <!-- /.row -->
