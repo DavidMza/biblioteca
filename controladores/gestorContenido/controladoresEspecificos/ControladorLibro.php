@@ -38,7 +38,7 @@ class ControladorLibro extends ControladorGeneral {
                 $parametros = array("clasificacion" => $value, "idlibro" => $id_);
                 $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_LIBRO_CLASIFICACION, $parametros);
             }
-            
+
             foreach ($datos["caracteristicas"] as $value) {
                 $parametros = array("caracteristicas" => $value, "idlibro" => $id_);
                 $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_LIBRO_CARACTERISTICA, $parametros);
@@ -104,6 +104,10 @@ class ControladorLibro extends ControladorGeneral {
 
     public function modificar($datos) {
         try {
+            
+            $contrFoto = new ControladorFoto();
+            $parametros = array("id" => $datos["id"],"fotos" => $datos["fotos"]);
+            $contrFoto->modificar($parametros);
             session_start();
             $destacado = null;
             if ($datos["destacado"] == "true") {
@@ -120,6 +124,21 @@ class ControladorLibro extends ControladorGeneral {
             $parametros = array("titulo" => $datos["titulo"], "isbn" => $datos["isbn"], "paginas" => $datos["paginas"], "idioma" => $datos["idioma"], "publicacion" => $datos["publicacion"], "disponible" => $disponible, "destacado" => $destacado, "autor" => $datos["autor"], "editorial" => $datos["editorial"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_LIBRO, $parametros);
             $id_ = $datos["id"];
+
+            $parametros = array("id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO_CLASIFICACION, $parametros);
+            foreach ($datos["clasificaciones"] as $value) {
+                $parametros = array("clasificacion" => $value, "idlibro" => $id_);
+                $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_LIBRO_CLASIFICACION, $parametros);
+            }
+
+            $parametros = array("id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO_CARACTERISTICA, $parametros);
+            foreach ($datos["caracteristicas"] as $value) {
+                $parametros = array("caracteristicas" => $value, "idlibro" => $id_);
+                $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_LIBRO_CARACTERISTICA, $parametros);
+            }
+
             $parametros = array("id" => $id_, "usuario" => $_SESSION["usuario"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_MODIFICAR_LIBROS, $parametros);
         } catch (Exception $e) {
@@ -133,7 +152,7 @@ class ControladorLibro extends ControladorGeneral {
             $parametros = array("id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO, $parametros);
             $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["usuario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_AUTORES, $parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_LIBROS, $parametros);
         } catch (Exception $e) {
             throw new Exception("Libro-eliminar: " . $e->getMessage());
         }

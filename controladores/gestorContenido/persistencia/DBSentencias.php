@@ -76,16 +76,20 @@ interface DBSentencias {
     const AGREGAR_FOTO = "INSERT INTO fotos (rutaArchivo_foto, id_libro_foto) VALUES(?, ?)";
     const MODIFICAR_FOTO = "UPDATE fotos SET rutaArchivo_foto = ? WHERE id_foto = ?";
     const LISTAR_FOTO_ORDER_LIBROS = "SELECT * FROM fotos INNER JOIN libro ON id_libro_foto = id_libro ORDER BY id_libro_foto";
-    //FOTOS
+    const BUSCAR_FOTO = "SELECT rutaArchivo_foto AS ruta, id_foto AS id FROM fotos WHERE id_libro_foto = ?";
+//FOTOS
     //const AGREGAR_FOTO = "INSERT INTO `biblioteca`.`fotos`(`rutaArchivo_foto`,`id_libro_foto`) VALUES (?,?);";
     
 //LIBROS-CLASIFICACION
     const AGREGAR_LIBRO_CLASIFICACION = "INSERT INTO `biblioteca`.`libro_clasificacion`(`fk_clasificacion`,`fk_libro`) VALUES (?,?);";
-    const BUSCAR_LIBRO_CLASIFICACION = "SELECT * FROM libro_clasificacion WHERE fk_libro = ?";
-    
+    const BUSCAR_LIBRO_CLASIFICACION = "SELECT fk_clasificacion AS id, denominacion_clasificacion AS text FROM libro_clasificacion INNER JOIN clasificaciones ON fk_clasificacion = id_clasificacion WHERE fk_libro = ?";
+    const ELIMINAR_LIBRO_CLASIFICACION = "DELETE FROM `biblioteca`.`libro_clasificacion` WHERE `fk_libro` = ?;";
     //LIBROS-CARACTERISTICAS
     const AGREGAR_LIBRO_CARACTERISTICA = "INSERT INTO `biblioteca`.`libro_caracteristica`(`fk_caracteristica`,`fk_libro`) VALUES (?,?);";
-    //LOGS LIBROS
+    const BUSCAR_LIBRO_CARACTERISTICA = "SELECT fk_caracteristica AS id, denominacion_caracteristica AS text FROM libro_caracteristica INNER JOIN caracteristicas ON fk_caracteristica = id_caracteristicas WHERE fk_libro = ?";
+    const ELIMINAR_LIBRO_CARACTERISTICA = "DELETE FROM `biblioteca`.`libro_caracteristica` WHERE `fk_libro` = ?;";
+
+//LOGS LIBROS
     const LOG_AGREGAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),1,?,?);";
     const LOG_MODIFICAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),3,?,?);";
     const LOG_ELIMINAR_LIBROS = "INSERT INTO log_libros(`fecha_log_libro`,`hora_log_libro`,`id_accion_log_libro`,`id_libro_log_libro`,`id_usuario_log_libro`) VALUES(CURDATE(),CURTIME(),2,?,?);";

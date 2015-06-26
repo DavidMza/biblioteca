@@ -11,7 +11,7 @@ $(function () {
         var libro;
         app.init = function () {
             var datosCombo = {};
-            
+
             app.bindings();
             if (sessionStorage.aux != null) {
                 $('#tituloModal').html("Editar Libro");
@@ -22,7 +22,7 @@ $(function () {
                 $("#titulo").val(libro.titulo);
                 $("#isbn").val(libro.isbn);
                 $("#pag").val(libro.paginas);
-                
+
                 datosCombo.idioma = libro.idioma;
                 datosCombo.autor = libro.hidAutor;
                 datosCombo.editorial = libro.hidEditorial;
@@ -38,16 +38,77 @@ $(function () {
                 } else {
                     $("#disponible").prop('checked', true);
                 }
-                //app.recuperarCaracteristicas(libro.id);
-                //app.recuperarClasificaciones(libro.id);
+                app.recuperarCaracteristicas(libro.id);
+                app.recuperarClasificaciones(libro.id);
+                app.recuperarFoto(libro.id);
                 //console.log(libro);
             }
             app.cargarFormulario(datosCombo);
         };
-
-        app.recuperarClasificaciones = function () {
+        
+        app.recuperarCaracteristicas = function (id) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
+            datos.id = id;
+            datos.accion = "buscar";
+            datos.formulario = "Caracteristica";
+            datos.seccion = "gestor";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+                    $.each(data, function (clave, valor) {
+                        caract.push(valor.id);
+                        $("#caract").append("<label>" + valor.text + "</label><br>");
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        };
+
+        app.recuperarFoto = function (id) {
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.id = id;
+            datos.accion = "buscar";
+            datos.formulario = "Foto";
+            datos.seccion = "gestor";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+                    var div = $("#canvasFoto")[0];
+                    //$(div).html("");
+                    var canvas = document.createElement('canvas');
+                    canvas.width = 199;
+                    canvas.height = 299;
+                    var contexto = canvas.getContext('2d');
+                    var img = new Image();
+                    img.onload = function () {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        contexto.drawImage(img, 0, 0, img.width, img.height);
+                    };
+                    img.src = locacion+data[0].ruta;
+                    div.appendChild(canvas);
+                    console.log(data);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        };
+
+        app.recuperarClasificaciones = function (id) {
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.id = id;
             datos.accion = "buscar";
             datos.formulario = "Clasificacion";
             datos.seccion = "gestor";
@@ -57,7 +118,10 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-
+                    $.each(data, function (clave, valor) {
+                        clasif.push(valor.id);
+                        $("#clasif").append("<label>" + valor.text + "</label><br>");
+                    });
                 },
                 error: function (data) {
                     alert(data.responseText);
@@ -399,18 +463,23 @@ $(function () {
 
         app.modificar = function () {
             var url = locacion + "controladores/Ruteador.php";
-            //var datos = $("#formLibro").serialize();
             var datos = {};
+            //datos.form = $("#formLibro").serialize();
             datos.id = $("#id").val();
             datos.titulo = $("#titulo").val();
             datos.isbn = $("#isbn").val();
             datos.paginas = $("#pag").val();
             datos.publicacion = $("#publi").val();
-            datos.autor = $("#hiddenAutor").val();
-            datos.editorial = $("#hiddenEditorial").val();
+            datos.autor = $("#autor").val();
+            datos.editorial = $("#editorial").val();
             datos.idioma = $("#idioma").val();
             datos.disponible = $("#disponible").prop('checked');
             datos.destacado = $("#destacado").prop('checked');
+
+            datos.clasificaciones = clasif;
+            datos.caracteristicas = caract;
+            fotos.push($("canvas")[0].toDataURL().split('base64,')[1]);
+            datos.fotos = fotos;
 
             datos.accion = "modificar";
             datos.formulario = "Libro";
