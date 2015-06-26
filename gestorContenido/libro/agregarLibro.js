@@ -129,6 +129,26 @@ $(function () {
 
         app.bindings = function () {
 
+            $("#btnWebService").on('click', function (event) {
+                var q = $("#titulo").val().trim();
+                if (q != "") {
+                    q = "q=" + q;
+                    var url = "http://isbndb.com/api/v2/xml/NZ6JDLQG/books";
+                    $.ajax({
+                        url: url,
+                        method: 'GET',
+                        dataType: 'json',
+                        data: q,
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+                }
+            });
+
             $("input:file").change(function () {
                 app.limpiarFotos();
                 var arch = $(this)[0].files[0];
