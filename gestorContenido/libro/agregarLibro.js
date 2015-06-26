@@ -2,8 +2,6 @@ $(function () {
     var TallerAvanzada = {};
     var locacion = "http://" + window.location.host + "/biblioteca/";
     (function (app) {
-        var autores;
-        var editoriales;
         var caracteristicas;
         var clasif = [];
         var caract = [];
@@ -45,7 +43,7 @@ $(function () {
             }
             app.cargarFormulario(datosCombo);
         };
-        
+
         app.recuperarCaracteristicas = function (id) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
@@ -95,7 +93,7 @@ $(function () {
                         canvas.height = img.height;
                         contexto.drawImage(img, 0, 0, img.width, img.height);
                     };
-                    img.src = locacion+data[0].ruta;
+                    img.src = locacion + data[0].ruta;
                     div.appendChild(canvas);
                     console.log(data);
                 },
@@ -422,6 +420,58 @@ $(function () {
             });
         };
 
+        app.validarDatos = function (datos) {
+            var retorno = {};
+            retorno.valido = true;
+            retorno.msj = "";
+            //"/^[a-zA-Z]+$/"
+            var soloTexto = new RegExp("/^[a-zA-Z]*$/");
+
+            var titulo = datos.titulo.trim();
+            if (titulo == "") {
+                retorno.msj += "titulo\n";
+                retorno.valido = false;
+            }
+
+            var isbn = datos.isbn.trim();
+            if (isbn == "" || isNaN(isbn) || isbn < 0 || isbn.length != 13) {
+                retorno.msj += "isbn\n";
+                retorno.valido = false;
+            }
+
+            var paginas = datos.paginas.trim();
+            if (paginas == "" || isNaN(paginas) || paginas < 0) {
+                retorno.msj += "paginas\n";
+                retorno.valido = false;
+            }
+
+            var publicacion = datos.publicacion.trim();
+            if (publicacion == "" || isNaN(publicacion) || publicacion < 0) {
+                retorno.msj += "publicacion\n";
+                retorno.valido = false;
+            }
+
+            var clasificaciones = datos.clasificaciones;
+            if (clasificaciones.length == 0) {
+                retorno.msj += "clasificaciones\n";
+                retorno.valido = false;
+            }
+
+            var caracteristicas = datos.caracteristicas;
+            if (caracteristicas.length == 0) {
+                retorno.msj += "caracteristicas\n";
+                retorno.valido = false;
+            }
+
+            var fotos = $("canvas");
+            if (fotos.length == 0) {
+                retorno.msj += "fotos\n";
+                retorno.valido = false;
+            }
+
+            return retorno;
+        };
+
 
         app.guardar = function () {
             var url = locacion + "controladores/Ruteador.php";
@@ -439,26 +489,31 @@ $(function () {
 
             datos.clasificaciones = clasif;
             datos.caracteristicas = caract;
-            fotos.push($("canvas")[0].toDataURL().split('base64,')[1]);
-            datos.fotos = fotos;
             datos.accion = "agregar";
             datos.formulario = "Libro";
             datos.seccion = "gestor";
             datos.usuario = sessionStorage.usuario;
             //console.log(datos);
-            $.ajax({
-                url: url,
-                method: 'POST',
-                dataType: 'json',
-                data: datos,
-                success: function (data) {
-                    console.log(data);
-                    //app.actualizarTabla(data, $("#id").val());
-                },
-                error: function (data) {
-                    alert(data.responseText);
-                }
-            });
+            var valido = app.validarDatos(datos);
+            if (valido.valido) {
+                fotos.push($("canvas")[0].toDataURL().split('base64,')[1]);
+                datos.fotos = fotos;
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    dataType: 'json',
+                    data: datos,
+                    success: function (data) {
+                        console.log(data);
+                        //app.actualizarTabla(data, $("#id").val());
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            } else {
+                alert("Revise los siguiente campos:\n" + valido.msj);
+            }
         };
 
         app.modificar = function () {
@@ -478,24 +533,29 @@ $(function () {
 
             datos.clasificaciones = clasif;
             datos.caracteristicas = caract;
-            fotos.push($("canvas")[0].toDataURL().split('base64,')[1]);
-            datos.fotos = fotos;
 
             datos.accion = "modificar";
             datos.formulario = "Libro";
             datos.seccion = "gestor";
             datos.usuario = sessionStorage.usuario;
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: datos,
-                success: function (data) {
+            var valido = app.validarDatos(datos);
+            if (valido.valido) {
+                fotos.push($("canvas")[0].toDataURL().split('base64,')[1]);
+                datos.fotos = fotos;
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: datos,
+                    success: function (data) {
 
-                },
-                error: function (data) {
-                    alert(data.responseText);
-                }
-            });
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            } else {
+                alert("Revise los siguiente campos:\n" + valido.msj);
+            }
         };
 
         app.limpiarModal = function () {    //funcion para limpiar los textbox del modal
