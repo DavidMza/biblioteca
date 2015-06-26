@@ -176,7 +176,6 @@ $(function () {
                 else
                     html += '<option value="' + inicio + '">' + inicio + '</option>';
             }
-
             $("#publi").html(html);
         };
 
