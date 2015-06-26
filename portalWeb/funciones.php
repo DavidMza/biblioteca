@@ -1,6 +1,6 @@
 <?php
 
-const ruta = "../";
+        const ruta = "../";
 
 $refControladorPersistencia = ControladorPersistencia::obtenerCP();
 if (isset($_GET["pag"])) {
@@ -28,7 +28,7 @@ function paginar($actual, $total, $por_pagina, $enlace) {
         $texto .= "</li>";
     } else {
         $texto .= "<li>";
-        $texto .= "NadaA";
+        $texto .= "";
         $texto .= "</li>";
     }
     for ($i = 1; $i < $actual; $i++) {
@@ -50,7 +50,7 @@ function paginar($actual, $total, $por_pagina, $enlace) {
         $texto .= "<a href='$enlace$posterior'>Siguiente</a>";
         $texto .= "</li>";
     } else {
-        $texto .= "<b>NadaS</b>";
+        $texto .= "<b></b>";
     }
     return $texto;
 }
@@ -69,9 +69,14 @@ function reemplazarSignos($p) {
     return $query;
 }
 
-$parametros = array("reg1" => $reg1, "tampag" => $tampag);
-$resultado = $refControladorPersistencia->ejecutarSentencia(reemplazarSignos($parametros));
-
+$resultado;
+if (isset($_GET["q"])) {
+    $query = str_replace("LIKE ?", "LIKE '" . $_GET["q"] . "%'", DBSentenciasPortal::BUSCAR);
+    $resultado = $refControladorPersistencia->ejecutarSentencia($query);
+} else {
+    $parametros = array("reg1" => $reg1, "tampag" => $tampag);
+    $resultado = $refControladorPersistencia->ejecutarSentencia(reemplazarSignos($parametros));
+}
 $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
 function iniciarRow() {
@@ -86,11 +91,11 @@ function terminarRow() {
 
 function iniciarCelda($datos) {
     echo '<div class="col-md-4 portfolio-item">';
-    echo '<a href="#">';
+    echo '<a>';
     echo '<img class="img-responsive" src="' . ruta . $datos["ruta"] . '" alt="" width="150" height="300">';
     echo '</a>';
     echo '<h3>';
-    echo '<a data-id="' . $datos["id"] . '">' . $datos["titulo"] . '</a>';
+    echo '<a data-id="' . $datos["id"] . '" class="titulo">' . $datos["titulo"] . '</a>';
     echo '</h3>';
     echo '<p>' . $datos["autor"] . '</p>';
     echo '</div>';

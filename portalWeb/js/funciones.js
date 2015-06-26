@@ -9,9 +9,9 @@ $(function () {
 
         app.bindings = function () {
             
-            $("a").on('click', function (event) {
+            $("a.titulo").on('click', function (event) {
                 app.limpiarModal();
-                $("#tituloModal").html("Libro");
+                $("#tituloModal").html("Libros");
                 //$("#modalLibroPortal").modal({show: true});
                 //alert($(this).data("id"));
                 app.traerDatos($(this).data("id"));
@@ -28,12 +28,10 @@ $(function () {
             $.ajax({
                 url: url,
                 method: 'POST',
+                dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    console.log(data);
-                    
                     app.cargarModal(data);
-                    
                 },
                 error: function (data) {
                     alert(data.responseText);
@@ -42,7 +40,16 @@ $(function () {
         };
         
         app.cargarModal = function (data){
-            $("#titulo").text(data.titulo);
+            console.log(data);
+            $("#foto").attr("src",locacion+data[0].ruta);
+            $("#titulo").html(data[0].titulo);
+            $("#isbn").html(data[0].isbn);
+            $("#paginas").html(data[0].paginas);
+            $("#idioma").html(data[0].idioma);
+            $("#pubicacion").html(data[0].publicacion);
+            $("#autor").html(data[0].autor);
+            $("#editorial").html(data[0].editorial);
+            
             $("#modalLibroPortal").modal({show: true});
         };
         

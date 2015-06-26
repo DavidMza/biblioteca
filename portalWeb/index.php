@@ -38,7 +38,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Portal biblioteca</a>
+                    <a class="navbar-brand" href="index.php">Portal biblioteca</a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -47,6 +47,9 @@
                             <a href="../gestorContenido/login/login.html">Log In</a>
                         </li>
                     </ul>
+                    <form class="navbar-form navbar-right" method="get" action="index.php">
+                        <input class="form-control" type="text" name="q" id="q" placeholder="Search...">
+                    </form>
                 </div>
                 <!-- /.navbar-collapse -->
             </div>
@@ -102,16 +105,51 @@
         <div class="modal fade" id="modalLibroPortal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="tituloModal">Libro</h4>
+                    </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label id="titulo" />
-                            <label id="isbn" />
-                            <label id="Paginas" />
-                            <label id="idioma" />
-                            <label id="pubicacion" />
-                            <label id="autor" />
-                            <label id="editorial" />
-                        </div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <img id="foto">
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th><label class='col-lg-2'>Titulo:</label></th>
+                                            <td><label id="titulo" class='col-lg-4'></label></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label class='col-lg-2'>ISBN:</label></th>
+                                            <td><label id="isbn" class='col-lg-4'></label></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label class='col-lg-2'>Paginas:</label></th>
+                                            <td><label id="paginas" class='col-lg-4'></label></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label class='col-lg-2'>Idioma:</label></th>
+                                            <td><label id="idioma" class='col-lg-4'></label></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label class='col-lg-2'>Año Publicacion:</label></th>
+                                            <td><label id="pubicacion" class='col-lg-4'></label></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label class='col-lg-2'>Autor:</label></th>
+                                            <td><label id="autor" class='col-lg-4'></label></td>
+                                        </tr>
+                                        <tr>
+                                            <th><label class='col-lg-2'>Editorial:</label></th>
+                                            <td><label id="editorial" class='col-lg-4'></label></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
