@@ -4,6 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/wamp/www/biblioteca/portalWeb/index.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/libro/libro.js</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorFoto.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/libro/agregarLibro.html</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorUsuario.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/libro/agregarLibro.js</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/index/index.html</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorLibro.php</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/portalWeb/persistencia/DBSentenciasPortal.php</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/persistencia/DBSentencias.php</file>
         </group>
     </open-files>
 </project-private>

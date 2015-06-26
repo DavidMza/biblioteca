@@ -12,8 +12,8 @@ class ControladorLibro extends ControladorGeneral {
 
     public function agregar($datos) {
         try {
-            print_r($datos);
-            throw new Exception();
+            //print_r($datos);
+            //throw new Exception();
             $contrFoto = new ControladorFoto();
             $nombreFoto = $contrFoto->guardarFoto($datos["fotos"]);
             session_start();

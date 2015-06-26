@@ -130,10 +130,11 @@ $(function () {
         app.bindings = function () {
 
             $("#btnWebService").on('click', function (event) {
+                alert("asd");
                 var q = $("#titulo").val().trim();
                 if (q != "") {
                     q = "q=" + q;
-                    var url = "http://isbndb.com/api/v2/xml/NZ6JDLQG/books?";
+                    var url = "http://isbndb.com/api/v2/json/NZ6JDLQG/books?";
                     //var url = "http://isbndb.com/api/books.xml?access_key=" + "NZ6JDLQG" + "&index1=isbn&value1=" + q;
                     //var xhr = new XMLHttpRequest();
                     //xhr.open("GET", url, false);
@@ -142,24 +143,26 @@ $(function () {
                     //console.log(xhr.status);
                     //console.log(xhr.statusText);
                     try {
-                    var respuesta = $.ajax({
-                     url: url,
-                     //method: 'GET',
-                     //crossDomain: true,
-                     dataType: 'jsonp',
-                     data: q,
-                     success: function (data) {
-                     console.log(data);
-                     },
-                     error: function (data) {
-                         console.log(data);
-                     alert(data.responseText);
-                     }
-                     });
-                 } catch(e){
-                     console.log(e);
-                 }
-                     //console.log(respuesta);
+                        var respuesta = $.ajax({
+                            url: url,
+                            //method: 'GET',
+                            //crossDomain: true,
+                            dataType: 'jsonp',
+                            data: q,
+                            success: function (data) {
+                                alert(data);
+                                console.log(data);
+                            },
+                            error: function (data) {
+                                alert("fallo")
+                                console.log(data);
+                                alert(JSON.parse(data));
+                            }
+                        });
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    //console.log(respuesta);
                 }
             });
 
@@ -446,7 +449,8 @@ $(function () {
                 method: 'POST',
                 data: datos,
                 success: function (data) {
-
+                    $("#contenido").load('../libro/libro.html #contenido');
+                    $.getScript("../libro/libro.js");
                 },
                 error: function (data) {
                     alert(data.responseText);
@@ -539,6 +543,8 @@ $(function () {
                     data: datos,
                     success: function (data) {
                         console.log(data);
+                        $("#contenido").load('../libro/libro.html #contenido');
+                        $.getScript("../libro/libro.js");
                         //app.actualizarTabla(data, $("#id").val());
                     },
                     error: function (data) {
@@ -581,7 +587,8 @@ $(function () {
                     method: 'POST',
                     data: datos,
                     success: function (data) {
-
+                        $("#contenido").load('../libro/libro.html #contenido');
+                        $.getScript("../libro/libro.js");
                     },
                     error: function (data) {
                         alert(data.responseText);
