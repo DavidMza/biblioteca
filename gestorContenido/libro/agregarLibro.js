@@ -10,7 +10,8 @@ $(function () {
         var fotos = [];
         var libro;
         app.init = function () {
-
+            var datosCombo = {};
+            
             app.bindings();
             if (sessionStorage.aux != null) {
                 $('#tituloModal').html("Editar Libro");
@@ -20,12 +21,12 @@ $(function () {
                 $("#titulo").val(libro.titulo);
                 $("#isbn").val(libro.isbn);
                 $("#pag").val(libro.paginas);
-                var datosCombo = {};
+                
                 datosCombo.idioma = libro.idioma;
                 datosCombo.autor = libro.hidAutor;
                 datosCombo.editorial = libro.hidEditorial;
                 datosCombo.publicacion = libro.publicacion;
-                app.cargarFormulario(datosCombo);
+                //app.cargarFormulario(datosCombo);
                 if (libro.destacado == "0") {
                     $("#destacado").prop('checked', false);
                 } else {
@@ -36,10 +37,11 @@ $(function () {
                 } else {
                     $("#disponible").prop('checked', true);
                 }
-                app.recuperarCaracteristicas(libro.id);
-                app.recuperarClasificaciones(libro.id);
+                //app.recuperarCaracteristicas(libro.id);
+                //app.recuperarClasificaciones(libro.id);
                 //console.log(libro);
             }
+            app.cargarFormulario(datosCombo);
         };
 
         app.recuperarClasificaciones = function () {
