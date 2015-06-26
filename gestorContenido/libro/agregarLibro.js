@@ -16,6 +16,7 @@ $(function () {
             if (sessionStorage.aux != null) {
                 $('#tituloModal').html("Editar Libro");
                 libro = JSON.parse(sessionStorage.aux);
+                console.log(libro);
                 sessionStorage.removeItem("aux");
                 $("#id").val(libro.id);
                 $("#titulo").val(libro.titulo);
@@ -197,7 +198,7 @@ $(function () {
                     var fin = data.length;
                     var html = "";
                     for (; inicio < fin; inicio++) {
-                        if (idiomaSelected == data[inicio].nombre)
+                        if (idiomaSelected == data[inicio].id_idioma)
                             html += '<option selected value="' + data[inicio].id_idioma + '">' + data[inicio].nombre + '</option>';
                         else
                             html += '<option value="' + data[inicio].id_idioma + '">' + data[inicio].nombre + '</option>';
