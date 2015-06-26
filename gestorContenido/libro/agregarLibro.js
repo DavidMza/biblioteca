@@ -133,19 +133,33 @@ $(function () {
                 var q = $("#titulo").val().trim();
                 if (q != "") {
                     q = "q=" + q;
-                    var url = "http://isbndb.com/api/v2/xml/NZ6JDLQG/books";
-                    $.ajax({
-                        url: url,
-                        method: 'GET',
-                        dataType: 'json',
-                        data: q,
-                        success: function (data) {
-                            console.log(data);
-                        },
-                        error: function (data) {
-                            alert(data.responseText);
-                        }
-                    });
+                    var url = "http://isbndb.com/api/v2/xml/NZ6JDLQG/books?";
+                    //var url = "http://isbndb.com/api/books.xml?access_key=" + "NZ6JDLQG" + "&index1=isbn&value1=" + q;
+                    //var xhr = new XMLHttpRequest();
+                    //xhr.open("GET", url, false);
+                    //xhr.send();
+
+                    //console.log(xhr.status);
+                    //console.log(xhr.statusText);
+                    try {
+                    var respuesta = $.ajax({
+                     url: url,
+                     //method: 'GET',
+                     //crossDomain: true,
+                     dataType: 'jsonp',
+                     data: q,
+                     success: function (data) {
+                     console.log(data);
+                     },
+                     error: function (data) {
+                         console.log(data);
+                     alert(data.responseText);
+                     }
+                     });
+                 } catch(e){
+                     console.log(e);
+                 }
+                     //console.log(respuesta);
                 }
             });
 
