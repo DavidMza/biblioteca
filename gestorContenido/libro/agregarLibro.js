@@ -10,7 +10,7 @@ $(function () {
         var fotos = [];
         var libro;
         app.init = function () {
-            app.cargarFormulario();
+
             app.bindings();
             if (sessionStorage.aux != null) {
                 $('#tituloModal').html("Editar Libro");
@@ -20,10 +20,12 @@ $(function () {
                 $("#titulo").val(libro.titulo);
                 $("#isbn").val(libro.isbn);
                 $("#pag").val(libro.paginas);
-                $("#publi").val(libro.publicacion);
-                $("#autor").val(libro.hidAutor);
-                $("#editorial").val(libro.hidEditorial);
-                $("#idioma").val(libro.idioma);
+                var datosCombo = {};
+                datosCombo.idioma = libro.idioma;
+                datosCombo.autor = libro.hidAutor;
+                datosCombo.editorial = libro.hidEditorial;
+                datosCombo.publicacion = libro.publicacion;
+                app.cargarFormulario(datosCombo);
                 if (libro.destacado == "0") {
                     $("#destacado").prop('checked', false);
                 } else {
@@ -36,7 +38,7 @@ $(function () {
                 }
                 app.recuperarCaracteristicas(libro.id);
                 app.recuperarClasificaciones(libro.id);
-                console.log(libro);
+                //console.log(libro);
             }
         };
 
@@ -153,26 +155,32 @@ $(function () {
             $(div).html("");
         };
 
-        app.cargarFormulario = function () {
-            app.comboPublicacion();
-            app.comboAutor();
-            app.comboEditorial();
-            app.comboIdioma();
+        app.cargarFormulario = function (datoSelected) {
+
+            app.comboPublicacion(datoSelected.publicacion);
+            app.comboAutor(datoSelected.autor);
+            app.comboEditorial(datoSelected.editorial);
+            app.comboIdioma(datoSelected.idioma);
             app.listarClasificaciones();
             app.listarCaracteristicas();
         };
 
-        app.comboPublicacion = function () {
-            var inicio = 2000;
+        app.comboPublicacion = function (publicacionSelected) {
+            var inicio = 1800;
             var fin = 2015;
             var html = "";
+
             for (; inicio < fin; inicio++) {
-                html += '<option value="' + inicio + '">' + inicio + '</option>';
+                if (publicacionSelected == inicio)
+                    html += '<option selected value="' + inicio + '">' + inicio + '</option>';
+                else
+                    html += '<option value="' + inicio + '">' + inicio + '</option>';
             }
+
             $("#publi").html(html);
         };
 
-        app.comboIdioma = function () {
+        app.comboIdioma = function (idiomaSelected) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -188,7 +196,11 @@ $(function () {
                     var fin = data.length;
                     var html = "";
                     for (; inicio < fin; inicio++) {
-                        html += '<option value="' + data[inicio].id_idioma + '">' + data[inicio].nombre + '</option>';
+                        if (idiomaSelected == data[inicio].nombre)
+                            html += '<option selected value="' + data[inicio].id_idioma + '">' + data[inicio].nombre + '</option>';
+                        else
+                            html += '<option value="' + data[inicio].id_idioma + '">' + data[inicio].nombre + '</option>';
+
                     }
                     $("#idioma").html(html);
                 },
@@ -269,7 +281,7 @@ $(function () {
             $("#arbol").jstree('open_all');
         };
 
-        app.comboAutor = function () {
+        app.comboAutor = function (autorSelected) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -285,14 +297,18 @@ $(function () {
                     var fin = data.length;
                     var html = "";
                     for (; inicio < fin; inicio++) {
-                        html += '<option value="' + data[inicio].id_autor + '">' + data[inicio].nombre_autor + '</option>';
+                        if (autorSelected == data[inicio].id_autor)
+                            html += '<option selected value="' + data[inicio].id_autor + '">' + data[inicio].nombre_autor + '</option>';
+                        else
+                            html += '<option value="' + data[inicio].id_autor + '">' + data[inicio].nombre_autor + '</option>';
+
                     }
                     $("#autor").html(html);
                 }
             });
         };
 
-        app.comboEditorial = function () {
+        app.comboEditorial = function (editorialSelected) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -308,7 +324,11 @@ $(function () {
                     var fin = data.length;
                     var html = "";
                     for (; inicio < fin; inicio++) {
-                        html += '<option value="' + data[inicio].id_editorial + '">' + data[inicio].nombre_editorial + '</option>';
+                        if (editorialSelected == data[inicio].id_editorial)
+                            html += '<option selected value="' + data[inicio].id_editorial + '">' + data[inicio].nombre_editorial + '</option>';
+                        else
+                            html += '<option value="' + data[inicio].id_editorial + '">' + data[inicio].nombre_editorial + '</option>';
+
                     }
                     $("#editorial").html(html);
                 }

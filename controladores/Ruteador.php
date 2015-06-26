@@ -26,7 +26,6 @@ try {
     $resultado = $refControlador->$accion($datosFormulario);
     
     echo json_encode($resultado);
-    print_r(json_encode($resultado));
     $refPersistencia->confirmarTransaccion();
 } catch (Exception $ex) {
     echo $ex->getMessage();
