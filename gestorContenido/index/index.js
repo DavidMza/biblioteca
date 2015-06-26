@@ -109,12 +109,9 @@ $(function () {
             alert("entro");
             var pass1 = $("#password1").val();
             var pass2 = $("#password2").val();
-            alert(pass1.length);
             if (pass1 == pass2) {
-                alert(pass1.lenght > 0);
-                if (pass1.lenght > 0) {
-                    
-                    //app.cambiar(pass1);
+                if (pass1.length > 0) {
+                    app.cambiar(pass1);
                 }else{
                     alert("No has llenado los campos");
                 }

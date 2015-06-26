@@ -80,10 +80,10 @@ class ControladorUsuario extends ControladorGeneral {
         return $listado[0]["MAX(id_usuario)"];
     }
     
-    private function cambiarPass($datos){
+    public function cambiarPass($datos){
         try{
             session_start();
-            $parametros = array("nuevaPass" => $datos["pass"], "idUsuario" => $_SESSION["usuario"]);
+            $parametros = array("nuevaPass" => $datos["password1"], "idUsuario" => $_SESSION["usuario"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
         }  catch (Exception $e){
             throw new Exception("cambiarPass-usuario: " . $e->getMessage());

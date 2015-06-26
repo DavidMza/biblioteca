@@ -135,19 +135,19 @@ $(function () {
                     q = "q=" + q;
                     var url = "http://isbndb.com/api/v2/xml/NZ6JDLQG/books";
                     $.ajax({
-                        url: url,
+                     url: url,
                         method: 'GET',
                         dataType: 'xmlhttp',
-                        data: q,
-                        success: function (data) {
+                     data: q,
+                     success: function (data) {
                             alert(data);
-                            console.log(data);
-                        },
-                        error: function (data) {
-                            alert(data.responseText);
-                        }
-                    });
-                }
+                     console.log(data);
+                     },
+                     error: function (data) {
+                     alert(data.responseText);
+                     }
+                     });
+                 }
             });
 
             $("input:file").change(function () {
