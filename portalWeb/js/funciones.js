@@ -63,9 +63,7 @@ $(function () {
         };
 
         app.limpiarModal = function () {    //funcion para limpiar los textbox del modal
-            $("#id").val(0);
-            $("#index").val(-1);
-            $("#nombre").val('');
+
         };
 
         app.init();

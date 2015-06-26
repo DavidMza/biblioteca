@@ -48,7 +48,7 @@
                         </li>
                     </ul>
                     <form class="navbar-form navbar-right" method="get" action="index.php">
-                        <input class="form-control" type="text" name="q" id="q" placeholder="Search...">
+                        <input class="form-control" type="text" name="q" id="q" placeholder="Buscar libro...">
                     </form>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -79,8 +79,13 @@
                 <div class="col-lg-12">
                     <ul class="pagination">
                         <?php
-//Dibujo los botones para navegar
-                        echo paginar($pag, $total, $tampag, "index.php?pag=");
+                        //Dibujo los botones para navegar
+                        if ($banderaBusqueda) {
+                            echo paginar($pag, $total, $tampag, "index.php?q=" . $getBuscar . "&pag=");
+                        }else{
+                            echo paginar($pag, $total, $tampag, "index.php?pag=");
+                        }
+                        
                         ?>
                     </ul>
                 </div>

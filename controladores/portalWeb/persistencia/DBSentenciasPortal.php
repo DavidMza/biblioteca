@@ -17,5 +17,5 @@ INNER JOIN fotos ON id_libro_foto = id_libro
 INNER JOIN editoriales ON id_editorial = id_editorial_libro
 INNER JOIN idioma ON idioma_libro = id_idioma
 WHERE
-titulo_libro LIKE ? OR nombre_autor LIKE ? OR `nombre_editorial` LIKE ? OR idioma.`nombre` LIKE ?;";
+titulo_libro LIKE ? OR nombre_autor LIKE ? OR `nombre_editorial` LIKE ? OR idioma.`nombre` LIKE ? LIMIT ?, ?";
 }

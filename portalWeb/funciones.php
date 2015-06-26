@@ -1,8 +1,9 @@
 <?php
 
-        const ruta = "../";
+const ruta = "../";
 
 $refControladorPersistencia = ControladorPersistencia::obtenerCP();
+
 if (isset($_GET["pag"])) {
     $pag = $_GET["pag"];
 }
@@ -17,7 +18,7 @@ if (!isset($pag)) {
  * Devuelve un texto que representa la paginacion
  */
 
-function paginar($actual, $total, $por_pagina, $enlace) {
+function paginar($actual, $total, $por_pagina, $enlace, $bandera = null) {
     $total_paginas = ceil($total / $por_pagina);
     $anterior = $actual - 1;
     $posterior = $actual + 1;
@@ -50,7 +51,7 @@ function paginar($actual, $total, $por_pagina, $enlace) {
         $texto .= "<a href='$enlace$posterior'>Siguiente</a>";
         $texto .= "</li>";
     } else {
-        $texto .= "<b></b>";
+        $texto .= "";
     }
     return $texto;
 }
@@ -69,12 +70,19 @@ function reemplazarSignos($p) {
     return $query;
 }
 
-$resultado;
+//$resultado;
+
+$parametros = array("reg1" => $reg1, "tampag" => $tampag);
+$bandera = false;
 if (isset($_GET["q"])) {
+    $banderaBusqueda = true;
+    //print_r($_GET["q"]);
+    $getBuscar = $_GET["q"];
     $query = str_replace("LIKE ?", "LIKE '" . $_GET["q"] . "%'", DBSentenciasPortal::BUSCAR);
+    $query = str_replace("?, ?", $parametros["reg1"] . " , " . $parametros["tampag"], $query);
     $resultado = $refControladorPersistencia->ejecutarSentencia($query);
 } else {
-    $parametros = array("reg1" => $reg1, "tampag" => $tampag);
+    $banderaBusqueda = false;
     $resultado = $refControladorPersistencia->ejecutarSentencia(reemplazarSignos($parametros));
 }
 $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
