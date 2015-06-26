@@ -137,9 +137,10 @@ $(function () {
                     $.ajax({
                         url: url,
                         method: 'GET',
-                        dataType: 'json',
+                        dataType: 'xmlhttp',
                         data: q,
                         success: function (data) {
+                            alert(data);
                             console.log(data);
                         },
                         error: function (data) {

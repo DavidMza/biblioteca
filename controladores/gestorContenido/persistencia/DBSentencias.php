@@ -49,6 +49,7 @@ interface DBSentencias {
     const AGREGAR_USUARIO = "INSERT INTO usuario (nombre_usuario,clave_usuario,fecha_alta_usuario,id_tipo_tipo_usuario) VALUES(?,?,CURDATE(),1)";
     const ULTIMO_ID_USUARIO = "SELECT MAX(id_usuario) FROM usuario;";
     const ELIMINAR_USUARIO = "UPDATE usuario SET borrado = 1, fecha_baja_usuario = CURDATE() WHERE id_usuario = ?;";
+    const CAMBIAR_PASSWORD = "UPDATE usuario SET clave_usuario = ? WHERE id_usuario = ?";
     //CLASIFICACIONES
     const LISTAR_CLASIFICACIONES = "SELECT id_clasificacion AS id, id_clasificacion_padre AS parent, denominacion_clasificacion AS 'text' FROM clasificaciones WHERE borrado = 0";
     const LISTAR_CLASIFICACIONES_X_USUARIO = "SELECT id_clasificacion AS id, id_clasificacion_padre AS parent, denominacion_clasificacion AS 'text' FROM clasificaciones INNER JOIN log_clasificaciones ON id_clasificacion = id_clasificacion_log_clasificacion WHERE borrado = 0 AND ((id_usuario_log_clasificacion = ? AND id_accion_log_clasificacion = 1) OR ISNULL(id_clasificacion_padre));";

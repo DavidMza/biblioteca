@@ -53,6 +53,10 @@ $(function () {
                 $.getScript("../caracteristica/caracteristica.js");
             });
             
+            $("#btcambiar").on('click', function (event){
+                app.comprobarClaves();
+            });
+            
         };
 
         app.logout = function () {
@@ -75,6 +79,49 @@ $(function () {
                     alert(data.responseText);
                 }
             });
+        };
+        
+        app.cambiar = function (pass) {
+
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.formulario = "Usuario";
+            datos.accion = "cambiarPass";
+            datos.seccion = "gestor";
+            datos.usuario = sessionStorage.usuario;
+            datos.clave = $.md5(pass);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+                    alert("Tu contraseña ha sido cambiada con éxito");
+                    window.location = "../index/";
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        };
+        
+        app.comprobarClaves = function (){
+            alert("entro");
+            var pass1 = $("#password1").val();
+            var pass2 = $("#password2").val();
+            alert(pass1.length);
+            if (pass1 == pass2) {
+                alert(pass1.lenght > 0);
+                if (pass1.lenght > 0) {
+                    
+                    //app.cambiar(pass1);
+                }else{
+                    alert("No has llenado los campos");
+                }
+                
+            }else{
+                alert("Las claves no coinciden");
+            }
         };
 
         app.init();

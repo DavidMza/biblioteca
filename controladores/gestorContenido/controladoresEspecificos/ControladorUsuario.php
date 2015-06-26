@@ -79,5 +79,15 @@ class ControladorUsuario extends ControladorGeneral {
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
         return $listado[0]["MAX(id_usuario)"];
     }
+    
+    private function cambiarPass($datos){
+        try{
+            session_start();
+            $parametros = array("nuevaPass" => $datos["pass"], "idUsuario" => $_SESSION["usuario"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
+        }  catch (Exception $e){
+            throw new Exception("cambiarPass-usuario: " . $e->getMessage());
+        }
+    }
 
 }
