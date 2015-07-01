@@ -78,7 +78,7 @@ if (isset($_GET["q"])) {
     $banderaBusqueda = true;
     //print_r($_GET["q"]);
     $getBuscar = $_GET["q"];
-    $query = str_replace("LIKE ?", "LIKE '" . $_GET["q"] . "%'", DBSentenciasPortal::BUSCAR);
+    $query = str_replace("LIKE ?", "LIKE '" . $_GET["q"] . "%'", DBSentenciasPortal::BUSCAR_LIBRO);
     $query = str_replace("?, ?", $parametros["reg1"] . " , " . $parametros["tampag"], $query);
     $resultado = $refControladorPersistencia->ejecutarSentencia($query);
 } else {
