@@ -22,7 +22,7 @@ class ControladorLibroPortal extends ControladorGeneralPortal {
 
     public function listarLibrosPortada($datos) {
         try {
-            $tampag = $datos["tamanoPagina"]; //Cantidad de registros a mostrar pr pagina
+            $tampag = $datos["tamanoPagina"]; //Cantidad de registros a mostrar por pagina
             $pag = $datos["pagina"]; //Pagina que quiero mostrar
             $reg1 = ($pag - 1) * $tampag;
             $parametros = array("reg1" => $reg1, "tampag" => $tampag);

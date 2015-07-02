@@ -5,7 +5,7 @@ $(function() {
     var registrosPorPagina = 3;
     var buscar = false;
     (function(app) {
-        var segundos = 0.2;
+        var segundos = 0.3;
         app.init = function() {
             app.listarLibrosPortada("1");
             app.dibujarBotonesPaginacion(1, registrosPorPagina);
@@ -35,6 +35,7 @@ $(function() {
                 buscar = true;
                 //alert($("#buscar").val());
                 app.listarLibrosPortada(1);
+                app.dibujarBotonesPaginacion(1, registrosPorPagina)
             });
 
         };
@@ -42,7 +43,7 @@ $(function() {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.pagina = pagina;
-            datos.tamanoPagina = "3";
+            datos.tamanoPagina = registrosPorPagina;
             datos.seccion = "portal";
             datos.formulario = "LibroPortal";
             if (buscar) {
@@ -107,6 +108,7 @@ $(function() {
             });
         };
         app.dibujarBotonesPaginacion = function(actual, por_pagina) {
+
             setTimeout(function() { //duermo 1 segundo para que los botones de paginacion carguen correctamente
                 /* actual => pagina actual
                  * total => cantidad de registros
