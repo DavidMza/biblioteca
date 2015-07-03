@@ -20,17 +20,14 @@ $(function() {
                 $("#modalLibroPortal").modal({show: true});
                 app.traerDatos($(this).data("id"));
             });
-
             $("a.paginate_button").on('click', function(event) {
                 //alert($(this).data("id"));
                 app.listarLibrosPortada($(this).data("id"));
                 app.dibujarBotonesPaginacion($(this).data("id"), registrosPorPagina);
-
                 setTimeout(function() { //duermo unos instantes para que bindings conozca lo escrito por js
                     app.bindings();
                 }, (segundos * 1000));
             });
-
             $("#btBuscar").on('click', function(event) {
                 buscar = true;
                 //alert($("#buscar").val());
@@ -38,6 +35,15 @@ $(function() {
                 app.dibujarBotonesPaginacion(1, registrosPorPagina)
             });
 
+            $("#tamanoPagina").on('change', function(event) {
+                //alert($(this).val())
+                registrosPorPagina = $(this).val();
+                app.listarLibrosPortada(1);
+                app.dibujarBotonesPaginacion(1, registrosPorPagina);
+                setTimeout(function() { //duermo unos instantes para que bindings conozca lo escrito por js
+                    app.bindings();
+                }, (segundos * 1000));
+            });
         };
         app.listarLibrosPortada = function(pagina) {
             var url = locacion + "controladores/Ruteador.php";
@@ -65,7 +71,6 @@ $(function() {
                     alert(data.responseText);
                 }
             });
-
         };
         app.traerDatos = function(id) {
             var url = locacion + "controladores/Ruteador.php";
@@ -96,6 +101,12 @@ $(function() {
                     $("#celdas").html(div);
                     return;
                 }
+
+                if (!((clave + 1) % 3) || clave == 0) {
+                    div += '<div class = "row" >';
+                }
+
+                div += '<!-- FILA ' + (clave + 1) + ' -->';
                 div += '<div class="col-md-4 portfolio-item">';
                 div += '<a>';
                 div += '<img class="img-responsive" src="../' + libro.ruta + '" alt="" width="150" height="300">';
@@ -105,7 +116,12 @@ $(function() {
                 div += '</h3>';
                 div += '<p>' + libro.autor + '</p>';
                 div += '</div>';
+
+                if (!((clave + 1) % 3)) {
+                    div += '</div>';
+                }
             });
+            app.truncarTexto();
         };
         app.dibujarBotonesPaginacion = function(actual, por_pagina) {
 
@@ -153,7 +169,8 @@ $(function() {
                 }
                 texto += "</ul>"
 
-                $("#botonesPagina").html(texto);
+                $("#botonesPaginaFoot").html(texto);
+                $("#botonesPaginaHead").html(texto);
             }, (segundos * 1000));
         };
         app.cargarModal = function(data) {
@@ -168,6 +185,13 @@ $(function() {
             $("#editorial").html(data[0].editorial);
             $("#modalLibroPortal").modal({show: true});
         };
+
+        app.truncarTexto = function() {
+            $(".titulo").trunk8({
+                width: 11
+            });
+        };
+
         app.imprimir = function() {    //funcion para imprimir
             var aux = $("#tablaEditorial").html(); //recupero el html del la tablaEditorial
             aux = aux.replace("<thead>", ""); //reemplazo el <thead> por cadena vacia
@@ -176,7 +200,6 @@ $(function() {
             $("#imprimirEditorial").attr("action", locacion + "controladores/Imprimir.php");
             $("#imprimirEditorial").submit(); //imprimo
         };
-
         app.init();
     })(TallerAvanzada);
 });

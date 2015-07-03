@@ -57,6 +57,7 @@
         <!-- Page Content -->
         <div class="container">
 
+
             <!-- Page Header -->
             <div class="row">
                 <div class="col-lg-12">
@@ -65,42 +66,37 @@
                     </h1>
                 </div>
             </div>
+            <div>
+                Cantidad de libros a mostrar: 
+                <select class="form-group-sm" id="tamanoPagina">
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
             <!-- /.row -->
-            <!-- Projects Row -->
-            <div class='row'>
-                <div id="celdas">
-                    <!--div class="col-md-4 portfolio-item">
-                        <a>
-                            <img class="img-responsive" src="" alt="" width="150" height="300">
-                        </a>
-                        <h3>
-                            <a data-id="idlibro" class="titulo">Titulo libro</a>
-                        </h3>
-                        <p>Autor</p>
-                    </div-->
+            <div class="row text-center">
+                <div class="col-lg-12">
+                    <div id="botonesPaginaHead">
+                        <img src="../recursos/portalWeb/imagenes/cargando.gif" alt=""/>
+                    </div>
                 </div>
+            </div>
+            <hr>
+            <!-- Projects Row -->
+
+            <div id="celdas">
+
             </div>
 
             <!-- /.row -->
             <hr>
             <!-- Pagination -->
-
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <div id="botonesPagina">
+                    <div id="botonesPaginaFoot">
                         <img src="../recursos/portalWeb/imagenes/cargando.gif" alt=""/>
                     </div>
-                    <!--ul class="pagination">
-                        <!--?php
-                        //Dibujo los botones para navegar
-                        if ($banderaBusqueda) {
-                        echo paginar($pag, $total, $tampag, "index.php?q=" . $getBuscar . "&pag=");
-                        }else{
-                        echo paginar($pag, $total, $tampag, "index.php?pag=");
-                        }
-
-                        ?>
-                    </ul-->
                 </div>
             </div>
             <!-- /.row -->
@@ -114,7 +110,6 @@
                 </div>
                 <!-- /.row -->
             </footer>
-
         </div>
         <!-- /.container -->
 
@@ -181,8 +176,11 @@
         <!-- jQuery -->
         <script src="../recursos/portalWeb/js/jquery.js" type="text/javascript"></script>
 
+
+        <script src="../recursos/trunk8/trunk8.min.js" type="text/javascript"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="../recursos/portalWeb/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/funciones2.js" type="text/javascript"></script>
+
     </body>
 </html>
