@@ -7,6 +7,7 @@ $(function () {
         var caract = [];
         var fotos = [];
         var libro;
+        var librosApi;
         app.init = function () {
             var datosCombo = {};
 
@@ -127,43 +128,44 @@ $(function () {
             });
         };
 
+        app.consumirAPI = function () {
+            var url = locacion + "controladores/Ruteador.php";
+            var datos = {};
+            datos.titulo = $("#titulo").val();
+            datos.accion = "buscar";
+            datos.formulario = "ApiExterna";
+            datos.seccion = "gestor";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datos,
+                success: function (data) {
+                    //$('#tablaLibrosApi').dataTable().fnDestroy();
+                    data = JSON.parse(data);
+                    console.log(data);
+                    librosApi = $('#tablaLibrosApi').dataTable({
+                        data: data.data,
+                        "columns": [
+                            {"ISBN": "isbn13"},
+                            {"Titulo": "title_latin"},
+                            {"Autor": "title"},
+                            {"Editorial": "publisher_name"}
+                        ]
+                    }).api();
+                    $("#modalLibrosApi").modal({show: true});
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+            
+        };
+
         app.bindings = function () {
 
             $("#btnWebService").on('click', function (event) {
-                alert("asd");
-                var q = $("#titulo").val().trim();
-                if (q != "") {
-                    q = "q=" + q;
-                    var url = "http://isbndb.com/api/v2/json/NZ6JDLQG/books?";
-                    //var url = "http://isbndb.com/api/books.xml?access_key=" + "NZ6JDLQG" + "&index1=isbn&value1=" + q;
-                    //var xhr = new XMLHttpRequest();
-                    //xhr.open("GET", url, false);
-                    //xhr.send();
-
-                    //console.log(xhr.status);
-                    //console.log(xhr.statusText);
-                    try {
-                        var respuesta = $.ajax({
-                            url: url,
-                            //method: 'GET',
-                            //crossDomain: true,
-                            dataType: 'jsonp',
-                            data: q,
-                            success: function (data) {
-                                alert(data);
-                                console.log(data);
-                            },
-                            error: function (data) {
-                                alert("fallo")
-                                console.log(data);
-                                alert(JSON.parse(data));
-                            }
-                        });
-                    } catch (e) {
-                        console.log(e);
-                    }
-                    //console.log(respuesta);
-                }
+                app.consumirAPI();
             });
 
             $("input:file").change(function () {

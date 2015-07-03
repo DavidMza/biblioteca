@@ -1,5 +1,23 @@
 <div id="cuerpoFormulario">
     
+    <script src="../../recursos/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <link href="../../recursos/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../../recursos/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
+    <link href="../../recursos/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../recursos/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../recursos/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="../../recursos/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/datatable/dataTables.bootstrap.js" type="text/javascript"></script>
+    <link href="../../recursos/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
+    <link href="../../recursos/jsTree/themes/default-dark/style.min.css" rel="stylesheet" type="text/css"/>
+    <script src="../../recursos/jsTree/jstree.min.js" type="text/javascript"></script>
+    
+    <script src="agregarLibro.js" type="text/javascript"></script>
+    
+    
     
     
     <form id="formLibro" class="form-horizontal"
@@ -21,7 +39,7 @@
             <div class="form-group">
                 <label class='col-lg-2'>Titulo</label>
                 <div class='col-lg-4'>
-                    <input class="form-control" type="text" id="titulo" name="titulo"
+                    <input class="form-control" type="text" id="titulo" value="Alquimista" name="titulo"
                            data-bv-notempty="true"
                            data-bv-notempty-message="Debes completar este campo">
                 </div>
@@ -130,5 +148,33 @@
             <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
         </div>
     </form>
+    
+    
+    
+    
+    <div class="modal fade" id="modalLibrosApi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formLibro" class="form-horizontal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="tituloModal">Libros API</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table" id="tablaLibrosApi">
+                            <th>ISBN</th>
+                            <th>Titulo</th>
+                            <th>Autor</th>
+                            <th>Editorial</th>
+                            <tbody id="cuerpoTablaLibrosApi"></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>

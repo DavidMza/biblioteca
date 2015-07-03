@@ -43,11 +43,6 @@ $(function () {
                 $.getScript("../clasificacion/clasificacion.js");
                 $.getScript("../../recursos/jsTree/jstree.min.js");
             });
-            $("#refImagen").on('click', function (event) {
-                $("#contenido").load('../imagenes/imagen.html #contenido');
-                $.getScript("../imagenes/imagen2.js");
-                
-            });
             $("#refCaracteristica").on('click', function (event) {
                 $("#contenido").load('../caracteristica/caracteristica.html #contenido');
                 $.getScript("../caracteristica/caracteristica.js");
