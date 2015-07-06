@@ -141,16 +141,16 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    //$('#tablaLibrosApi').dataTable().fnDestroy();
-                    data = JSON.parse(data);
+                    $('#tablaLibrosApi').dataTable().fnDestroy();
                     console.log(data);
+                    //data = data;
                     librosApi = $('#tablaLibrosApi').dataTable({
-                        data: data.data,
+                        data: data,
                         "columns": [
-                            {"ISBN": "isbn13"},
-                            {"Titulo": "title_latin"},
-                            {"Autor": "title"},
-                            {"Editorial": "publisher_name"}
+                            {"ISBN": "isbn"},
+                            {"Titulo": "titulo"},
+                            {"Autor": "autor"},
+                            {"Editorial": "editorial"}
                         ]
                     }).api();
                     $("#modalLibrosApi").modal({show: true});
@@ -159,7 +159,7 @@ $(function () {
                     alert(data.responseText);
                 }
             });
-            
+
         };
 
         app.bindings = function () {

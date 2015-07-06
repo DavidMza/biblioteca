@@ -11,9 +11,23 @@ class ControladorApiExterna extends ControladorGeneral {
 
     public function buscar($datos) {
         try {
-            $uri = "http://isbndb.com/api/v2/json/NZ6JDLQG/books?q=".$datos["titulo"];
-            $response = file_get_contents($uri);
-            return $response;
+            $uri = "http://isbndb.com/api/v2/json/NZ6JDLQG/books?q=" . $datos["titulo"];
+            $r = file_get_contents($uri);
+            $r = json_decode($r);
+            $retorno = array();
+            $i = 0;
+            foreach ($r->data as $value) {
+                unset($aux);
+                $aux = array();
+                $retorno[$i] = array("isbn" =>$value->isbn13,"titulo" => $value->title_latin,"autor" =>$value->author_data[0]->name,"editorial" =>$value->publisher_name);
+                //$retorno[$i]["titulo"] = $value->title_latin;
+                //$retorno[$i]["isbn"] = $value->isbn13;
+                //$retorno[$i]["autor"] = $value->author_data[0]->name;
+                //$retorno[$i]["editorial"] = $value->publisher_name;
+                //$retorno[$i] = $aux;
+                $i++;
+            }
+            return $retorno;
         } catch (Exception $e) {
             throw new Exception("ApiExterna-buscar: " . $e->getMessage());
         }
