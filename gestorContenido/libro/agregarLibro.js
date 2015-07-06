@@ -1,14 +1,14 @@
-$(function () {
+$(function() {
     var TallerAvanzada = {};
     var locacion = "http://" + window.location.host + "/biblioteca/";
-    (function (app) {
+    (function(app) {
         var caracteristicas;
         var clasif = [];
         var caract = [];
         var fotos = [];
         var libro;
         var librosApi;
-        app.init = function () {
+        app.init = function() {
             var datosCombo = {};
 
             app.bindings();
@@ -45,7 +45,7 @@ $(function () {
             app.cargarFormulario(datosCombo);
         };
 
-        app.recuperarCaracteristicas = function (id) {
+        app.recuperarCaracteristicas = function(id) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.id = id;
@@ -57,19 +57,21 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
-                    $.each(data, function (clave, valor) {
+                success: function(data) {
+                    $.each(data, function(clave, valor) {
                         caract.push(valor.id);
                         $("#caract").append("<label>" + valor.text + "</label><br>");
                     });
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
         };
 
-        app.recuperarFoto = function (id) {
+
+
+        app.recuperarFoto = function(id) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.id = id;
@@ -81,7 +83,7 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
+                success: function(data) {
                     var div = $("#canvasFoto")[0];
                     //$(div).html("");
                     var canvas = document.createElement('canvas');
@@ -89,7 +91,7 @@ $(function () {
                     canvas.height = 299;
                     var contexto = canvas.getContext('2d');
                     var img = new Image();
-                    img.onload = function () {
+                    img.onload = function() {
                         canvas.width = img.width;
                         canvas.height = img.height;
                         contexto.drawImage(img, 0, 0, img.width, img.height);
@@ -98,13 +100,13 @@ $(function () {
                     div.appendChild(canvas);
                     console.log(data);
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
         };
 
-        app.recuperarClasificaciones = function (id) {
+        app.recuperarClasificaciones = function(id) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.id = id;
@@ -116,19 +118,19 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
-                    $.each(data, function (clave, valor) {
+                success: function(data) {
+                    $.each(data, function(clave, valor) {
                         clasif.push(valor.id);
                         $("#clasif").append("<label>" + valor.text + "</label><br>");
                     });
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
         };
 
-        app.consumirAPI = function () {
+        app.consumirAPI = function() {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.titulo = $("#titulo").val();
@@ -140,35 +142,41 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
-                    $('#tablaLibrosApi').dataTable().fnDestroy();
-                    console.log(data);
+                success: function(data) {
+                    var arrayDatos = [];
+                    var datosRecibidos = {};
                     //data = data;
-                    librosApi = $('#tablaLibrosApi').dataTable({
-                        data: data,
-                        "columns": [
-                            {"ISBN": "isbn"},
-                            {"Titulo": "titulo"},
-                            {"Autor": "autor"},
-                            {"Editorial": "editorial"}
-                        ]
-                    }).api();
+                    app.cargarTablaWebService(data);
                     $("#modalLibrosApi").modal({show: true});
+
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
 
         };
 
-        app.bindings = function () {
+        app.cargarTablaWebService = function(data) {
+            $('#tablaLibrosApi').dataTable().fnDestroy();
+            librosApi = $('#tablaLibrosApi').dataTable({
+                data: data,
+                "columns": [
+                    {"data": "isbn"},
+                    {"data": "titulo"},
+                    {"data": "autor"},
+                    {"data": "editorial"}
+                ]
+            }).api();
+        };
 
-            $("#btnWebService").on('click', function (event) {
+        app.bindings = function() {
+
+            $("#btnWebService").on('click', function(event) {
                 app.consumirAPI();
             });
 
-            $("input:file").change(function () {
+            $("input:file").change(function() {
                 app.limpiarFotos();
                 var arch = $(this)[0].files[0];
                 var div = $("#canvasFoto")[0];
@@ -179,7 +187,7 @@ $(function () {
                 var contexto = canvas.getContext('2d');
                 var url = URL.createObjectURL(arch);
                 var img = new Image();
-                img.onload = function () {
+                img.onload = function() {
                     canvas.width = img.width;
                     canvas.height = img.height;
                     contexto.drawImage(img, 0, 0, img.width, img.height);
@@ -202,12 +210,12 @@ $(function () {
                 //app.mostrarVistaPrevia();
             });
 
-            $("#refLog").on('click', function (event) {
+            $("#refLog").on('click', function(event) {
                 $("#contenido").load('../libro/log/logLibro.html #contenido');
                 $.getScript("../libro/log/logLibro.js");
             });
 
-            $('#tablaCaract tbody').on('click', 'tr', function () {
+            $('#tablaCaract tbody').on('click', 'tr', function() {
                 var data = caracteristicas.row(this).data();
                 if (caract.indexOf(data.id_caracteristicas) == -1) {
                     caract.push(data.id_caracteristicas);
@@ -216,7 +224,7 @@ $(function () {
                 }
             });
 
-            $("#guardar").on("click", function (event) {
+            $("#guardar").on("click", function(event) {
                 //event.preventDefault();
                 if ($("#id").val() == 0) {
                     app.guardar();
@@ -225,7 +233,7 @@ $(function () {
                 }
             });
 
-            $("#arbol").bind("select_node.jstree", function (e, data) {
+            $("#arbol").bind("select_node.jstree", function(e, data) {
                 if (data.node.id != '1') {
                     if (clasif.indexOf(data.node.id) == -1) {
                         clasif.push(data.node.id);
@@ -235,17 +243,17 @@ $(function () {
                 }
             });
 
-            $("#btnLimpiarClasif").on("click", function (event) {
+            $("#btnLimpiarClasif").on("click", function(event) {
                 clasif = [];
                 $("#clasif").html("");
             });
 
-            $("#btnLimpiarCaract").on("click", function (event) {
+            $("#btnLimpiarCaract").on("click", function(event) {
                 caract = [];
                 $("#caract").html("");
             });
 
-            $("#btnEliminar").on("click", function (event) {
+            $("#btnEliminar").on("click", function(event) {
                 app.eliminar($("#id").val());
             });
 
@@ -254,12 +262,12 @@ $(function () {
             });
         };
 
-        app.limpiarFotos = function () {
+        app.limpiarFotos = function() {
             var div = $("#canvasFoto")[0];
             $(div).html("");
         };
 
-        app.cargarFormulario = function (datoSelected) {
+        app.cargarFormulario = function(datoSelected) {
 
             app.comboPublicacion(datoSelected.publicacion);
             app.comboAutor(datoSelected.autor);
@@ -269,7 +277,7 @@ $(function () {
             app.listarCaracteristicas();
         };
 
-        app.comboPublicacion = function (publicacionSelected) {
+        app.comboPublicacion = function(publicacionSelected) {
             var inicio = 1800;
             var fin = 2015;
             var html = "";
@@ -283,7 +291,7 @@ $(function () {
             $("#publi").html(html);
         };
 
-        app.comboIdioma = function (idiomaSelected) {
+        app.comboIdioma = function(idiomaSelected) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -294,7 +302,7 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
+                success: function(data) {
                     var inicio = 0;
                     var fin = data.length;
                     var html = "";
@@ -307,13 +315,13 @@ $(function () {
                     }
                     $("#idioma").html(html);
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
         };
 
-        app.listarCaracteristicas = function () {
+        app.listarCaracteristicas = function() {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -324,17 +332,17 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
+                success: function(data) {
                     app.cargarTablaCaract(data);
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
 
         };
 
-        app.cargarTablaCaract = function (data) {
+        app.cargarTablaCaract = function(data) {
             $('#tablaCaract').dataTable().fnDestroy();
             caracteristicas = $('#tablaCaract').dataTable({
                 scrollY: "150px",
@@ -357,7 +365,7 @@ $(function () {
             }).api();
         };
 
-        app.listarClasificaciones = function () {
+        app.listarClasificaciones = function() {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -368,23 +376,23 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
+                success: function(data) {
                     app.ArmarArbol(data);
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
         };
 
-        app.ArmarArbol = function (data) {
+        app.ArmarArbol = function(data) {
             $('#arbol').jstree({'core': {
                     'data': data
                 }});
             $("#arbol").jstree('open_all');
         };
 
-        app.comboAutor = function (autorSelected) {
+        app.comboAutor = function(autorSelected) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -395,7 +403,7 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
+                success: function(data) {
                     var inicio = 0;
                     var fin = data.length;
                     var html = "";
@@ -411,7 +419,7 @@ $(function () {
             });
         };
 
-        app.comboEditorial = function (editorialSelected) {
+        app.comboEditorial = function(editorialSelected) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.accion = "listar";
@@ -422,7 +430,7 @@ $(function () {
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
-                success: function (data) {
+                success: function(data) {
                     var inicio = 0;
                     var fin = data.length;
                     var html = "";
@@ -438,7 +446,7 @@ $(function () {
             });
         };
 
-        app.eliminar = function (id) {    //funcion para eliminar
+        app.eliminar = function(id) {    //funcion para eliminar
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             datos.id = $("#id").val();
@@ -450,17 +458,17 @@ $(function () {
                 url: url,
                 method: 'POST',
                 data: datos,
-                success: function (data) {
+                success: function(data) {
                     $("#contenido").load('../libro/libro.html #contenido');
                     $.getScript("../libro/libro.js");
                 },
-                error: function (data) {
+                error: function(data) {
                     alert(data.responseText);
                 }
             });
         };
 
-        app.validarDatos = function (datos) {
+        app.validarDatos = function(datos) {
             var retorno = {};
             retorno.valido = true;
             retorno.msj = "";
@@ -513,7 +521,7 @@ $(function () {
         };
 
 
-        app.guardar = function () {
+        app.guardar = function() {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             //datos.form = $("#formLibro").serialize();
@@ -543,13 +551,13 @@ $(function () {
                     method: 'POST',
                     dataType: 'json',
                     data: datos,
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data);
                         $("#contenido").load('../libro/libro.html #contenido');
                         $.getScript("../libro/libro.js");
                         //app.actualizarTabla(data, $("#id").val());
                     },
-                    error: function (data) {
+                    error: function(data) {
                         alert(data.responseText);
                     }
                 });
@@ -558,7 +566,7 @@ $(function () {
             }
         };
 
-        app.modificar = function () {
+        app.modificar = function() {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             //datos.form = $("#formLibro").serialize();
@@ -588,11 +596,11 @@ $(function () {
                     url: url,
                     method: 'POST',
                     data: datos,
-                    success: function (data) {
+                    success: function(data) {
                         $("#contenido").load('../libro/libro.html #contenido');
                         $.getScript("../libro/libro.js");
                     },
-                    error: function (data) {
+                    error: function(data) {
                         alert(data.responseText);
                     }
                 });
@@ -601,7 +609,7 @@ $(function () {
             }
         };
 
-        app.limpiarModal = function () {    //funcion para limpiar los textbox del modal
+        app.limpiarModal = function() {    //funcion para limpiar los textbox del modal
             $("#id").val(0);
             $("#index").val(-1);
             $("#nombre").val('');

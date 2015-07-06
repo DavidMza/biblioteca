@@ -4,6 +4,7 @@ $(function() {
     var totalRegistros;
     var registrosPorPagina = 3;
     var buscar = false;
+    var xx = 1;
     (function(app) {
         var segundos = 0.3;
         app.init = function() {
@@ -36,7 +37,9 @@ $(function() {
             });
 
             $("#tamanoPagina").on('change', function(event) {
-                //alert($(this).val())
+                //alert($(this).val());
+                //alert("Esto va creciendo a razon de 2^2. NO SE POR QUEEEEEEE =(");
+                
                 registrosPorPagina = $(this).val();
                 app.listarLibrosPortada(1);
                 app.dibujarBotonesPaginacion(1, registrosPorPagina);
@@ -57,6 +60,7 @@ $(function() {
                 datos.buscar = $("#buscar").val();
             } else {
                 datos.accion = "listarLibrosPortada";
+                
             }
             $.ajax({
                 url: url,
@@ -121,7 +125,7 @@ $(function() {
                     div += '</div>';
                 }
             });
-            app.truncarTexto();
+            //app.truncarTexto();
         };
         app.dibujarBotonesPaginacion = function(actual, por_pagina) {
 
