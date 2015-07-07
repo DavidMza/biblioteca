@@ -13,7 +13,7 @@ class ControladorCaracteristica extends ControladorGeneral {
 
     public function buscar($datos) {
         try {
-            $parametros = array("id" => $datos["id"]);
+            $parametros = array("id" => $datos["param"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_LIBRO_CARACTERISTICA, $parametros);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;

@@ -166,11 +166,43 @@ $(function() {
                     {"data": "titulo"},
                     {"data": "autor"},
                     {"data": "editorial"}
-                ]
+                ],
+                "columnDefs": [{
+                        "targets": 4,
+                        "render": function (data, type, row, meta) {
+                            return '<a class="pull-left seleccionar" >Seleccionar</a>';
+                        }
+                    }]
             }).api();
+        };
+        
+        app.verificarAutor = function (nameAutor){
+            var combo = $("#autor")[0];
+            var index = -1;
+            for (var i = 0; i < combo.length; i++){
+                if (combo[i].label == nameAutor) {
+                    index = combo[i].value;
+                }
+            }
+            if (index == -1) {
+                alert("El Autor no Existe");
+            }else{
+                alert(index);
+            }
+            alert(nameAutor);
         };
 
         app.bindings = function() {
+            
+            $("#cuerpoTablaLibrosApi").on('click', '.seleccionar', function (event) {
+                var fila = this.parentNode.parentNode;
+                $("#isbn").val(fila.cells[0].innerHTML);
+                $("#titulo").val(fila.cells[1].innerHTML);
+                app.verificarAutor(fila.cells[2].innerHTML);
+                //$("#autor").val(fila.cells[2].innerHTML);
+                //$("#editorial").val(fila.cells[3].innerHTML);
+                $("#modalLibrosApi").modal('hide');
+            });
 
             $("#btnWebService").on('click', function(event) {
                 app.consumirAPI();
