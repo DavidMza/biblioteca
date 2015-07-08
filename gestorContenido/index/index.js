@@ -18,6 +18,25 @@ $(function () {
         };
 
         app.bindings = function () {
+            $("#optimizar").click(function (event) {
+                var url = locacion + "controladores/Ruteador.php";
+                var datos = {};
+                datos.accion = "limpiarFotos";
+                datos.formulario = "Foto";
+                datos.seccion = "gestor";
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    dataType: 'json',
+                    data: datos,
+                    success: function (data) {
+                        alert(data+" Archivos basuras limpiados");
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            });
             $("#logout-button").click(function (event) {
                 app.logout();
             });
@@ -47,11 +66,11 @@ $(function () {
                 $("#contenido").load('../caracteristica/caracteristica.html #contenido');
                 $.getScript("../caracteristica/caracteristica.js");
             });
-            
-            $("#btcambiar").on('click', function (event){
+
+            $("#btcambiar").on('click', function (event) {
                 app.comprobarClaves();
             });
-            
+
         };
 
         app.logout = function () {
@@ -75,7 +94,7 @@ $(function () {
                 }
             });
         };
-        
+
         app.cambiar = function (pass) {
 
             var url = locacion + "controladores/Ruteador.php";
@@ -99,19 +118,19 @@ $(function () {
                 }
             });
         };
-        
-        app.comprobarClaves = function (){
+
+        app.comprobarClaves = function () {
             alert("entro");
             var pass1 = $("#password1").val();
             var pass2 = $("#password2").val();
             if (pass1 == pass2) {
                 if (pass1.length > 0) {
                     app.cambiar(pass1);
-                }else{
+                } else {
                     alert("No has llenado los campos");
                 }
-                
-            }else{
+
+            } else {
                 alert("Las claves no coinciden");
             }
         };

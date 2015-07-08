@@ -7,11 +7,11 @@ class ControladorFoto extends ControladorGeneral {
     function __construct() {
         parent::__construct();
     }
-    
+
     public function buscar($datos) {
         try {
             $parametros = array("id" => $datos["id"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_FOTO,$parametros);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_FOTO, $parametros);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {
@@ -47,7 +47,7 @@ class ControladorFoto extends ControladorGeneral {
             $FotoVieja = $this->buscar($parametros);
             $this->borrarFoto($FotoVieja[0]["ruta"]);
             $nombreFotoNueva = $this->guardarFoto($datos["fotos"]);
-            
+
             $parametros = array("ruta" => "recursos/imagenes/libros/" . $nombreFotoNueva, "id" => $FotoVieja[0]["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_FOTO, $parametros);
         } catch (Exception $e) {
@@ -55,8 +55,36 @@ class ControladorFoto extends ControladorGeneral {
         }
     }
 
-    public function borrarFoto($datos) {
-        unlink($_SERVER["DOCUMENT_ROOT"]."biblioteca/".$datos);
+    private function borrarFoto($datos) {
+        unlink($_SERVER["DOCUMENT_ROOT"] . "biblioteca/" . $datos);
+    }
+
+    private function listarFotos() {
+        $url = $_SERVER['DOCUMENT_ROOT'] . "biblioteca/recursos/imagenes/libros";
+        $listadoFotos = array();
+        $directorio = opendir($url); //ruta actual
+        while ($archivo = readdir($directorio)) { //obtenemos un archivo y luego otro sucesivamente
+            if (!is_dir($archivo)) {//verificamos si es o no un directorio
+                array_push($listadoFotos, 'recursos/imagenes/libros/'.$archivo);
+            }
+        }
+        return $listadoFotos;
+    }
+
+    public function limpiarFotos() {
+        $listadoDir = $this->listarFotos();
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_FOTOS);
+        $listadoBD = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($listadoBD as $value) {
+            if (($key = array_search($value['rutaArchivo_foto'], $listadoDir)) !== false) {
+                unset($listadoDir[$key]);
+                array_splice($listadoDir, $key, 1);
+            }
+        }
+        foreach ($listadoDir as $value) {
+            $this->borrarFoto($value);
+        }
+        return count($listadoDir);
     }
 
     public function agregar($datos) {

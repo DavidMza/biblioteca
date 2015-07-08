@@ -21,8 +21,6 @@
     
     
     
-    
-    
     <form id="formLibro" class="form-horizontal"
           data-bv-message="Este valor No es válido"
           data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
@@ -39,32 +37,37 @@
                 <input class="form-control" type="hidden" id="id" name="id">
                 <input class="form-control" type="hidden" id="index" name="index">
             </div>
-            <div class="form-group">
-                <label class='col-lg-2'>Titulo</label>
-                <div class='col-lg-4'>
-                    <input class="form-control" type="text" id="titulo" value="Alquimista" name="titulo"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="Debes completar este campo">
-                </div>
-                <div class='col-lg-2'>
-                    <input type="button" id="btnWebService" value="WebService" class="btn btn-info">
-                </div>
-                <label class='col-lg-2'>ISBN</label>
-                <div class='col-lg-4'>
-                    <input class="form-control" type="text" id="isbn" name="isbn"
-                           data-bv-notempty="true"
-                           data-bv-notempty-message="Debes completar este campo"
+            <table width="100%" >
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label>Titulo</label><br>
+                            <input class="form-control" type="text" style="width:340px" id="titulo" value="Alquimista" name="titulo"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="Debes completar este campo">
+                            <input type="button" id="btnWebService" value="WebService" class="btn btn-info">
+                        </div>
+                    </td>
+                    <td valign="top">
+                        <div class="form-group">
+                            <label>ISBN</label><br>
+                            <input class="form-control" style="width:340px" type="text" id="isbn" name="isbn"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="Debes completar este campo"
 
-                           data-bv-regexp="true"
-                           data-bv-regexp-regexp="[0-9]+"
-                           data-bv-regexp-message="Solo números en este campo"
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="[0-9]+"
+                                   data-bv-regexp-message="Solo números en este campo"
 
-                           data-bv-stringlength="true"
-                           data-bv-stringlength-min="13"
-                           data-bv-stringlength-max="13"
-                           data-bv-stringlength-message="El ISBN debe tener 13 caracteres">
-                </div>
-            </div>
+                                   data-bv-stringlength="true"
+                                   data-bv-stringlength-min="13"
+                                   data-bv-stringlength-max="13"
+                                   data-bv-stringlength-message="El ISBN debe tener 13 caracteres">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
             <div class="form-group">
                 <label class='col-lg-2'>Paginas</label>
                 <div class='col-lg-4'>

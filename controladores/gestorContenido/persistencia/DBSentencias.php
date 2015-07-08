@@ -77,6 +77,7 @@ interface DBSentencias {
     const AGREGAR_FOTO = "INSERT INTO fotos (rutaArchivo_foto, id_libro_foto) VALUES(?, ?)";
     const MODIFICAR_FOTO = "UPDATE fotos SET rutaArchivo_foto = ? WHERE id_foto = ?";
     const LISTAR_FOTO_ORDER_LIBROS = "SELECT * FROM fotos INNER JOIN libro ON id_libro_foto = id_libro ORDER BY id_libro_foto";
+    const LISTAR_FOTOS = "SELECT rutaArchivo_foto FROM fotos";
     const BUSCAR_FOTO = "SELECT rutaArchivo_foto AS ruta, id_foto AS id FROM fotos WHERE id_libro_foto = ?";
 //FOTOS
     //const AGREGAR_FOTO = "INSERT INTO `biblioteca`.`fotos`(`rutaArchivo_foto`,`id_libro_foto`) VALUES (?,?);";

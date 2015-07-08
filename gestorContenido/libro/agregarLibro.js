@@ -2,6 +2,7 @@ $(function () {
     var TallerAvanzada = {};
     var locacion = "http://" + window.location.host + "/biblioteca/";
     (function (app) {
+        var clasificaciones;
         var caracteristicas;
         var clasif = [];
         var caract = [];
@@ -212,7 +213,7 @@ $(function () {
                 $("#autor").val(index);
             }
         };
-        
+
         app.verificarEditorial = function (nameEditorial) {
             var combo = $("#editorial")[0];
             var index = -1;
@@ -326,11 +327,7 @@ $(function () {
 
             $("#arbol").bind("select_node.jstree", function (e, data) {
                 if (data.node.id != '1') {
-                    if (clasif.indexOf(data.node.id) == -1) {
-                        clasif.push(data.node.id);
-                        $("#clasif").append("<label>" + data.node.text + "</label><br>");
-                        console.log(clasif);
-                    }
+                    app.agregarClasificacion(data);
                 }
             });
 
@@ -351,6 +348,27 @@ $(function () {
             $("#formLibro").bootstrapValidator({
                 excluded: [],
             });
+        };
+
+        app.agregarClasificacion = function (data) {
+            app.agregarClasificacionPadre(data.node.parent);
+            if (clasif.indexOf(data.node.id) == -1) {
+                clasif.push(data.node.id);
+                $("#clasif").append("<label>" + data.node.text + "</label><br>");
+                console.log(clasif);
+            }
+        };
+
+        app.agregarClasificacionPadre = function (idPadre) {
+            if (idPadre != "#" && idPadre != "1") {
+                for (var i = 0; i < clasificaciones.length; i++) {
+                    if (idPadre == clasificaciones[i].id && clasif.indexOf(idPadre) == -1) {
+                        app.agregarClasificacionPadre(clasificaciones[i].parent);
+                        clasif.push(clasificaciones[i].id);
+                        $("#clasif").append("<label>" + clasificaciones[i].text + "</label><br>");
+                    }
+                }
+            }
         };
 
         app.limpiarFotos = function () {
@@ -468,6 +486,7 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
+                    clasificaciones = data;
                     app.ArmarArbol(data);
                 },
                 error: function (data) {
