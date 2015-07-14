@@ -28,4 +28,20 @@ INNER JOIN idioma ON idioma_libro = id_idioma
 WHERE
 titulo_libro LIKE ? OR nombre_autor LIKE ?";
     
+    const LISTAR_CLASIFICACIONES = "SELECT id_clasificacion AS id, id_clasificacion_padre AS parent, denominacion_clasificacion AS 'text' FROM clasificaciones WHERE borrado = 0";
+    const LISTAR_CARACTERISTICAS = "SELECT denominacion_caracteristica AS text FROM caracteristicas WHERE borrado = 0";
+    const LISTAR_LIBROS_DESTACADOS = "SELECT `titulo_libro` AS titulo,`nombre_autor` AS autor,`rutaArchivo_foto` AS ruta FROM `biblioteca`.`libro` INNER JOIN autores ON id_autor_libro = `id_autor` INNER JOIN fotos ON id_libro_foto = `id_libro` WHERE `destacado_libro` = 1 AND `libro`.`borrado` = 0 LIMIT 0, 8;";
+    const LISTAR_ULTIMOS_LIBROS = "SELECT
+  `titulo_libro` AS titulo,
+  `nombre_autor` AS autor,
+  `nombre_editorial` AS editorial,
+  `rutaArchivo_foto` AS ruta
+FROM `biblioteca`.`libro`
+INNER JOIN autores ON id_autor_libro = `id_autor`
+INNER JOIN `editoriales` ON `id_editorial` = `id_editorial_libro`
+INNER JOIN fotos ON id_libro_foto = `id_libro`
+INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
+WHERE `libro`.`borrado` = 0
+ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
+LIMIT 4;";
 }
