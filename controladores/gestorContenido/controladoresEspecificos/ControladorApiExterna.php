@@ -19,11 +19,19 @@ class ControladorApiExterna extends ControladorGeneral {
             foreach ($r->data as $value) {
                 unset($aux);
                 $aux = array();
-                $retorno[$i] = array("isbn" =>$value->isbn13,"titulo" => $value->title_latin,"autor" =>$value->author_data[0]->name,"editorial" =>$value->publisher_name);
-                //$retorno[$i]["titulo"] = $value->title_latin;
-                //$retorno[$i]["isbn"] = $value->isbn13;
-                //$retorno[$i]["autor"] = $value->author_data[0]->name;
-                //$retorno[$i]["editorial"] = $value->publisher_name;
+                //$retorno[$i] = array("isbn" =>$value->isbn13,"titulo" => $value->title_latin,"autor" =>$value->author_data[0]->name,"editorial" =>$value->publisher_name);
+                $retorno[$i]["titulo"] = $value->title_latin;
+                $retorno[$i]["isbn"] = $value->isbn13;
+                if(isset($value->author_data[0]->name)){
+                    $retorno[$i]["autor"] = $value->author_data[0]->name;
+                }else{
+                    $retorno[$i]["autor"] = "Sin Autor";
+                }
+                if($value->publisher_name != ""){
+                    $retorno[$i]["editorial"] = $value->publisher_name;
+                }else{
+                    $retorno[$i]["editorial"] = "Sin Editorial";
+                }
                 //$retorno[$i] = $aux;
                 $i++;
             }
