@@ -108,5 +108,6 @@ INNER JOIN `usuario` ON `id_usuario_log_libro` = `id_usuario` WHERE id_accion_lo
     const ULTIMO_ID_USUARIO = "SELECT MAX(id_usuario) FROM usuario;";
     const ELIMINAR_USUARIO = "UPDATE usuario SET borrado = 1, fecha_baja_usuario = CURDATE() WHERE id_usuario = ?;";
     const CAMBIAR_PASSWORD = "UPDATE usuario SET clave_usuario = ? WHERE id_usuario = ?";
+    const OBTENER_PASSWORD = "SELECT clave_usuario FROM usuario WHERE id_usuario = ?";
 
 }

@@ -83,8 +83,23 @@ class ControladorUsuario extends ControladorGeneral {
     public function cambiarPass($datos){
         try{
             session_start();
-            $parametros = array("nuevaPass" => $datos["clave"], "idUsuario" => $_SESSION["usuario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
+            $passwordActualIngresada = $datos["claveActual"];
+            
+            $parametros = array("idUsuario" => $_SESSION["usuario"]);
+            $retorno = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::OBTENER_PASSWORD, $parametros);
+            $retorno = $retorno->fetchAll(PDO::FETCH_ASSOC);
+
+            $passwordActualObtenida = $retorno[0]["clave_usuario"];
+            
+            if ($passwordActualIngresada == $passwordActualObtenida) {
+                $parametros = array("nuevaPass" => $datos["claveNueva"], "idUsuario" => $_SESSION["usuario"]);
+                $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
+                return array("retorno" => "Se ha actualizado la contrasena", "bandera" => true);
+            }else{
+                return array("retorno" => "Has introducido una contrasena incorrecta", "bandera" => false);
+            }
+            
+            
         }  catch (Exception $e){
             throw new Exception("cambiarPass-usuario: " . $e->getMessage());
         }

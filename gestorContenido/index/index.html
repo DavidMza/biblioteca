@@ -28,10 +28,16 @@
             <div style="color: white;
                  padding: 15px 50px 5px 50px;
                  float: right;
-                 font-size: 16px;">
-                <label id="nombre_usuario">
-
-                </label> &nbsp; <a class="btn btn-danger square-btn-adjust" id="logout-button" >Logout</a>
+                 font-size: 16px;"
+                 class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    <label id="nombre_usuario"/>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a id="cambiarPassword">Cambiar contraseña</a></li>
+                </ul>
+                &nbsp; <a class="btn btn-danger square-btn-adjust" id="logout-button" >Logout</a>
             </div>
         </nav>   
         <!-- /. NAV TOP  -->
@@ -131,7 +137,7 @@
 
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6">           
-                            <div class="panel panel-back noti-box">
+                            <!--div class="panel panel-back noti-box">
                                 <span class="icon-box bg-color-green set-icon">
                                     <i class="fa fa-bars"></i>
                                 </span>
@@ -141,10 +147,18 @@
                                         <table width="100%" cellspacing="2">
                                             <tr>
                                                 <td>
-                                                    <label class="text-muted">Contraseña</label>
+                                                    <label class="text-muted">Actual Contraseña</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="password1" name="password1" class="text-muted" required="" placeholder="**********"/>
+                                                    <input type="password" id="password" name="password" class="text-muted" required="" placeholder="**********"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label class="text-muted">Nueva Contraseña</label>
+                                                </td>
+                                                <td>
+                                                    <input type="password" id="password1" name="password1" class="text-muted" required="" placeholder="**********"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -152,7 +166,7 @@
                                                     <label class="text-muted">Repite la contraseña</label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="password2" name="password2" class="text-muted" required="" placeholder="**********"/>
+                                                    <input type="password" id="password2" name="password2" class="text-muted" required="" placeholder="**********"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -165,7 +179,7 @@
                                         </table>
                                     </form>
                                 </div>
-                            </div>
+                            </div-->
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">           
 
@@ -206,6 +220,77 @@
     <!--script src="../../recursos/jsTree/jstree.min.js" type="text/javascript"></script-->
     <script src="index.js" type="text/javascript"></script>
 
+    <!-- INICIO MODAL -->
+
+    <div class="modal fade" id="modalCambiarPass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title main-text" id="tituloModal">
+                        <span class="icon-box bg-color-green set-icon">
+                            <i class="fa fa-bars"></i>
+                        </span>
+                          Cambiar contraseña
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-back noti-box">
+
+                        <div class="text-box" >
+
+                            <form class="navbar-form navbar" >
+                                <table width="100%" cellspacing="0" align="center">
+                                    <tr>
+                                        <td>
+                                            <label class="text-muted">Actual Contraseña</label>
+                                        </td>
+                                        <td>
+                                            <input type="password" id="password" name="password" class="text-muted" required="" placeholder="**********"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="text-muted">Nueva Contraseña</label>
+                                        </td>
+                                        <td>
+                                            <input type="password" id="password1" name="password1" class="text-muted" required="" placeholder="**********"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="text-muted">Repite la contraseña</label>
+                                        </td>
+                                        <td>
+                                            <input type="password" id="password2" name="password2" class="text-muted" required="" placeholder="**********"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"  align="center">
+                                            <button type="button" class="btn-success" id="btcambiar">
+                                                Cambiar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIN MODAL -->
 
 </body>
 </html>
