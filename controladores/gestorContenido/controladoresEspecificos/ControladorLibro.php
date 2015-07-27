@@ -106,9 +106,9 @@ class ControladorLibro extends ControladorGeneral {
 
     public function modificar($datos) {
         try {
-            
+
             $contrFoto = new ControladorFoto();
-            $parametros = array("id" => $datos["id"],"fotos" => $datos["fotos"]);
+            $parametros = array("id" => $datos["id"], "fotos" => $datos["fotos"]);
             $contrFoto->modificar($parametros);
             session_start();
             $destacado = null;
@@ -166,4 +166,39 @@ class ControladorLibro extends ControladorGeneral {
         return $listado[0]["MAX(id_libro)"];
     }
 
+    public function contarLibrosCargados($datos = null) {
+        try {
+            session_start();
+            $resultado = null;
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_LIBROS_CARGADOS);
+            $retorno = array();
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            
+            $retorno["cantTotal"] = $listado[0]["libros"];
+            $resultado = null;
+            $parametros = array("usuario" => $_SESSION["usuario"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_LIBROS_CARGADOS_X_USUARIO, $parametros);
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            
+            $retorno["cantXusu"] = $listado[0]["libros"];
+            //var_dump($listado);
+            //print_r();
+            return $retorno;
+        } catch (Exception $e) {
+            throw new Exception("Libro-CotarTodo: " . $e->getMessage());
+        }
+    }
+    
+    public function contarLibrosCargadosXusuario($datos = null) {
+        try {
+            session_start();
+            $resultado = null;
+            $parametros = array("usuario" => $_SESSION["usuario"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_LIBROS_CARGADOS_X_USUARIO, $parametros);
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (Exception $e) {
+            throw new Exception("Libro-CotarTodo: " . $e->getMessage());
+        }
+    }
 }

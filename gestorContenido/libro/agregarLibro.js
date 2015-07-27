@@ -70,8 +70,6 @@ $(function () {
             });
         };
 
-
-
         app.recuperarFoto = function (id) {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};

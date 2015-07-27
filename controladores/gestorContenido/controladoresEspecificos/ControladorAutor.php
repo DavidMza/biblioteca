@@ -98,5 +98,28 @@ class ControladorAutor extends ControladorGeneral {
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
         return $listado[0]["MAX(id_autor)"];
     }
+    
+    public function contarAutoresCargados($datos = null) {
+        try {
+            session_start();
+            $resultado = null;
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_AUTORES_CARGADOS);
+            $retorno = array();
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            
+            $retorno["cantTotal"] = $listado[0]["autores"];
+            $resultado = null;
+            $parametros = array("usuario" => $_SESSION["usuario"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_AUTORES_CARGADOS_X_USUARIO, $parametros);
+            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            
+            $retorno["cantXusu"] = $listado[0]["autores"];
+            //var_dump($listado);
+            //print_r();
+            return $retorno;
+        } catch (Exception $e) {
+            throw new Exception("Libro-CotarTodo: " . $e->getMessage());
+        }
+    }
 
 }

@@ -23,6 +23,7 @@ $(function () {
                 $("#cuerpoFormulario").load('../libro/agregarLibro.html #cuerpoFormulario');
                 $.getScript("../libro/agregarLibro.js");
                 $.getScript("../../recursos/jsTree/jstree.min.js");
+                $.getScript("../../recursos/datatable/jquery.dataTables.min.js");
             });
 
             $("#listarTodo").on('click', function (event) {
