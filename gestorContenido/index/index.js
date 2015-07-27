@@ -76,6 +76,10 @@ $(function() {
             $("#btcambiar").on('click', function(event) {
                 app.comprobarClaves();
             });
+            $("#cambiarPassword").on('click', function(event) {
+                $("#modalCambiarPass").modal({show: true});
+                
+            });
 
         };
 
@@ -178,7 +182,7 @@ $(function() {
             });
         };
 
-        app.cambiar = function(pass) {
+        app.cambiar = function(passwordActual, pass) {
 
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
@@ -186,15 +190,21 @@ $(function() {
             datos.accion = "cambiarPass";
             datos.seccion = "gestor";
             datos.usuario = sessionStorage.usuario;
-            datos.clave = $.md5(pass);
+            datos.claveActual = $.md5(passwordActual);
+            datos.claveNueva = $.md5(pass);
+            
             $.ajax({
                 url: url,
                 method: 'POST',
                 dataType: 'json',
                 data: datos,
                 success: function(data) {
-                    alert("Tu contraseña ha sido cambiada con éxito");
-                    window.location = "../index/";
+                    if (data.bandera) {
+                        alert(data.retorno);
+                        $("#modalCambiarPass").modal('hide');
+                    }else{
+                        alert(data.retorno);
+                    }
                 },
                 error: function(data) {
                     alert(data.responseText);
@@ -203,12 +213,12 @@ $(function() {
         };
 
         app.comprobarClaves = function() {
-            alert("entro");
+            var passwordActual = $("#password").val();
             var pass1 = $("#password1").val();
             var pass2 = $("#password2").val();
             if (pass1 == pass2) {
-                if (pass1.length > 0) {
-                    app.cambiar(pass1);
+                if (pass1.length > 0 && passwordActual.length > 0) {
+                    app.cambiar(passwordActual, pass1);
                 } else {
                     alert("No has llenado los campos");
                 }
