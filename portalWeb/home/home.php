@@ -53,7 +53,7 @@
                         ?>
                         <li>
                             <div class="image">
-                                <img src="../../<?php echo $value["ruta"] ?>" alt="" />
+                                <img src="../../<?php echo $value["ruta"] ?>" alt="" width="175px" height="280px" />
                             </div>
                             <div class="details">
                                 <h2><?php echo $value["titulo"] ?></h2>

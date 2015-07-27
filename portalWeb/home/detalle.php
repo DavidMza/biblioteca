@@ -49,7 +49,7 @@
                     <li>
                         <h4>Portada</h4>
                         <ul>
-                            <img src="../../<?php echo $listado["ruta"] ?>"></img>
+                            <img src="../../<?php echo $listado["ruta"] ?>" width="175px" height="280px"></img>
                         </ul>
                     </li>
                 </ul>
