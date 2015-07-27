@@ -385,11 +385,11 @@ $(function () {
         };
 
         app.comboPublicacion = function (publicacionSelected) {
-            var inicio = 1800;
-            var fin = 2015;
+            var inicio = 2015;
+            var fin = 1800;
             var html = "";
 
-            for (; inicio < fin; inicio++) {
+            for (; inicio > fin; inicio--) {
                 if (publicacionSelected == inicio)
                     html += '<option selected value="' + inicio + '">' + inicio + '</option>';
                 else

@@ -4,6 +4,7 @@
     require_once __DIR__ . '/../../controladores/portalWeb/persistencia/DBSentenciasPortal.php';
     require_once __DIR__ . '/../../controladores/portalWeb/persistencia/ControladorPersistencia.php';
     $controladorPersistencia = ControladorPersistencia::obtenerCP();
+    require_once './funciones.php';
     ?>
     <head>
         <title>Biblioteca</title>
@@ -32,9 +33,9 @@
             <div class="cl">&nbsp;</div>
             <!-- Login-details -->
             <div id="login-details">
-                <form class="navbar-form navbar-right">
-                    <input class="buscador" type="text" name="buscar" id="buscar" placeholder="Titulo del libro o autor">
-                        <button type="button" id="btBuscar" class="myButton">
+                <form class="navbar-form navbar-right" action="buscador.php" method="get">
+                    <input class="buscador" type="text" name="q" id="buscar" placeholder="Titulo del libro o autor">
+                        <button type="submit" id="btBuscar" class="myButton">
                             Buscar
                         </button>
                 </form>
@@ -56,7 +57,7 @@
                                 <img src="../../<?php echo $value["ruta"] ?>" alt="" width="175px" height="280px" />
                             </div>
                             <div class="details">
-                                <h2><?php echo $value["titulo"] ?></h2>
+                                <h2><?php echo truncarString($value["titulo"], 15) ?></h2>
                                 <h3><?php echo $value["autor"] ?></h3>
                                 <p class="title"><b>Editorial:</b> <?php echo $value["editorial"] ?></p>
                                 <a href="detalle.php?lib=<?php echo base64_encode($value["lib"]) ?>" class="read-more-btn">Ver Detalle</a>
@@ -132,7 +133,7 @@
                                         <a href="detalle.php?lib=<?php echo base64_encode($value["id"]) ?>" class="info">
                                             <span class="holder">
                                                 <img src="../../<?php echo $value["ruta"] ?>" alt="" />
-                                                <span class="book-name"><?php echo $value["titulo"] ?></span>
+                                                <span class="book-name"><?php echo truncarString($value["titulo"], 15) ?></span>
                                                 <span class="author">by <?php echo $value["autor"] ?></span>
                                             </span>
                                         </a>

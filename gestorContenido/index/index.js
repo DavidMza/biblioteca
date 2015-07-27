@@ -12,7 +12,7 @@ $(function() {
             }
             app.bindings();
             app.mostrarInfo();
-            $("#nombre_usuario").html(sessionStorage.usuario);
+            $("#nombre_usuario").html(''+sessionStorage.usuario+'');
         };
 
         app.mostrarInfo = function() {
