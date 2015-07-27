@@ -61,6 +61,7 @@ INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
 INNER JOIN `libro_clasificacion` ON `fk_libro` = `id_libro`
 INNER JOIN `clasificaciones` ON `id_clasificacion` = `fk_clasificacion`
 WHERE `libro`.`borrado` = 0 AND `id_editorial` = ?
+GROUP BY id_libro_log_libro
 ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
 LIMIT 0, 8;";
     const LISTAR_X_CLASIFICACION = "SELECT
@@ -77,6 +78,7 @@ INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
 INNER JOIN `libro_clasificacion` ON `fk_libro` = `id_libro`
 INNER JOIN `clasificaciones` ON `id_clasificacion` = `fk_clasificacion`
 WHERE `libro`.`borrado` = 0 AND `id_clasificacion` = ?
+GROUP BY id_libro_log_libro
 ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
 LIMIT 0, 8;";
     const LISTAR_X_CARACTERISTICA = "SELECT
@@ -93,6 +95,7 @@ INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
 INNER JOIN `libro_caracteristica` ON `fk_libro` = `id_libro`
 INNER JOIN `caracteristicas` ON `id_caracteristicas` = `fk_caracteristica`
 WHERE `libro`.`borrado` = 0 AND `id_caracteristicas` = ?
+GROUP BY id_libro_log_libro
 ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
 LIMIT 0, 8;";
     const LISTAR_X_BUSQUEDA = "SELECT
@@ -107,6 +110,7 @@ INNER JOIN `editoriales` ON `id_editorial` = `id_editorial_libro`
 INNER JOIN fotos ON id_libro_foto = `id_libro`
 INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
 WHERE `libro`.`borrado` = 0 AND (titulo_libro LIKE ? OR nombre_autor LIKE ?)
+GROUP BY id_libro_log_libro
 ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
 LIMIT 0, 8;";
     

@@ -44,7 +44,7 @@ $(function() {
                 app.listarLibrosPortada(1);
                 app.dibujarBotonesPaginacion(1, registrosPorPagina);
                 setTimeout(function() { //duermo unos instantes para que bindings conozca lo escrito por js
-                    app.bindings();
+                    //app.bindings();
                 }, (segundos * 1000));
             });
         };
@@ -125,7 +125,7 @@ $(function() {
                     div += '</div>';
                 }
             });
-            //app.truncarTexto();
+            app.truncarTexto();
         };
         app.dibujarBotonesPaginacion = function(actual, por_pagina) {
 

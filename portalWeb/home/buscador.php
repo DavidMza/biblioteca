@@ -4,6 +4,7 @@
     require_once __DIR__ . '/../../controladores/portalWeb/persistencia/DBSentenciasPortal.php';
     require_once __DIR__ . '/../../controladores/portalWeb/persistencia/ControladorPersistencia.php';
     $controladorPersistencia = ControladorPersistencia::obtenerCP();
+    require_once './funciones.php';
     ?>
     <head>
         <title>Biblioteca</title>
@@ -92,7 +93,7 @@
             <!-- Content -->
             <div id="content">
                 <form action="buscador.php" method="get">
-                    <input type="text" name="q" class="buscador2"><input type="submit" class="myButton" value="Buscar">
+                    <input type="text" name="q" class="buscador2"><input type="submit" class="myButton" value="Buscar" >
                             </form>
                             <br>
                                 <!-- Products -->
@@ -116,7 +117,7 @@
                                                 $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             } elseif (isset($_GET["q"])) {
                                                 $query = DBSentenciasPortal::LISTAR_X_BUSQUEDA;
-                                                $query = str_replace("LIKE ?", "LIKE '" . $_GET["q"] . "%'", $query);
+                                                $query = str_replace("LIKE ?", "LIKE '%" . $_GET["q"] . "%'", $query);
                                                 $resultado = $controladorPersistencia->ejecutarSentencia($query);
                                                 $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             } elseif (isset($_GET["des"])) {
@@ -131,7 +132,7 @@
                                                             <a href="detalle.php?lib=<?php echo base64_encode($value["lib"]) ?>" class="info">
                                                                 <span class="holder">
                                                                     <img src="../../<?php echo $value["ruta"] ?>" alt="" />
-                                                                    <span class="book-name"><?php echo $value["titulo"] ?></span>
+                                                                    <span class="book-name"><?php echo truncarString($value["titulo"], 15) ?></span>
                                                                     <span class="author">by <?php echo $value["autor"] ?></span>
                                                                 </span>
                                                             </a>
