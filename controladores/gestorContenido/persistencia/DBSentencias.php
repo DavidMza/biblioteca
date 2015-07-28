@@ -65,7 +65,7 @@ INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_editorial` WHERE `id_acci
     const ULTIMO_ID_LIBRO = "SELECT MAX(id_libro) FROM libro;";
     const MODIFICAR_LIBRO = "UPDATE `biblioteca`.`libro` SET  `titulo_libro` = ?,  `ISBN_libro` = ?,  `paginas_libro` = ?,  `idioma_libro` = ?,  `publicacion_libro` = ?,  `disponibilidad_libro` = ?,  `destacado_libro` = ?,  `id_autor_libro` = ?,  `id_editorial_libro` = ? WHERE `id_libro` = ?;";
     const ELIMINAR_LIBRO = "UPDATE libro SET borrado = 1 WHERE id_libro = ?;";
-    const CONTAR_LIBROS_CARGADOS = "SELECT COUNT(*) AS libros FROM `log_libros`";
+    const CONTAR_LIBROS_CARGADOS = "SELECT COUNT(*) AS libros FROM `log_libros` WHERE accion";
     const CONTAR_LIBROS_CARGADOS_X_USUARIO = "SELECT COUNT(*) AS libros FROM `log_libros`
 INNER JOIN `libro` ON `id_libro_log_libro` = `id_libro`
 INNER JOIN `usuario` ON `id_usuario_log_libro` = `id_usuario` WHERE id_accion_log_libro = 1 AND `id_usuario_log_libro` = ?";

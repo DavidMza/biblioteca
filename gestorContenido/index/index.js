@@ -118,15 +118,12 @@ $(function () {
                 $("#contenido").load('../caracteristica/caracteristica.html #contenido');
                 $.getScript("../caracteristica/caracteristica.js");
             });
-
             $("#btcambiar").on('click', function (event) {
                 app.comprobarClaves();
             });
             $("#cambiarPassword").on('click', function (event) {
                 $("#modalCambiarPass").modal({show: true});
-
             });
-
         };
 
         app.mostrarTotalEditorialesCargadas = function () {
@@ -206,6 +203,7 @@ $(function () {
                 }
             });
         };
+
         app.logout = function () {
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
@@ -246,8 +244,15 @@ $(function () {
                 data: datos,
                 success: function (data) {
                     if (data.bandera) {
-                        alert(data.retorno);
+                        //alert(data.retorno);
                         $("#modalCambiarPass").modal('hide');
+                        app.limpiarModal();
+                        $("#infoCambioPass").modal({show: true});
+                        setTimeout(function () {
+                            $("#infoCambioPass").modal("hide");
+                        }, (2 * 1000));
+                        
+                        
                     } else {
                         alert(data.retorno);
                     }
@@ -258,6 +263,12 @@ $(function () {
             });
         };
 
+        app.limpiarModal = function (){
+            $("#password").val("");
+            $("#password1").val("");
+            $("#password2").val("");
+        };
+        
         app.comprobarClaves = function () {
             var passwordActual = $("#password").val();
             var pass1 = $("#password1").val();
@@ -273,6 +284,8 @@ $(function () {
                 alert("Las claves no coinciden");
             }
         };
+
         app.init();
+
     })(TallerAvanzada);
 });
