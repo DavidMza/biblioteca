@@ -56,6 +56,7 @@ class ControladorAutor extends ControladorGeneral {
     public function agregar($datos) {
         try {
             //print_r($datos);
+            //echo 'paso';
             session_start();
             $parametros = array("nombreAutor" => $datos["nombre"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_AUTOR, $parametros);

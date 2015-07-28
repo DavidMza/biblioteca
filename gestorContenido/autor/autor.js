@@ -97,6 +97,7 @@ $(function () {
         };
 
         app.guardar = function () {
+            console.log("paso");
             var url = locacion+"controladores/Ruteador.php";
             var datos = {};
             //datos.form = $("#formAutor").serialize();
