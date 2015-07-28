@@ -44,9 +44,10 @@ INNER JOIN `editoriales` ON `id_editorial` = `id_editorial_libro`
 INNER JOIN fotos ON id_libro_foto = `id_libro`
 INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
 WHERE `libro`.`borrado` = 0
-ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC
 LIMIT 4;";
     const LISTAR_X_DESTACADOS = "SELECT `id_libro` AS lib,`titulo_libro` AS titulo,`nombre_autor` AS autor,`rutaArchivo_foto` AS ruta FROM `biblioteca`.`libro` INNER JOIN autores ON id_autor_libro = `id_autor` INNER JOIN fotos ON id_libro_foto = `id_libro` WHERE `destacado_libro` = 1 AND `libro`.`borrado` = 0 LIMIT 0, 8;";
+    const COUNT_LISTAR_X_DESTACADOS = "SELECT COUNT(`id_libro`) AS total FROM `biblioteca`.`libro` INNER JOIN autores ON id_autor_libro = `id_autor` INNER JOIN fotos ON id_libro_foto = `id_libro` WHERE `destacado_libro` = 1 AND `libro`.`borrado` = 0;";
     const LISTAR_X_EDITORIAL = "SELECT
   `id_libro` AS lib,      
   `titulo_libro` AS titulo,
@@ -62,8 +63,19 @@ INNER JOIN `libro_clasificacion` ON `fk_libro` = `id_libro`
 INNER JOIN `clasificaciones` ON `id_clasificacion` = `fk_clasificacion`
 WHERE `libro`.`borrado` = 0 AND `id_editorial` = ?
 GROUP BY id_libro_log_libro
-ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC
 LIMIT 0, 8;";
+    const COUNT_LISTAR_X_EDITORIAL = "SELECT
+  COUNT(`id_libro`) AS total
+FROM `biblioteca`.`libro`
+INNER JOIN autores ON id_autor_libro = `id_autor`
+INNER JOIN `editoriales` ON `id_editorial` = `id_editorial_libro`
+INNER JOIN fotos ON id_libro_foto = `id_libro`
+INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
+INNER JOIN `libro_clasificacion` ON `fk_libro` = `id_libro`
+INNER JOIN `clasificaciones` ON `id_clasificacion` = `fk_clasificacion`
+WHERE `libro`.`borrado` = 0 AND `id_editorial` = ?
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC;";
     const LISTAR_X_CLASIFICACION = "SELECT
   `id_libro` AS lib,      
   `titulo_libro` AS titulo,
@@ -79,8 +91,19 @@ INNER JOIN `libro_clasificacion` ON `fk_libro` = `id_libro`
 INNER JOIN `clasificaciones` ON `id_clasificacion` = `fk_clasificacion`
 WHERE `libro`.`borrado` = 0 AND `id_clasificacion` = ?
 GROUP BY id_libro_log_libro
-ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC
 LIMIT 0, 8;";
+    const COUNT_LISTAR_X_CLASIFICACION = "SELECT
+  COUNT(`id_libro`) AS total
+FROM `biblioteca`.`libro`
+INNER JOIN autores ON id_autor_libro = `id_autor`
+INNER JOIN `editoriales` ON `id_editorial` = `id_editorial_libro`
+INNER JOIN fotos ON id_libro_foto = `id_libro`
+INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
+INNER JOIN `libro_clasificacion` ON `fk_libro` = `id_libro`
+INNER JOIN `clasificaciones` ON `id_clasificacion` = `fk_clasificacion`
+WHERE `libro`.`borrado` = 0 AND `id_clasificacion` = ?
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC;";
     const LISTAR_X_CARACTERISTICA = "SELECT
   `id_libro` AS lib,      
   `titulo_libro` AS titulo,
@@ -96,8 +119,19 @@ INNER JOIN `libro_caracteristica` ON `fk_libro` = `id_libro`
 INNER JOIN `caracteristicas` ON `id_caracteristicas` = `fk_caracteristica`
 WHERE `libro`.`borrado` = 0 AND `id_caracteristicas` = ?
 GROUP BY id_libro_log_libro
-ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC
 LIMIT 0, 8;";
+    const COUNT_LISTAR_X_CARACTERISTICA = "SELECT
+  COUNT(`id_libro`) AS total
+FROM `biblioteca`.`libro`
+INNER JOIN autores ON id_autor_libro = `id_autor`
+INNER JOIN `editoriales` ON `id_editorial` = `id_editorial_libro`
+INNER JOIN fotos ON id_libro_foto = `id_libro`
+INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
+INNER JOIN `libro_caracteristica` ON `fk_libro` = `id_libro`
+INNER JOIN `caracteristicas` ON `id_caracteristicas` = `fk_caracteristica`
+WHERE `libro`.`borrado` = 0 AND `id_caracteristicas` = ?
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC;";
     const LISTAR_X_BUSQUEDA = "SELECT
   `id_libro` AS lib,      
   `titulo_libro` AS titulo,
@@ -111,9 +145,17 @@ INNER JOIN fotos ON id_libro_foto = `id_libro`
 INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
 WHERE `libro`.`borrado` = 0 AND (titulo_libro LIKE ? OR nombre_autor LIKE ?)
 GROUP BY id_libro_log_libro
-ORDER BY `fecha_log_libro` ASC,`hora_log_libro` ASC
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC
 LIMIT 0, 8;";
-    
+    const COUNT_LISTAR_X_BUSQUEDA = "SELECT
+  COUNT(`id_libro`) AS total
+FROM `biblioteca`.`libro`
+INNER JOIN autores ON id_autor_libro = `id_autor`
+INNER JOIN `editoriales` ON `id_editorial` = `id_editorial_libro`
+INNER JOIN fotos ON id_libro_foto = `id_libro`
+INNER JOIN `log_libros` ON `id_libro_log_libro` = `id_libro`
+WHERE `libro`.`borrado` = 0 AND (titulo_libro LIKE ? OR nombre_autor LIKE ?)
+ORDER BY `fecha_log_libro` DESC,`hora_log_libro` DESC;";
     const TRAER_CLASIFICACIONES_LIBRO = "SELECT
     `fk_clasificacion` AS id,    
   `denominacion_clasificacion` AS text

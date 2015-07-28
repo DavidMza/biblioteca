@@ -94,7 +94,7 @@
                             foreach ($listado as $value) {
                                 ?>
                                 <li>
-                                    <a href="buscador.php?clas=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                    <a href="buscador.php?clas=<?php echo base64_encode($value["id"])."&pag=1" ?>"><?php echo $value["text"] ?></a>
                                 </li>
 <?php } ?>
                         </ul>
@@ -108,7 +108,7 @@
                             foreach ($listado as $value) {
                                 ?>
                                 <li>
-                                    <a href="buscador.php?car=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                    <a href="buscador.php?car=<?php echo base64_encode($value["id"])."&pag=1" ?>"><?php echo $value["text"] ?></a>
                                 </li>
 <?php } ?>
                         </ul>
@@ -120,7 +120,7 @@
             <div id="content">
                 <!-- Products -->
                 <div class="products">
-                    <h3>Libros Destacados</h3><a href="buscador.php?des" class="right">ver todos</a><br>
+                    <h3>Libros Destacados</h3><a href="buscador.php?des&pag=1" class="right">ver todos</a><br>
 
                         <ul id="destacados">
                             <?php

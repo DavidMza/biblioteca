@@ -53,7 +53,7 @@
                             foreach ($listado as $value) {
                                 ?>
                                 <li>
-                                    <a href="buscador.php?edi=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                    <a href="buscador.php?edi=<?php echo base64_encode($value["id"]) . "&pag=1" ?>"><?php echo $value["text"] ?></a>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -68,7 +68,7 @@
                             foreach ($listado as $value) {
                                 ?>
                                 <li>
-                                    <a href="buscador.php?clas=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                    <a href="buscador.php?clas=<?php echo base64_encode($value["id"]) . "&pag=1" ?>"><?php echo $value["text"] ?></a>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -82,7 +82,7 @@
                             foreach ($listado as $value) {
                                 ?>
                                 <li>
-                                    <a href="buscador.php?car=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                    <a href="buscador.php?car=<?php echo base64_encode($value["id"]) . "&pag=1" ?>"><?php echo $value["text"] ?></a>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -105,25 +105,52 @@
                                         <ul>
                                             <?php
                                             $resultado = null;
+                                            $countQuery = null;
+                                            $query = null;
+                                            $url = null;
+                                            $total_libros = null;
                                             $listado = array();
                                             if (isset($_GET["edi"])) {
-                                                $resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::LISTAR_X_EDITORIAL, array(base64_decode($_GET["edi"])));
-                                                $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                                                $url = "buscador.php?edi=" . $_GET["edi"];
+                                                $countQuery = str_replace("?", base64_decode($_GET["edi"]), DBSentenciasPortal::COUNT_LISTAR_X_EDITORIAL);
+                                                $query = str_replace("?", base64_decode($_GET["edi"]), DBSentenciasPortal::LISTAR_X_EDITORIAL);
+                                                //$resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::LISTAR_X_EDITORIAL, array(base64_decode($_GET["edi"])));
+                                                //$listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             } elseif (isset($_GET["clas"])) {
-                                                $resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::LISTAR_X_CLASIFICACION, array(base64_decode($_GET["clas"])));
-                                                $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                                                $url = "buscador.php?clas=" . $_GET["clas"];
+                                                $countQuery = str_replace("?", base64_decode($_GET["clas"]), DBSentenciasPortal::COUNT_LISTAR_X_CLASIFICACION);
+                                                $query = str_replace("?", base64_decode($_GET["clas"]), DBSentenciasPortal::LISTAR_X_CLASIFICACION);
+                                                //$resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::LISTAR_X_CLASIFICACION, array(base64_decode($_GET["clas"])));
+                                                //$listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             } elseif (isset($_GET["car"])) {
-                                                $resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::LISTAR_X_CARACTERISTICA, array(base64_decode($_GET["car"])));
-                                                $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                                                $url = "buscador.php?car=" . $_GET["car"];
+                                                $countQuery = str_replace("?", base64_decode($_GET["car"]), DBSentenciasPortal::COUNT_LISTAR_X_CARACTERISTICA);
+                                                $query = str_replace("?", base64_decode($_GET["car"]), DBSentenciasPortal::LISTAR_X_CARACTERISTICA);
+                                                //$resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::LISTAR_X_CARACTERISTICA, array(base64_decode($_GET["car"])));
+                                                //$listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             } elseif (isset($_GET["q"])) {
-                                                $query = DBSentenciasPortal::LISTAR_X_BUSQUEDA;
-                                                $query = str_replace("LIKE ?", "LIKE '%" . $_GET["q"] . "%'", $query);
-                                                $resultado = $controladorPersistencia->ejecutarSentencia($query);
-                                                $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                                                $url = "buscador.php?q=" . $_GET["q"];
+                                                $countQuery = str_replace("LIKE ?", "LIKE '%" . $_GET["q"] . "%'", DBSentenciasPortal::COUNT_LISTAR_X_BUSQUEDA);
+                                                $query = str_replace("LIKE ?", "LIKE '%" . $_GET["q"] . "%'", DBSentenciasPortal::LISTAR_X_BUSQUEDA);
+                                                //$resultado = $controladorPersistencia->ejecutarSentencia($query);
+                                                //$listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             } elseif (isset($_GET["des"])) {
-                                                $resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::LISTAR_X_DESTACADOS);
-                                                $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+                                                $countQuery = DBSentenciasPortal::COUNT_LISTAR_X_DESTACADOS;
+                                                //$resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::COUNT_LISTAR_X_DESTACADOS);
+                                                //$total_libros = $resultado->fetchAll(PDO::FETCH_ASSOC)[0]["COUNT(`id_libro`)"];
+                                                $url = "buscador.php?des=" . $_GET["des"];
+                                                $query = DBSentenciasPortal::LISTAR_X_DESTACADOS;
+                                                //$resultado = $controladorPersistencia->ejecutarSentencia($query);
+                                                //$listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                             }
+
+                                            $resultado = $controladorPersistencia->ejecutarSentencia($countQuery);
+                                            $total_libros = $resultado->fetchAll(PDO::FETCH_ASSOC)[0]["total"];
+                                            $limite = 8 * $_GET["pag"];
+                                            $query = str_replace("LIMIT 0, 8;", "LIMIT " . ($limite - 8) . ", " . $limite . ";", $query);
+                                            $resultado = $controladorPersistencia->ejecutarSentencia($query);
+                                            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+
                                             if (count($listado) > 0) {
                                                 foreach ($listado as $value) {
                                                     ?>
@@ -145,15 +172,35 @@
                                             }
                                             ?>
                                         </ul>
-                                        <?php
-                                    } else {
-                                        ?>
+                                            <?php
+                                        } else {
+                                            ?>
                                         <h3>No se ha realizado ninguna busqueda</h3>
                                     <?php } ?>
                                     <!-- End Products -->
                                 </div>
                                 <div class="cl">&nbsp;</div>
-
+<?php
+if ($total_libros > 8) {
+    echo '<div class="row" align="center" >';
+    $Ctas_paginas = ceil($total_libros / 8);
+    if ($_GET["pag"] > 1) {
+        echo '<a class="myButton" href="' . $url . "&pag=" . ($_GET["pag"] - 1) . '">Anterior</a>';
+    }
+    for ($index = 1; $index <= $Ctas_paginas; $index++) {
+        if ($index == $_GET["pag"]) {
+            echo '<a class="myButton" style="font-size: 20px; text-decoration: none" href="' . $url . "&pag=" . $index . '">' . $index . '</a>';
+        }else{
+            echo '<a class="myButton" href="' . $url . "&pag=" . $index . '">' . $index . '</a>';
+        }
+        
+    }
+    if ($_GET["pag"] < $Ctas_paginas) {
+        echo '<a class="myButton" href="' . $url . "&pag=" . ($_GET["pag"] + 1) . '">Siguiente</a>';
+    }
+    echo '</div>';
+}
+?>
                                 </div>
                                 <!-- End Content -->
                                 <div class="cl">&nbsp;</div>

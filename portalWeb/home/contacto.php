@@ -57,7 +57,7 @@
                             foreach ($listado as $value) {
                                 ?>
                                 <li>
-                                    <a href="buscador.php?clas=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                    <a href="buscador.php?clas=<?php echo base64_encode($value["id"])."&pag=1" ?>"><?php echo $value["text"] ?></a>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -71,7 +71,7 @@
                             foreach ($listado as $value) {
                                 ?>
                                 <li>
-                                    <a href="buscador.php?car=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                    <a href="buscador.php?car=<?php echo base64_encode($value["id"])."&pag=1" ?>"><?php echo $value["text"] ?></a>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -93,7 +93,7 @@
                             <input name="email" type="email" placeholder="Tu E-Mail">
 
                                 <label>Mensaje</label>
-                                <textarea name="message" placeholder="Tu Consulta"></textarea>
+                                <textarea name="message" placeholder="Tu Consulta" maxlength="500" ></textarea>
 
                                 <input id="submit" class="myButton" name="submit" type="submit" value="Enviar">
 

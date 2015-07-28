@@ -37,7 +37,7 @@
                 <ul class="dropdown-menu">
                     <li><a id="cambiarPassword">Cambiar contraseña</a></li>
                 </ul>
-                &nbsp; <a class="btn btn-danger square-btn-adjust" id="logout-button" >Logout</a>
+                &nbsp; <a class="btn btn-danger square-btn-adjust" id="logout-button" ><i class="fa fa-sign-out"></i>Logout</a>
             </div>
         </nav>   
         <!-- /. NAV TOP  -->
@@ -132,62 +132,24 @@
                         </table>
                     </div>
                     <hr />
-                    <div class="row-border">
-                        <div class="col-md-3 col-sm-6 col-xs-6">           
-
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">           
-                            <!--div class="panel panel-back noti-box">
-                                <span class="icon-box bg-color-green set-icon">
-                                    <i class="fa fa-bars"></i>
-                                </span>
-                                <div class="text-box" >
-                                    <p class="main-text">Cambiar contraseña</p>
-                                    <form class="navbar-form navbar-right" >
-                                        <table width="100%" cellspacing="2">
-                                            <tr>
-                                                <td>
-                                                    <label class="text-muted">Actual Contraseña</label>
-                                                </td>
-                                                <td>
-                                                    <input type="password" id="password" name="password" class="text-muted" required="" placeholder="**********"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="text-muted">Nueva Contraseña</label>
-                                                </td>
-                                                <td>
-                                                    <input type="password" id="password1" name="password1" class="text-muted" required="" placeholder="**********"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="text-muted">Repite la contraseña</label>
-                                                </td>
-                                                <td>
-                                                    <input type="password" id="password2" name="password2" class="text-muted" required="" placeholder="**********"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2"  align="center">
-                                                    <button type="button" class="btn-success" id="btcambiar">
-                                                        Cambiar
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </div>
-                            </div-->
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-6">           
-
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- /. ROW  -->
-
+                    <h2>Contactos Pendientes</h2>
+                    <br>
+                    <table class="table table-striped">
+                        <thead>
+                        <th>
+                            <h3>Usuario</h3>
+                        </th>
+                        <th>
+                            <h3>Mensaje</h3>
+                        </th>
+                        <th>
+                            <h3>Acciones</h3>
+                        </th>
+                        </thead>
+                        <tbody id="contactos">
+                            
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /. PAGE INNER  -->
             </div>
@@ -231,7 +193,7 @@
                         <span class="icon-box bg-color-green set-icon">
                             <i class="fa fa-bars"></i>
                         </span>
-                          Cambiar contraseña
+                        Cambiar contraseña
                     </h4>
                 </div>
                 <div class="modal-body">

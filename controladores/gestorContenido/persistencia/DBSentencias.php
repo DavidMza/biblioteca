@@ -109,5 +109,9 @@ INNER JOIN `usuario` ON `id_usuario_log_libro` = `id_usuario` WHERE id_accion_lo
     const ELIMINAR_USUARIO = "UPDATE usuario SET borrado = 1, fecha_baja_usuario = CURDATE() WHERE id_usuario = ?;";
     const CAMBIAR_PASSWORD = "UPDATE usuario SET clave_usuario = ? WHERE id_usuario = ?";
     const OBTENER_PASSWORD = "SELECT clave_usuario FROM usuario WHERE id_usuario = ?";
-
+//CONTACTOS
+    const LISTAR_CONTACTOS = "SELECT * FROM `biblioteca`.`consultas` WHERE borrado = 0;";
+    const ELIMINAR_CONTACTO = "UPDATE `biblioteca`.`consultas` SET `borrado` = 1 WHERE `id_consultas` = ?;";
+    
+    
 }
