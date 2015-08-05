@@ -254,7 +254,7 @@ $(function () {
                         
                         
                     } else {
-                        alert(data.retorno);
+                        //alert(data.retorno);
                     }
                 },
                 error: function (data) {
