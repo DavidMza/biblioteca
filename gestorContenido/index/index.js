@@ -251,8 +251,6 @@ $(function () {
                         setTimeout(function () {
                             $("#infoCambioPass").modal("hide");
                         }, (2 * 1000));
-                        
-                        
                     } else {
                         alert(data.retorno);
                     }

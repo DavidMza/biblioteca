@@ -69,8 +69,8 @@
                                 <span class="holder">
                                     <span class="titulo" name="titulo">Titulo: <?php echo $listado["titulo"] ?></span>
                                     <span class="detalle"><b>ISBN:</b> <?php echo $listado["isbn"] ?></span>
-                                    <span class="detalle"><b>Autor:</b> <a href="buscador.php?q=<?php echo $listado["autor"] ?>"><?php echo $listado["autor"] ?></a></span>
-                                    <span class="detalle"><b>Editorial:</b> <a href="buscador.php?edi=<?php echo base64_encode($listado["idEditorial"]) ?>"><?php echo $listado["editorial"] ?></a></span>
+                                    <span class="detalle"><b>Autor:</b> <a href="buscador.php?q=<?php echo $listado["autor"]."&pag=1"  ?>"><?php echo $listado["autor"] ?></a></span>
+                                    <span class="detalle"><b>Editorial:</b> <a href="buscador.php?edi=<?php echo base64_encode($listado["idEditorial"])."&pag=1"  ?>"><?php echo $listado["editorial"] ?></a></span>
                                     <span class="detalle"><b>Paginas:</b> <?php echo $listado["paginas"] ?></span>
                                     <span class="detalle"><b>Año Publicacion:</b> <?php echo $listado["publicacion"] ?></span>
                                     <span class="detalle"><b>Idioma:</b> <?php echo $listado["idioma"] ?></span>
@@ -80,7 +80,7 @@
                                     $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($listado as $value) {
                                         ?>
-                                        <a class="clasificaciones" href="buscador.php?clas=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                        <a class="clasificaciones" href="buscador.php?clas=<?php echo base64_encode($value["id"])."&pag=1"  ?>"><?php echo $value["text"] ?></a>
                                     <?php } ?>
                                     <h3>Caracteristicas</h3>
                                     <?php
@@ -88,7 +88,7 @@
                                     $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($listado as $value) {
                                         ?>
-                                        <a class="clasificaciones" href="buscador.php?car=<?php echo base64_encode($value["id"]) ?>"><?php echo $value["text"] ?></a>
+                                        <a class="clasificaciones" href="buscador.php?car=<?php echo base64_encode($value["id"])."&pag=1"  ?>"><?php echo $value["text"] ?></a>
                                     <?php } ?>
                                 </span>
 
