@@ -84,9 +84,7 @@ $(function () {
         };
         
         app.borrarFila = function (index) {
-            console.log(index)
             $("#cuerpoTablaAutor").children('tr')[index].remove();
-            //$("#cuerpoTablaEditorial")  .children('tr')[index].remove();
         };
 
         app.imprimir = function () {    //funcion para imprimir
