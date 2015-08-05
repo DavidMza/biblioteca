@@ -198,7 +198,7 @@ class ControladorLibro extends ControladorGeneral {
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {
-            throw new Exception("Libro-CotarTodo: " . $e->getMessage());
+            throw new Exception("Libro-ContarTodoXUsu: " . $e->getMessage());
         }
     }
 }

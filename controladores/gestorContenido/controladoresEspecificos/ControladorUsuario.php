@@ -92,6 +92,7 @@ class ControladorUsuario extends ControladorGeneral {
             $passwordActualObtenida = $retorno[0]["clave_usuario"];
             
             if ($passwordActualIngresada == $passwordActualObtenida) {
+                unset($parametros);
                 $parametros = array("nuevaPass" => $datos["claveNueva"], "idUsuario" => $_SESSION["usuario"]);
                 $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
                 return array("retorno" => "Se ha actualizado la contrasena", "bandera" => true);

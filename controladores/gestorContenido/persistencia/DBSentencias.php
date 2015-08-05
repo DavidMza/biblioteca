@@ -13,10 +13,8 @@ interface DBSentencias {
     const MODIFICAR_AUTOR = "UPDATE autores SET nombre_autor = ? WHERE id_autor = ?";
     const ULTIMO_ID_AUTOR = "SELECT MAX(id_autor) FROM autores;";
     const ELIMINAR_AUTOR = "UPDATE autores SET borrado = 1 WHERE id_autor = ?;";
-    const CONTAR_AUTORES_CARGADOS = "SELECT COUNT(*) AS autores FROM autores";
-    const CONTAR_AUTORES_CARGADOS_X_USUARIO = "SELECT COUNT(*) AS autores FROM autores
-INNER JOIN `log_autores` ON `id_autor` = `id_autor_log_autor`
-INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_autor` WHERE `id_accion_log_autor` = 1 AND `id_usuario_log_autor` = ?";
+    const CONTAR_AUTORES_CARGADOS = "SELECT COUNT(*) AS autores FROM autores WHERE borrado = 0";
+    const CONTAR_AUTORES_CARGADOS_X_USUARIO = "SELECT COUNT(*) AS autores FROM autores INNER JOIN `log_autores` ON `id_autor` = `id_autor_log_autor` INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_autor`  WHERE `id_accion_log_autor` = 1 AND `id_usuario_log_autor` = 1 AND autores.borrado = 0";
 //CARACTERISTICAS
     const LISTAR_CARACTERISTICAS = "SELECT * FROM caracteristicas WHERE borrado = 0";
     const LISTAR_TODO_CARACTERISTICAS = "SELECT * FROM caracteristicas";
@@ -43,9 +41,7 @@ INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_autor` WHERE `id_accion_l
     const ULTIMA_EDITORIAL = "SELECT MAX(id_editorial) AS id FROM editoriales";
     const NOMBRE_EDITORIAL = "SELECT nombre_editorial AS nombre FROM editoriales WHERE id_editorial = ?";
     const CONTAR_EDITORIALES_CARGADAS = "SELECT COUNT(*) AS editoriales FROM editoriales";
-    const CONTAR_EDITORIALES_CARGADAS_X_USUARIO = "SELECT COUNT(*) AS editoriales FROM editoriales
-INNER JOIN `log_editoriales` ON `id_editorial` = `id_editorial_log_editorial`
-INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_editorial` WHERE `id_accion_log_editorial` = 1 AND `id_usuario_log_editorial` = ?";
+    const CONTAR_EDITORIALES_CARGADAS_X_USUARIO = "SELECT COUNT(*) AS editoriales FROM editoriales INNER JOIN `log_editoriales` ON `id_editorial` = `id_editorial_log_editorial` INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_editorial` WHERE `id_accion_log_editorial` = 1 AND `id_usuario_log_editorial` = 1 AND editoriales.borrado = 0";
 //FOTOS EMMA
     const AGREGAR_FOTO = "INSERT INTO fotos (rutaArchivo_foto, id_libro_foto) VALUES(?, ?)";
     const MODIFICAR_FOTO = "UPDATE fotos SET rutaArchivo_foto = ? WHERE id_foto = ?";
@@ -65,7 +61,7 @@ INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_editorial` WHERE `id_acci
     const ULTIMO_ID_LIBRO = "SELECT MAX(id_libro) FROM libro;";
     const MODIFICAR_LIBRO = "UPDATE `biblioteca`.`libro` SET  `titulo_libro` = ?,  `ISBN_libro` = ?,  `paginas_libro` = ?,  `idioma_libro` = ?,  `publicacion_libro` = ?,  `disponibilidad_libro` = ?,  `destacado_libro` = ?,  `id_autor_libro` = ?,  `id_editorial_libro` = ? WHERE `id_libro` = ?;";
     const ELIMINAR_LIBRO = "UPDATE libro SET borrado = 1 WHERE id_libro = ?;";
-    const CONTAR_LIBROS_CARGADOS = "SELECT COUNT(*) AS libros FROM `log_libros` WHERE accion";
+    const CONTAR_LIBROS_CARGADOS = "SELECT COUNT(*) AS libros FROM libro WHERE borrado = 0";
     const CONTAR_LIBROS_CARGADOS_X_USUARIO = "SELECT COUNT(*) AS libros FROM `log_libros`
 INNER JOIN `libro` ON `id_libro_log_libro` = `id_libro`
 INNER JOIN `usuario` ON `id_usuario_log_libro` = `id_usuario` WHERE id_accion_log_libro = 1 AND `id_usuario_log_libro` = ?";

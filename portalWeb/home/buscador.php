@@ -181,7 +181,8 @@
                                 </div>
                                 <div class="cl">&nbsp;</div>
 <?php
-if ($total_libros > 8) {
+
+if (isset($total_libros) && $total_libros > 8) {
     echo '<div class="row" align="center" >';
     $Ctas_paginas = ceil($total_libros / 8);
     if ($_GET["pag"] > 1) {
