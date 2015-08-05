@@ -7,7 +7,7 @@
     require_once './funciones.php';
     ?>
     <head>
-        <title>Biblioteca 2.0</title>
+        <title>Biblioteca 3.0</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <link rel="shortcut icon" href="../../recursos/portalWeb/home/css/images/favicon.ico" />
         <link href="../../recursos/portalWeb/home/css/style.css" rel="stylesheet" type="text/css"/>
