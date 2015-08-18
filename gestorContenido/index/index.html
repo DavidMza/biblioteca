@@ -3,18 +3,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestor Contenido</title>
-    <link href="../../recursos/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+
+    <!--link href="../../recursos/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/-->
     <link href="../../recursos/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../recursos/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
-    <link href="../../recursos/datatable/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="../../recursos/jsTree/themes/default/style.min.css" rel="stylesheet" type="text/css"/>
     <link href="../../recursos/gestorContenido/index/css/font-awesome.css" rel="stylesheet" />
     <link href="../../recursos/gestorContenido/index/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
     <link href="../../recursos/gestorContenido/index/css/custom.css" rel="stylesheet" />
     <link href="../../recursos/footer/footer-basic-centered.css" rel="stylesheet" type="text/css"/>
+
+    <script src="../../recursos/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <!--script src="../../recursos/jquery-ui/jquery-ui.min.js" type="text/javascript"></script-->
+    <script src="../../recursos/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+    
+    <script src="../login/logout.js" type="text/javascript"></script>
+    <script src="index.js" type="text/javascript"></script>
+
 </head>
 <body>
     <div id="wrapper">
+
+
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
@@ -31,16 +39,18 @@
                  font-size: 16px;"
                  class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                    <label id="nombre_usuario"/>
+                    <label id="nombre_usuario">Usuario</label>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a id="cambiarPassword">Cambiar contraseña</a></li>
+                    <li><a href="../../portalWeb/home/home.php">Ir al Portal</a></li>
+                    <li><a href="../password/pass.html">Cambiar contraseña</a></li>
+                    <li><a class="btn btn-danger square-btn-adjust" id="logout-button" ><i class="fa fa-sign-out"></i>Logout</a></li>
                 </ul>
-                &nbsp; <a class="btn btn-danger square-btn-adjust" id="logout-button" ><i class="fa fa-sign-out"></i>Logout</a>
             </div>
         </nav>   
-        <!-- /. NAV TOP  -->
+
+
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
@@ -48,28 +58,29 @@
                         <img src="../../recursos/gestorContenido/index/img/find_user.png" class="user-image img-responsive"/>
                     </li>
                     <li>
-                        <a class="active-menu"  href="index.html"><i class="fa fa-home fa-3x"></i> Principal</a>
+                        <a  href="index.html" class="active-menu"><i class="fa fa-home fa-3x"></i> Principal</a>
                     </li>
                     <li>
-                        <a id="refLibro"><i class="fa fa-book fa-3x"></i> Libros</a>
+                        <a href="../libro/libro.html"><i class="fa fa-book fa-3x"></i> Libros</a>
                     </li>
                     <li>
-                        <a id="refAutor"><i class="fa fa-ticket fa-3x"></i> Autores</a>
+                        <a href="../autor/autor.html"><i class="fa fa-ticket fa-3x"></i> Autores</a>
                     </li>
                     <li  >
-                        <a id="refEditorial"><i class="fa fa-tags fa-3x"></i> Editoriales</a>
+                        <a href="../editorial/editorial.html"><i class="fa fa-tags fa-3x"></i> Editoriales</a>
                     </li>	
                     <li  >
-                        <a id="refCaracteristica"><i class="fa fa-archive fa-3x"></i> Caracteristicas</a>
+                        <a href="../caracteristica/caracteristica.html"><i class="fa fa-archive fa-3x"></i> Caracteristicas</a>
                     </li>
                     <li  >
-                        <a  id="refClasificacion"><i class="fa fa-sitemap fa-3x"></i> Clasificaciones</a>
+                        <a  href="../clasificacion/clasificacion.html"><i class="fa fa-sitemap fa-3x"></i> Clasificaciones</a>
                     </li>
                     <li id="liUsuario"></li>	
                 </ul>
             </div>
         </nav>  
-        <!-- /. NAV SIDE  -->
+
+
         <div id="contenido">
             <div id="page-wrapper" >
                 <div id="page-inner">
@@ -77,7 +88,7 @@
                         <table border="0" width="100%" align="center">
                             <tr>
                                 <td>
-                                    <!--div class="col-md-3 col-sm-6 col-xs-6"-->           
+                                    <div class="col-md-10 col-sm-6 col-xs-6">           
                                     <div class="panel panel-back noti-box">
                                         <span class="icon-box bg-color-red set-icon">
                                             <i class="fa fa-book"></i>
@@ -87,10 +98,10 @@
                                             <p class="text-muted"><label id="cantiLibrosUsu"/></p>
                                         </div>
                                     </div>
-                                    <!--/div-->
+                                    </div>
                                 </td>
                                 <td>
-                                    <!--div class="col-md-3 col-sm-6 col-xs-6"-->           
+                                    <div class="col-md-10 col-sm-6 col-xs-6">           
                                     <div class="panel panel-back noti-box">
                                         <span class="icon-box bg-color-green set-icon">
                                             <i class="fa fa-bars"></i>
@@ -100,10 +111,10 @@
                                             <p class="text-muted"><label id="cantAutoresUsu"/></p>
                                         </div>
                                     </div>
-                                    <!--/div-->
+                                    </div>
                                 </td>
                                 <td>
-                                    <!--div class="col-md-3 col-sm-6 col-xs-6"-->           
+                                    <div class="col-md-10 col-sm-6 col-xs-6">           
                                     <div class="panel panel-back noti-box">
                                         <span class="icon-box bg-color-blue set-icon">
                                             <i class="fa fa-bell-o"></i>
@@ -113,10 +124,10 @@
                                             <p class="text-muted"><label id="cantEditorialesUsu"/></p>
                                         </div>
                                     </div>
-                                    <!--/div-->
+                                    </div>
                                 </td>
                                 <td>
-                                    <!--div class="col-md-3 col-sm-6 col-xs-6"-->           
+                                    <div class="col-md-10 col-sm-6 col-xs-6">           
                                     <div class="panel panel-back noti-box" id="optimizar">
                                         <span class="icon-box bg-color-brown set-icon">
                                             <i class="fa fa-rocket"></i>
@@ -126,7 +137,7 @@
                                             <p class="text-muted">Limpiar los archivos basura</p>
                                         </div>
                                     </div>
-                                    <!--/div-->
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -137,139 +148,30 @@
                     <table class="table table-striped">
                         <thead>
                         <th>
-                            <h3>Usuario</h3>
+                        <h3>Usuario</h3>
                         </th>
                         <th>
-                            <h3>Mensaje</h3>
+                        <h3>Mensaje</h3>
                         </th>
                         <th>
-                            <h3>Acciones</h3>
+                        <h3>Acciones</h3>
                         </th>
                         </thead>
                         <tbody id="contactos">
-                            
+
                         </tbody>
                     </table>
                 </div>
-                <!-- /. PAGE INNER  -->
             </div>
         </div>
-        <!-- /. PAGE WRAPPER  -->
-    </div>
-    <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
 
-    <!-- METISMENU SCRIPTS -->
-    <script src="../../recursos/gestorContenido/index/js/jquery.metisMenu.js"></script>
-    <!-- MORRIS CHART SCRIPTS >
-    <script src="../../recursos/gestorContenido/index/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="../../recursos/gestorContenido/index/js/morris/morris.js"></script>
-    <!-- CUSTOM SCRIPTS>
-    <script src="../../recursos/gestorContenido/index/js/custom.js"></script-->
-
-    <footer class="footer-basic-centered">
-        <div class="footer-company-name">
-            <p>Senese - Cáceres &copy; 2015</p>
-        </div>
-    </footer>
-    <script src="../../recursos/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
-    <script src="../../recursos/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="../../recursos/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-    <script src="../../recursos/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
-    <script src="../../recursos/datatable/dataTables.bootstrap.js" type="text/javascript"></script>
-    <script src="../../recursos/datatable/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="../../recursos/md5/md5.js" type="text/javascript"></script>
-    <!--script src="../../recursos/jsTree/jstree.min.js" type="text/javascript"></script-->
-    <script src="index.js" type="text/javascript"></script>
-
-    <!-- INICIO MODAL CONTRASENA -->
-
-    <div class="modal fade" id="modalCambiarPass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title main-text" id="tituloModal">
-                        <span class="icon-box bg-color-green set-icon">
-                            <i class="fa fa-bars"></i>
-                        </span>
-                        Cambiar contraseña
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="panel panel-back noti-box">
-
-                        <div class="text-box" >
-
-                            <form class="navbar-form navbar" >
-                                <table width="100%" cellspacing="0" align="center">
-                                    <tr>
-                                        <td>
-                                            <label class="text-muted">Actual Contraseña</label>
-                                        </td>
-                                        <td>
-                                            <input type="password" id="password" name="password" class="text-muted" required="" placeholder="**********"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label class="text-muted">Nueva Contraseña</label>
-                                        </td>
-                                        <td>
-                                            <input type="password" id="password1" name="password1" class="text-muted" required="" placeholder="**********"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label class="text-muted">Repite la contraseña</label>
-                                        </td>
-                                        <td>
-                                            <input type="password" id="password2" name="password2" class="text-muted" required="" placeholder="**********"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"  align="center">
-                                            <button type="button" class="btn-success" id="btcambiar">
-                                                Cambiar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+        <footer class="footer-basic-centered">
+            <div class="footer-company-name">
+                <p>Senese - Cáceres &copy; 2015</p>
             </div>
-        </div>
+        </footer>
+
     </div>
-
-    <!-- FIN MODAL CONTRASENA -->
-
-    <!-- INICIO MODAL MENSAJE -->
-
-    <div class="modal" id="infoCambioPass"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content ">
-                <div class="modal-body">
-                    <div class="modal-sm">
-                        <center><h5>La contraseña ha sido cambiada con éxito</h5></center>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FIN MODAL MENSAJE -->
 
 </body>
 </html>

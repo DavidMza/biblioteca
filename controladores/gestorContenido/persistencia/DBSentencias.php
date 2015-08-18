@@ -5,9 +5,9 @@
 interface DBSentencias {
 
 //AUTORES
-    const LISTAR_AUTORES = "SELECT * FROM autores where borrado = 0";
+    const LISTAR_AUTORES = "SELECT id_autor AS id, nombre_autor AS nombre FROM autores WHERE borrado = 0";
     const LISTAR_AUTORES_X_USUARIO = "SELECT id_autor, nombre_autor FROM autores INNER JOIN log_autores ON id_autor = id_autor_log_autor WHERE borrado = 0 AND id_usuario_log_autor = ? AND id_accion_log_autor = 1;";
-    const LISTAR_TODO_AUTORES = "SELECT * FROM autores";
+    const LISTAR_TODO_AUTORES = "SELECT id_autor AS id, nombre_autor AS nombre FROM autores";
     const LISTAR_TODO_AUTORES_X_USUARIO = "SELECT id_autor, nombre_autor FROM autores INNER JOIN log_autores ON id_autor = id_autor_log_autor WHERE id_usuario_log_autor = ? AND id_accion_log_autor = 1;";
     const AGREGAR_AUTOR = "INSERT INTO autores (nombre_autor) VALUES(?);";
     const MODIFICAR_AUTOR = "UPDATE autores SET nombre_autor = ? WHERE id_autor = ?";

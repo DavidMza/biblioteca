@@ -3,15 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorLibro.php</file>
-            <file>file:/var/www/html/biblioteca/controladores/portalWeb/persistencia/DBSentenciasPortal.php</file>
-            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorUsuario.php</file>
-            <file>file:/var/www/html/biblioteca/gestorContenido/index/index.html</file>
-            <file>file:/var/www/html/biblioteca/portalWeb/home/buscador.php</file>
-            <file>file:/var/www/html/biblioteca/controladores/gestorContenido/persistencia/DBSentencias.php</file>
-            <file>file:/var/www/html/biblioteca/portalWeb/js/funciones2.js</file>
-            <file>file:/var/www/html/biblioteca/gestorContenido/index/index.js</file>
-            <file>file:/var/www/html/biblioteca/portalWeb/home/detalle.php</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorAutor.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.html</file>
+            <file>file:/C:/wamp/www/biblioteca/portalWeb/home/buscador.php</file>
+            <file>file:/C:/wamp/www/biblioteca/recursos/portalWeb/home/css/style.css</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor1.js</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.css</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.js</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/Imprimir.php</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/persistencia/DBSentencias.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor1.html</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/tabla.js</file>
         </group>
     </open-files>
 </project-private>
