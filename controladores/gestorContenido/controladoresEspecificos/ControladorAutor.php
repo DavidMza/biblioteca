@@ -28,7 +28,7 @@ class ControladorAutor extends ControladorGeneral {
             if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES);
             }else{
-                $parametros = array("usuario" => $_SESSION["usuario"]);
+                $parametros = array("usuario" => $_SESSION["user"]);
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES_X_USUARIO,$parametros);
             }
             
@@ -61,7 +61,7 @@ class ControladorAutor extends ControladorGeneral {
             $parametros = array("nombreAutor" => $datos["nombre"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_AUTOR, $parametros);
             $id_autor = $this->ultimoID();
-            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["usuario"]);
+            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["user"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_AGREGAR_AUTORES, $parametros);
             return $id_autor;
         } catch (Exception $e) {
@@ -75,7 +75,7 @@ class ControladorAutor extends ControladorGeneral {
             $parametros = array("nombreAutor" => $datos["nombre"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_AUTOR, $parametros);
             $id_autor = $datos["id"];
-            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["usuario"]);
+            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["user"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_MODIFICAR_AUTORES, $parametros);
         } catch (Exception $e) {
             throw new Exception("Autor-modificar: " . $e->getMessage());
@@ -87,7 +87,7 @@ class ControladorAutor extends ControladorGeneral {
             session_start();
             $parametros = array("id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_AUTOR, $parametros);
-            $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["usuario"]);
+            $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["user"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_AUTORES, $parametros);
         } catch (Exception $e) {
             throw new Exception("Autor-eliminar: " . $e->getMessage());
@@ -110,7 +110,7 @@ class ControladorAutor extends ControladorGeneral {
             
             $retorno["cantTotal"] = $listado[0]["autores"];
             $resultado = null;
-            $parametros = array("usuario" => $_SESSION["usuario"]);
+            $parametros = array("usuario" => $_SESSION["user"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_AUTORES_CARGADOS_X_USUARIO, $parametros);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             

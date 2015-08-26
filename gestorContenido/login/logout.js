@@ -8,7 +8,12 @@ $(function () {
                 window.location = "../login/login.html";
             }
             if (sessionStorage.value == '2') {
-                $("#liUsuario").html('<a href="../usuario/usuario.html"><i class="fa fa-user fa-3x"></i> Usuarios</a>');
+                $("#liUsuario").html('<a href="../usuario/usuario.html" id="liuser"><i class="fa fa-user fa-3x"></i> Usuarios</a>');
+            }
+            if (sessionStorage.pass == '1') {
+                alert("Bienvenido, Antes de continuar debe definir una Nueva Contraseña");
+                sessionStorage.pass = '0';
+                window.location = "../password/pass.html";
             }
             app.bindings();
             $("#nombre_usuario").html('<i class="fa fa-user"></i>' + sessionStorage.usuario + '');

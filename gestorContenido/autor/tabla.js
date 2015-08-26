@@ -14,7 +14,7 @@
  * - El modal debe tener un campo hidden con id igual a "id"
  * 
  */
-function Tabla(contenedor, cabecera, controlador) {
+function Tabla(contenedor, cabecera, controlador, opciones) {
     this.contenedor = $("#" + contenedor)[0];
     this.cabecera = cabecera;
     this.controlador = controlador;
@@ -22,7 +22,11 @@ function Tabla(contenedor, cabecera, controlador) {
     //this.thead = document.createElement("thead");
     this.tbody = document.createElement("tbody");
     this.paginador = document.createElement("div");
-
+    if (typeof opciones == "undefined"){
+            this.opciones = true;
+    }else{
+            this.opciones = opciones;
+    }
 }
 
 Tabla.prototype.locacion = "http://" + window.location.host + "/biblioteca/";
@@ -31,8 +35,7 @@ Tabla.prototype.crearTabla = function () {
     this.crearBotonesCabecera();
 
     //var tabla = document.createElement("table");
-    this.tabla.className = "table table-striped";
-
+    this.crearCheckMostrarTodo();
     this.crearCabeceraTabla();
 
     this.listar();
@@ -105,6 +108,37 @@ Tabla.prototype.crearBotonesCabecera = function () {
 
     tabla.appendChild(tr);
 
+    /*var tr = document.createElement("tr");
+     var td = document.createElement("td");
+     td.setAttribute("colspan", 3);
+     var div = document.createElement("div");
+     div.className = "checkbox";
+     var label = document.createElement("label");
+     label.setAttribute("data-tooltip", "Mostrar registros borrados");
+     var input = document.createElement("input");
+     input.setAttribute("type", "checkbox");
+     //input.setAttribute("id","listarTodo");
+     $(input).on('click', function (event) {
+     refTabla.listar();
+     });
+     refTabla.listartodo = input;
+     var texto = document.createTextNode("Mostrar Todos");
+     label.appendChild(input);
+     label.appendChild(texto);
+     div.appendChild(label);
+     td.appendChild(div);
+     tr.appendChild(td);
+     
+     tabla.appendChild(tr);*/
+
+    tabla.setAttribute("width", "100%");
+    refTabla.contenedor.appendChild(tabla);
+}
+
+
+Tabla.prototype.crearCheckMostrarTodo = function () {
+    var refTabla = this;
+    var tabla = document.createElement("table");
     var tr = document.createElement("tr");
     var td = document.createElement("td");
     td.setAttribute("colspan", 3);
@@ -127,13 +161,12 @@ Tabla.prototype.crearBotonesCabecera = function () {
     tr.appendChild(td);
 
     tabla.appendChild(tr);
-
-    tabla.setAttribute("width", "100%");
     refTabla.contenedor.appendChild(tabla);
-}
+};
 
 Tabla.prototype.crearCabeceraTabla = function () {
     var refTabla = this;
+    refTabla.tabla.className = "table table-striped";
     var thead = document.createElement("thead");
     for (var i = 0; i < this.cabecera.length; i++) {
         var th = document.createElement("th");
@@ -143,15 +176,16 @@ Tabla.prototype.crearCabeceraTabla = function () {
         th.appendChild(h3);
         thead.appendChild(th);
     }
-    ;
-    var th = document.createElement("th");
-    var h3 = document.createElement("h3");
-    var texto = document.createTextNode("Opciones");
-    h3.appendChild(texto);
-    th.appendChild(h3);
-    th.setAttribute("colspan", "2");
-    th.setAttribute("align", "center");
-    thead.appendChild(th);
+    if (refTabla.opciones) {
+        var th = document.createElement("th");
+        var h3 = document.createElement("h3");
+        var texto = document.createTextNode("Opciones");
+        h3.appendChild(texto);
+        th.appendChild(h3);
+        th.setAttribute("colspan", "2");
+        th.setAttribute("align", "center");
+        thead.appendChild(th);
+    }
     refTabla.tabla.appendChild(thead);
 };
 
@@ -266,7 +300,8 @@ Tabla.prototype.mostrarRegistros = function () {
             var texto = document.createTextNode(refTabla.datos[i][this.cabecera[j].toLowerCase()]);
             td.appendChild(texto);
             tr.appendChild(td);
-
+        }
+        if (refTabla.opciones) {
             var td = document.createElement("td");
             var editar = document.createElement("a");
             editar.setAttribute("data-id", refTabla.datos[i].id);
@@ -297,8 +332,7 @@ Tabla.prototype.mostrarRegistros = function () {
             fa.className = "fa fa-trash-o fa-2x";
             eliminar.appendChild(fa);
             td.appendChild(eliminar);
-            tr.appendChild(td);
-
+            tr.appendChild(td); 
         }
         refTabla.tbody.appendChild(tr);
     }
@@ -317,7 +351,7 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
     datos.accion = "eliminar";
     datos.formulario = refTabla.controlador;
     datos.seccion = "gestor";
-    datos.usuario = sessionStorage.usuario;
+    datos.user = sessionStorage.usuario;
     $.ajax({
         url: url,
         method: 'POST',
@@ -358,7 +392,7 @@ Tabla.prototype.guardar = function () {
     datos.accion = "agregar";
     datos.formulario = refTabla.controlador;
     datos.seccion = "gestor";
-    datos.usuario = sessionStorage.usuario;
+    datos.user = sessionStorage.usuario;
     //console.log(datos);
     $.ajax({
         url: url,
@@ -366,6 +400,7 @@ Tabla.prototype.guardar = function () {
         dataType: 'json',
         data: datos,
         success: function (data) {
+            console.log(data);
             var aux = {};
             aux.id = data;
             for (var i = 0, max = refTabla.cabecera.length; i < max; i++) {
@@ -392,7 +427,7 @@ Tabla.prototype.modificar = function () {
     datos.accion = "modificar";
     datos.formulario = refTabla.controlador;
     datos.seccion = "gestor";
-    datos.usuario = sessionStorage.usuario;
+    datos.user = sessionStorage.usuario;
     $.ajax({
         url: url,
         method: 'POST',

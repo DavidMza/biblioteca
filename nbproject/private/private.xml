@@ -3,16 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorAutor.php</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.html</file>
-            <file>file:/C:/wamp/www/biblioteca/portalWeb/home/buscador.php</file>
-            <file>file:/C:/wamp/www/biblioteca/recursos/portalWeb/home/css/style.css</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor1.js</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.css</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.js</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/Imprimir.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/usuario/usuario.js</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/usuario/usuario.html</file>
             <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/persistencia/DBSentencias.php</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor1.html</file>
             <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/tabla.js</file>
         </group>
     </open-files>

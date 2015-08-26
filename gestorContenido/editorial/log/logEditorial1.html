@@ -1,0 +1,44 @@
+<div id="contenido">
+    <div class="col-md-3"></div>
+    <div id="page-wrapper" class="container">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-9 col-sm-6 col-xs-6">
+                    <div class="page-header">
+                        <h1>Historial Editorales</h1>
+                    </div>
+                    <table width="100%">
+                        <tr>
+                            <td align="center" width="33%">
+                                <button class="btn btn-primary btn-lg" id="imprimir">
+                                    Imprimir
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <form id="formImprimir" target="_blank" method="POST">
+                        <input type="hidden" id="Formulario" name="Formulario" value="Editorial"/>
+                        <input type="hidden" id="html" name="html" value="html" />
+                    </form>
+
+                    <table class="table" id="tablaHistorialEditorial">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Nombre editorial anterior</th>
+                                <th>Nombre editorial modificado</th>
+                                <th>Acción</th>
+                                <th>Nombre editorial actual</th>
+                                <th>Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTablaEditorial"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

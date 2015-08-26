@@ -17,10 +17,10 @@ class ControladorLogin extends ControladorGeneral {
                 if ($listado[0]["clave_usuario"] == $datos["clave"]) {
                     unset($listado[0]["clave_usuario"]);
                     session_start();
-                    $_SESSION["usuario"] = $listado[0]["usuario"];
+                    $_SESSION["user"] = $listado[0]["usuario"];
                     $_SESSION["nombre"] = $listado[0]["nombre"];
                     $_SESSION["tipo"] = $listado[0]["value"];
-                    $retorno = array("nombre" => $listado[0]["nombre"], "value" => $listado[0]["value"]);
+                    $retorno = array("nombre" => $listado[0]["nombre"], "value" => $listado[0]["value"], "pass" => $listado[0]["pass"]);
                     return $retorno;
                 } else {
                     throw new Exception("Contraseña Incorrecta");

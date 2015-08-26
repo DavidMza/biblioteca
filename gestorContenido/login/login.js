@@ -31,6 +31,7 @@ $(function () {
                 success: function (data) {
                     sessionStorage.usuario = data.nombre;
                     sessionStorage.value = data.value;
+                    sessionStorage.pass = data.pass;
                     $('form').fadeOut(500);
                     $('.wrapper').addClass('form-success');
                 },

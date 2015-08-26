@@ -11,7 +11,8 @@ class ControladorUsuario extends ControladorGeneral {
 
     public function agregar($datos) {
         try {
-            $parametros = array("nombre" => $datos["nombre"], "clave" => $datos["clave"]);
+            session_start();
+            $parametros = array("nombre" => $datos["nombre"], "clave" => "25d55ad283aa400af464c76d713c07ad", "definirPass" => "1");
             if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_USUARIO, $parametros);                
             }
@@ -52,7 +53,8 @@ class ControladorUsuario extends ControladorGeneral {
 
     public function modificar($datos) {
         try {
-            $parametros = array("nombre" => $datos["nombre"], "clave" => $datos["clave"], "id" => $datos["id"]);
+            session_start();
+            $parametros = array("nombre" => $datos["nombre"], "id" => $datos["id"]);
             if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_USUARIO, $parametros);
             }
@@ -63,6 +65,7 @@ class ControladorUsuario extends ControladorGeneral {
 
     public function eliminar($datos) {
         try {
+            session_start();
             $parametros = array("id" => $datos["id"]);
             if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_USUARIO, $parametros);

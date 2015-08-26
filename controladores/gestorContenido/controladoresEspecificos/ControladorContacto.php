@@ -1,7 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
-require_once 'Controlador_LogEditoriales.php';
+//require_once 'ControladorLogEditoriales.php';
 
 class ControladorContacto extends ControladorGeneral {
 

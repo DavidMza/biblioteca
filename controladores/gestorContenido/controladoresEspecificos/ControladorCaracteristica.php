@@ -1,7 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
-require_once 'Controlador_LogCaracteristicas.php';
+require_once 'ControladorLogCaracteristicas.php';
 
 class ControladorCaracteristica extends ControladorGeneral {
 
@@ -45,13 +45,14 @@ class ControladorCaracteristica extends ControladorGeneral {
     public function agregar($datos) {
         try {
             session_start();
-            $parametros = array("nombreCaracteristica" => $datos["nombre"]);
+            //print_r($datos);
+            $parametros = array("nombreCaracteristica" => $datos["denominacion"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_CARACTERISTICA, $parametros);
             unset($parametros);
             //Rescato la caracteristica insertada
             $idUltimaCaracteristica = $this->ultimoID();
 
-            $parametros = array("id_Caracteristica" => $idUltimaCaracteristica, "nuevo_nombre_Caracteristica" => $datos["nombre"], "id_Usuario" => $_SESSION["usuario"]);
+            $parametros = array("id_Caracteristica" => $idUltimaCaracteristica, "nuevo_nombre_Caracteristica" => $datos["denominacion"], "id_Usuario" => $_SESSION["user"]);
             //print_r($_SESSION);
             $this->refLog = new Controlador_LogCaracteristicas($parametros);
             $this->refLog->agregar();
@@ -68,13 +69,13 @@ class ControladorCaracteristica extends ControladorGeneral {
             //Primero rescato el nombre de la caracteristica que voy a modificar
             $nombreCaracteristicaAnterior = $this->traerNombreCaracteristica($datos["id"]);
             //Cargo los parametros y aplico la modificacion
-            $parametros = array("nombreCaracteristica" => $datos["nombre"], "id" => $datos["id"]);
+            $parametros = array("nombreCaracteristica" => $datos["denominacion"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_CARACTERISTICA, $parametros);
 
             unset($parametros);
             $parametros = array("id_Caracteristica" => $datos["id"],
-                "id_Usuario" => $_SESSION["usuario"],
-                "nuevo_nombre_Caracteristica" => $datos["nombre"],
+                "id_Usuario" => $_SESSION["user"],
+                "nuevo_nombre_Caracteristica" => $datos["denominacion"],
                 "anterior_nombre_Caracteristica" => $nombreCaracteristicaAnterior
             );
 
@@ -95,7 +96,7 @@ class ControladorCaracteristica extends ControladorGeneral {
 
             unset($parametros);
             $parametros = array("id_Caracteristica" => $datos["id"],
-                "id_Usuario" => $_SESSION["usuario"],
+                "id_Usuario" => $_SESSION["user"],
                 "anterior_nombre_Caracteristica" => $nombreCaracteristicaAnterior
             );
 

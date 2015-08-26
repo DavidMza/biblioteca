@@ -176,7 +176,7 @@ class ControladorLibro extends ControladorGeneral {
             
             $retorno["cantTotal"] = $listado[0]["libros"];
             $resultado = null;
-            $parametros = array("usuario" => $_SESSION["usuario"]);
+            $parametros = array("usuario" => $_SESSION["user"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_LIBROS_CARGADOS_X_USUARIO, $parametros);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             
@@ -193,7 +193,7 @@ class ControladorLibro extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            $parametros = array("usuario" => $_SESSION["usuario"]);
+            $parametros = array("usuario" => $_SESSION["user"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_LIBROS_CARGADOS_X_USUARIO, $parametros);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;

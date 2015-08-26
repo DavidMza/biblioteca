@@ -2,7 +2,7 @@
 
 require_once 'ControladorGeneral.php';
 
-class Controlador_LogEditoriales extends ControladorGeneral {
+class ControladorLogEditoriales extends ControladorGeneral {
 
     private $idEditorial;
     private $idUsuario;

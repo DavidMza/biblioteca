@@ -1,7 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
-require_once 'Controlador_LogEditoriales.php';
+require_once 'ControladorLogEditoriales.php';
 
 class ControladorEditorial extends ControladorGeneral {
 
@@ -40,7 +40,7 @@ class ControladorEditorial extends ControladorGeneral {
             //Rescato la editorial insertada
             $idUltimaEditorial = $this->ultimoID();
 
-            $parametros = array("id_Editorial" => $idUltimaEditorial, "nuevo_nombre_Editorial" => $datos["nombre"], "id_Usuario" => $_SESSION["usuario"]);
+            $parametros = array("id_Editorial" => $idUltimaEditorial, "nuevo_nombre_Editorial" => $datos["nombre"], "id_Usuario" => $_SESSION["user"]);
             //print_r($_SESSION);
             $this->refLog = new Controlador_LogEditoriales($parametros);
             $this->refLog->agregar();
@@ -62,7 +62,7 @@ class ControladorEditorial extends ControladorGeneral {
 
             unset($parametros);
             $parametros = array("id_Editorial" => $datos["id"],
-                "id_Usuario" => $_SESSION["usuario"],
+                "id_Usuario" => $_SESSION["user"],
                 "nuevo_nombre_Editorial" => $datos["nombre"],
                 "anterior_nombre_Editorial" => $nombreEditorialAnterior
             );
@@ -84,7 +84,7 @@ class ControladorEditorial extends ControladorGeneral {
 
             unset($parametros);
             $parametros = array("id_Editorial" => $datos["id"],
-                "id_Usuario" => $_SESSION["usuario"],
+                "id_Usuario" => $_SESSION["user"],
                 "anterior_nombre_Editorial" => $nombreEditorialAnterior
             );
 
@@ -118,7 +118,7 @@ class ControladorEditorial extends ControladorGeneral {
 
             $retorno["cantTotal"] = $listado[0]["editoriales"];
             $resultado = null;
-            $parametros = array("usuario" => $_SESSION["usuario"]);
+            $parametros = array("usuario" => $_SESSION["user"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_EDITORIALES_CARGADAS_X_USUARIO, $parametros);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
 

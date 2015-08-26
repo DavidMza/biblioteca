@@ -5,7 +5,7 @@ $(function () {
         var tabla = new Tabla("aca",["Nombre"],"Autor");
         app.init = function () {
             if (sessionStorage.value == '2') {
-                $("#log").html('<a id="refLog"> Ver Log de Autores</a>');
+                $("#log").html('<a href="log/logAutor.html"> Ver Log de Autores</a>');
             }
             tabla.crearTabla();
             
@@ -14,10 +14,6 @@ $(function () {
 
         app.bindings = function () {
             
-            $("#refLog").on('click', function (event) {
-                $("#contenido").load('../autor/log/logAutor.html #contenido');
-                $.getScript("../autor/log/logAutor.js");
-            });
 
             $("#guardar").on("click", function (event) {
                 tabla.accion();
