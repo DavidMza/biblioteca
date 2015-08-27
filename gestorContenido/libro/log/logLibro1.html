@@ -1,0 +1,51 @@
+
+<div id="contenido">
+    <div class="col-md-3"></div>
+    <div id="page-wrapper" class="container">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-9 col-sm-6 col-xs-6">
+                    <div class="page-header">
+                        <h1>Logs Libros</h1>
+                    </div>
+
+                    <form id="formImprimir" target="_blank" method="POST">
+                        <input type="hidden" id="Formulario" name="Formulario" value="Libro"/>
+                        <input type="hidden" id="html" name="html" value="html" />
+                    </form>
+                    
+                    <table width="80%">
+                        <tr>
+                            <td width="33%"></td>
+                            <td align="right" width="33%">
+                                <button class="btn btn-primary btn-lg" id="imprimir">
+                                    Imprimir
+                                </button>
+                            </td>
+                            <td width="33%"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <table class="table" id="tablaLogLibro">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Libro</th>
+                                <th>Usuario</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTablaLogLibro"></tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

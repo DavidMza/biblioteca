@@ -1,17 +1,16 @@
 $(function () {
     var TallerAvanzada = {};
-
     (function (app) {
-        var tabla = new Tabla("aca",["Fecha","Hora","Autor","Usuario","Accion"],"LogAutor",false);
+        //"aca",["Fecha","Hora","Autor","Usuario","Accion"],"LogAutor",false
+        var tabla = new Tabla({
+            contenedor: "aca",
+            cabecera: ["Fecha","Hora","Autor","Usuario","Accion"],
+            controlador: "LogAutor",
+            opciones: false
+        });
         app.init = function () {
             tabla.crearCabeceraTabla();
             tabla.listar();
-            
-            app.bindings();
-        };
-
-        app.bindings = function () {
-            
         };
 
         app.init();

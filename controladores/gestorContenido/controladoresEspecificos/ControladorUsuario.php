@@ -88,7 +88,7 @@ class ControladorUsuario extends ControladorGeneral {
             session_start();
             $passwordActualIngresada = $datos["claveActual"];
             
-            $parametros = array("idUsuario" => $_SESSION["usuario"]);
+            $parametros = array("idUsuario" => $_SESSION["user"]);
             $retorno = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::OBTENER_PASSWORD, $parametros);
             $retorno = $retorno->fetchAll(PDO::FETCH_ASSOC);
 
@@ -96,7 +96,7 @@ class ControladorUsuario extends ControladorGeneral {
             
             if ($passwordActualIngresada == $passwordActualObtenida) {
                 unset($parametros);
-                $parametros = array("nuevaPass" => $datos["claveNueva"], "idUsuario" => $_SESSION["usuario"]);
+                $parametros = array("nuevaPass" => $datos["claveNueva"], "idUsuario" => $_SESSION["user"]);
                 $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
                 return array("retorno" => "Se ha actualizado la contrasena", "bandera" => true);
             }else{
@@ -106,6 +106,19 @@ class ControladorUsuario extends ControladorGeneral {
             
         }  catch (Exception $e){
             throw new Exception("cambiarPass-usuario: " . $e->getMessage());
+        }
+    }
+    
+    public function reiniciarPass($datos) {
+        try {
+            session_start();
+            $parametros = array("pass" => "25d55ad283aa400af464c76d713c07ad", "id" => $datos["id"]);
+            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
+            return 1;
+            }
+        } catch (Exception $e) {
+            throw new Exception("Usuario-reiniciarPass: " . $e->getMessage());
         }
     }
 

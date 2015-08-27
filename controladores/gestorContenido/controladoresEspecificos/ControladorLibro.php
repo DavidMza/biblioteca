@@ -90,20 +90,6 @@ class ControladorLibro extends ControladorGeneral {
         }
     }
 
-    public function listarLogs() {
-        try {
-            session_start();
-            $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_LIBROS);
-            }
-            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $listado;
-        } catch (Exception $e) {
-            throw new Exception("Libro-listarLogs: " . $e->getMessage());
-        }
-    }
-
     public function modificar($datos) {
         try {
 

@@ -63,7 +63,7 @@ $(function () {
                 });
             });
             
-            $("#optimizar").click(function (event) {
+            $(".optimizar").click(function (event) {
                 var url = locacion + "controladores/Ruteador.php";
                 var datos = {};
                 datos.accion = "limpiarFotos";
@@ -82,6 +82,26 @@ $(function () {
                     }
                 });
             });
+            
+            /*$("#optimizar").click(function (event) {
+                var url = locacion + "controladores/Ruteador.php";
+                var datos = {};
+                datos.accion = "limpiarFotos";
+                datos.formulario = "Foto";
+                datos.seccion = "gestor";
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    dataType: 'json',
+                    data: datos,
+                    success: function (data) {
+                        alert(data + " Archivos basuras limpiados");
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            });*/
             
         };
 

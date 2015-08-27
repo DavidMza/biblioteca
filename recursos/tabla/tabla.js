@@ -12,21 +12,44 @@
  * - El id del boton guardar del modal debe tener id igual a "guardar"
  * - Debe crearse un binding del boton guardar del modal que llame a la funcion "accion" de la Tabla
  * - El modal debe tener un campo hidden con id igual a "id"
- * 
+ * contenedor, cabecera, controlador, opciones
  */
-function Tabla(contenedor, cabecera, controlador, opciones) {
-    this.contenedor = $("#" + contenedor)[0];
-    this.cabecera = cabecera;
-    this.controlador = controlador;
-    this.tabla = document.createElement("table");
-    //this.thead = document.createElement("thead");
-    this.tbody = document.createElement("tbody");
-    this.paginador = document.createElement("div");
-    if (typeof opciones == "undefined"){
-            this.opciones = true;
-    }else{
-            this.opciones = opciones;
+function Tabla(param) {
+    var refTabla = this;
+    refTabla.contenedor = $("#" + param.contenedor)[0];
+    refTabla.cabecera = param.cabecera;
+    refTabla.controlador = param.controlador;
+    refTabla.tabla = document.createElement("table");
+    refTabla.tbody = document.createElement("tbody");
+    refTabla.paginador = document.createElement("div");
+
+    if (typeof param.opciones == "undefined") {
+        refTabla.opciones = true;
+    } else {
+        refTabla.opciones = param.opciones;
     }
+
+    if (typeof param.nuevo == "undefined") {
+        refTabla.nuevo = function (event) {
+            $('#id').val(0);
+            $("#modal" + refTabla.controlador).modal({show: true});
+        };
+    } else {
+        refTabla.nuevo = param.nuevo;
+    }
+
+    if (typeof param.editar == "undefined") {
+        refTabla.editar = function (event) {
+            $('#id').val(this.getAttribute("data-id"));
+            for (var i = 0, max = refTabla.cabecera.length; i < max; i++) {
+                $("#" + refTabla.cabecera[i].toLowerCase()).val(this.parentNode.parentNode.children[i].innerHTML);
+            }
+            $("#modal" + refTabla.controlador).modal({show: true});
+        };
+    } else {
+        refTabla.editar = param.editar;
+    }
+
 }
 
 Tabla.prototype.locacion = "http://" + window.location.host + "/biblioteca/";
@@ -54,10 +77,7 @@ Tabla.prototype.crearBotonesCabecera = function () {
     var button = document.createElement("button");
     button.className = "btn btn-primary btn-lg";
     button.setAttribute("data-tooltip", "Nuevo Registro");
-    $(button).on("click", function (event) {
-        $('#id').val(0);
-        $("#modal" + refTabla.controlador).modal({show: true});
-    });
+    $(button).on("click", refTabla.nuevo);
     var fa = document.createElement("i");
     fa.className = "fa fa-plus fa-1x";
     button.appendChild(fa);
@@ -107,29 +127,6 @@ Tabla.prototype.crearBotonesCabecera = function () {
     tr.appendChild(td);
 
     tabla.appendChild(tr);
-
-    /*var tr = document.createElement("tr");
-     var td = document.createElement("td");
-     td.setAttribute("colspan", 3);
-     var div = document.createElement("div");
-     div.className = "checkbox";
-     var label = document.createElement("label");
-     label.setAttribute("data-tooltip", "Mostrar registros borrados");
-     var input = document.createElement("input");
-     input.setAttribute("type", "checkbox");
-     //input.setAttribute("id","listarTodo");
-     $(input).on('click', function (event) {
-     refTabla.listar();
-     });
-     refTabla.listartodo = input;
-     var texto = document.createTextNode("Mostrar Todos");
-     label.appendChild(input);
-     label.appendChild(texto);
-     div.appendChild(label);
-     td.appendChild(div);
-     tr.appendChild(td);
-     
-     tabla.appendChild(tr);*/
 
     tabla.setAttribute("width", "100%");
     refTabla.contenedor.appendChild(tabla);
@@ -216,7 +213,7 @@ Tabla.prototype.listar = function () {
         }
     });
 }
-;
+
 
 Tabla.prototype.rellenarTbody = function () {
     var refTabla = this;
@@ -306,14 +303,7 @@ Tabla.prototype.mostrarRegistros = function () {
             var editar = document.createElement("a");
             editar.setAttribute("data-id", refTabla.datos[i].id);
             editar.setAttribute("data-tooltip", "Editar");
-            $(editar).on("click", function (event) {
-                console.log(this.getAttribute("data-id"));
-                $('#id').val(this.getAttribute("data-id"));
-                for (var i = 0, max = refTabla.cabecera.length; i < max; i++) {
-                    $("#" + refTabla.cabecera[i].toLowerCase()).val(this.parentNode.parentNode.children[i].innerHTML);
-                }
-                $("#modal" + refTabla.controlador).modal({show: true});
-            });
+            $(editar).on("click", refTabla.editar);
             var fa = document.createElement("i");
             fa.className = "fa fa-pencil fa-2x";
             editar.appendChild(fa);
@@ -332,7 +322,7 @@ Tabla.prototype.mostrarRegistros = function () {
             fa.className = "fa fa-trash-o fa-2x";
             eliminar.appendChild(fa);
             td.appendChild(eliminar);
-            tr.appendChild(td); 
+            tr.appendChild(td);
         }
         refTabla.tbody.appendChild(tr);
     }

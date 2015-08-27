@@ -5,13 +5,18 @@ $(function () {
         var datosClasificaciones;
         app.init = function () {
             if (sessionStorage.value == '2') {
-                $("#log").html('<a href="log/logClasificacion.html"> Ver Log de Clasificaciones</a>');
+                $("#log").html('<a id="refLog"> Ver Log de Clasificaciones</a>');
             }
             app.listar();
             app.bindings();
         };
 
         app.bindings = function () {
+            
+            $("#refLog").on('click', function (event) {
+                $("#contenido").load('../clasificacion/log/logClasificacion.html #contenido');
+                $.getScript("../clasificacion/log/logClasificacion.js");
+            });
 
             $("#arbol").bind("select_node.jstree", function (e, data) {
                 if (data.node.id != '1') {
@@ -53,9 +58,9 @@ $(function () {
                 app.eliminar($("#id").val());
             });
 
-            /*$("#formClasificacion").bootstrapValidator({
+            $("#formClasificacion").bootstrapValidator({
                 excluded: [],
-            });*/
+            });
         };
 
         app.eliminar = function (id) {    //funcion para eliminar
@@ -107,8 +112,7 @@ $(function () {
                 data: datos,
                 success: function (data) {
                     $("#modalClasificacion").modal('hide');
-                    //app.actualizarTabla(data, $("#id").val());
-                    app.listar();
+                    app.actualizarTabla(data, $("#id").val());
                 },
                 error: function (data) {
                     alert(data.responseText);
@@ -142,7 +146,6 @@ $(function () {
         };
 
         app.listar = function () {
-            //alert("listar");
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             if ($("#listarTodo").prop('checked')) {
@@ -178,12 +181,10 @@ $(function () {
         };
 
         app.ArmarArbol = function (data) {
-            //alert("armarArbol");
-            //$('#arbol').html("");
             $('#arbol').jstree({'core': {
                     'data': data
                 }});
-            //$("#arbol").jstree('open_all');
+            $("#arbol").jstree('open_all');
         };
 
         app.limpiarModal = function () {    //funcion para limpiar los textbox del modal

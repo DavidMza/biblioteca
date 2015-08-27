@@ -2,34 +2,49 @@ $(function () {
     var TallerAvanzada = {};
     var locacion = "http://" + window.location.host + "/biblioteca/";
     (function (app) {
-        var tabla = new Tabla("aca",["Nombre","Usuario"],"Usuario");
+        //"aca", ["Nombre", "Usuario"], "Usuario"
+        var tabla = new Tabla({
+            contenedor: "aca",
+            cabecera: ["Nombre", "Usuario"],
+            controlador: "Usuario"
+        });
         app.init = function () {
-            $("#liuser")[0].className = "active-menu";
+            $("#liUsuario")[0].children[0].className = "active-menu";
             tabla.crearTabla();
-            
             app.bindings();
         };
 
         app.bindings = function () {
-
             $("#guardar").on("click", function (event) {
                 tabla.accion();
             });
-        };
 
-        app.imprimir = function () {    //funcion para imprimir
-            var aux = $("#tablaUsuario").html();//recupero el html del la tablaUsuario
-            aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
-            aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
-            $("#html").val('<table border="1">'+aux+'</table>');
-            $("#formImprimir").attr("action", locacion+"controladores/Imprimir.php");
-            $("#formImprimir").submit();//imprimo
-        };
-
-        app.limpiarModal = function () {    //funcion para limpiar los textbox del modal
-            $("#id").val(0);
-            $("#index").val(-1);
-            $("#nombre").val('');
+            $("#btnReset").on("click", function (event) {
+                if ($("#id").val() == 0) {
+                    alert("No hay ningun usuario seleccionado");
+                } else {
+                    var url = locacion + "controladores/Ruteador.php";
+                    var datos = {};
+                    datos.formulario = "Usuario";
+                    datos.accion = "reiniciarPass";
+                    datos.seccion = "gestor";
+                    datos.id = $("#id").val();
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        dataType: 'json',
+                        data: datos,
+                        success: function (data) {
+                            if (data == 1) {
+                                alert("Contraseña Reiniciada!!")
+                            }
+                        },
+                        error: function (data) {
+                            alert(data.responseText);
+                        }
+                    });
+                }
+            });
         };
 
         app.init();
