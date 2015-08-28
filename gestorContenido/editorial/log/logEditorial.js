@@ -7,7 +7,9 @@ $(function () {
             contenedor: "aca",
             cabecera: ["Fecha","Hora","Editorial","Usuario","Accion"],
             controlador: "LogEditoriales",
-            opciones: false
+            verEditar: false,
+            verEliminar: false,
+            verSeleccionar: false
         });
         app.init = function () {
             tabla.crearCabeceraTabla();

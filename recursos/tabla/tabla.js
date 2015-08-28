@@ -1,21 +1,36 @@
 
-/* Parametros
- * - Contenedor es el div donde se dibujara el ABM
- * - Cabecera es un array con los nombres de los campos que van a ir en la cabecera de la tabla, deberian empezar con Mayuscula
- * - Controlador es el nombre del controlador que se debe instanciar del lado del servidor
+/* Parametros (param)
+ * - contenedor (Obligatorio): es el tag donde se inyectara el codigo del ABM
+ * - cabecera (Obligatorio): es un ARRAY con los nombres de las columnas que van a ir en la cabecera de la tabla, deberian empezar con Mayuscula
+ * - controlador (Obligatorio): es el nombre del controlador que se debe instanciar del lado del servidor
+ * - verEditar (Opcional): es un booleano que nos indica si se debe mostrar la opcion editar en la tabla, si no se espeficica su valor sera true
+ * - verEliminar (Opcional): es un booleano que nos indica si se debe mostrar la opcion eliminar en la tabla, si no se espeficica su valor sera true
+ * - verSeleccionar (Opcional): es un booleano que nos indica si se debe mostrar la opcion seleccionar en la tabla, si no se espeficica su valor sera false
+ * - fnNuevo (Opcional): es la funcion que se ejecutara cuando se haga click en el boton de Nuevo Resgistro, si no se especifica se le asignara una funcion por defecto
+ * - fnEditar (Opcional): es la funcion que se ejecutara cuando se haga click en el boton de Editar, si no se especifica se le asignara una funcion por defecto
+ * - fnEliminar (Opcional): es la funcion que se ejecutara cuando se haga click en el boton de Eliminar, si no se especifica se le asignara una funcion por defecto
+ * - fnSeleccionar (Opcional): es la funcion que se ejecutara cuando se haga click en el boton de Seleccionar, si no se especifica se le asignara una funcion por defecto
+ * 
+ * Variables
+ * - listartodo: aqui se generara el input del tipo checkbox para mostrar todos los resgistros
+ * - pagActual: variable utilizada por el paginador para saber en que pagina se encuentra y poder mostrar los registros
+ * - datos: Arreglo de objetos que son los que mostrara la tabla.
+ * - listado: Arreglo de objetos que contendra listado de todos los registros traidos al listar, Solo es modificado por la funcion listar.
  * 
  * Restricciones
- * - El nombre de las cabeceras convertidas a minusculas debe coincidir con los nombres de los registros que me devuelve la base de datos.
+ * - Se necesita Jquery (por ahora)
+ * - La cabecera (en minusculas) debe coincidir con los nombres de los registros que me devuelve el servidor.
  * - El id del modal debe empezar con "modal" concatenado a lo que envie en Controlador
- * - El nombre de las cabeceras convertidas a minusculas debe coincidir con los id de los campos del modal.
+ * - La cabecera (en minusculas) debe coincidir con los id de los campos del modal.
  * - La base de datos debe enviar el id bajo el alias "id"
- * - El id del boton guardar del modal debe tener id igual a "guardar"
- * - Debe crearse un binding del boton guardar del modal que llame a la funcion "accion" de la Tabla
+ * - El id del boton guardar del modal debe tener id igual a "guardar" ?????? NO ES NECESARIO
+ * - Debe crearse un listener del boton guardar del modal que llame a la funcion "accion" de la Tabla
  * - El modal debe tener un campo hidden con id igual a "id"
- * contenedor, cabecera, controlador, opciones
+ * 
  */
 function Tabla(param) {
     var refTabla = this;
+    refTabla.locacion = "http://" + window.location.host + "/biblioteca/";
     refTabla.contenedor = $("#" + param.contenedor)[0];
     refTabla.cabecera = param.cabecera;
     refTabla.controlador = param.controlador;
@@ -23,23 +38,35 @@ function Tabla(param) {
     refTabla.tbody = document.createElement("tbody");
     refTabla.paginador = document.createElement("div");
 
-    if (typeof param.opciones == "undefined") {
-        refTabla.opciones = true;
+    if (typeof param.verEditar == "undefined") {
+        refTabla.verEditar = true;
     } else {
-        refTabla.opciones = param.opciones;
+        refTabla.verEditar = param.verEditar;
     }
 
-    if (typeof param.nuevo == "undefined") {
-        refTabla.nuevo = function (event) {
+    if (typeof param.verEliminar == "undefined") {
+        refTabla.verEliminar = true;
+    } else {
+        refTabla.verEliminar = param.verEliminar;
+    }
+
+    if (typeof param.verSeleccionar == "undefined") {
+        refTabla.verSeleccionar = false;
+    } else {
+        refTabla.verSeleccionar = param.verSeleccionar;
+    }
+
+    if (typeof param.fnNuevo == "undefined") {
+        refTabla.fnNuevo = function (event) {
             $('#id').val(0);
             $("#modal" + refTabla.controlador).modal({show: true});
         };
     } else {
-        refTabla.nuevo = param.nuevo;
+        refTabla.fnNuevo = param.fnNuevo;
     }
 
-    if (typeof param.editar == "undefined") {
-        refTabla.editar = function (event) {
+    if (typeof param.fnEditar == "undefined") {
+        refTabla.fnEditar = function (event) {
             $('#id').val(this.getAttribute("data-id"));
             for (var i = 0, max = refTabla.cabecera.length; i < max; i++) {
                 $("#" + refTabla.cabecera[i].toLowerCase()).val(this.parentNode.parentNode.children[i].innerHTML);
@@ -47,25 +74,43 @@ function Tabla(param) {
             $("#modal" + refTabla.controlador).modal({show: true});
         };
     } else {
-        refTabla.editar = param.editar;
+        refTabla.fnEditar = param.fnEditar;
+    }
+
+    if (typeof param.fnEliminar == "undefined") {
+        refTabla.fnEliminar = function (event) {
+            //console.log(this.getAttribute("data-id"));
+            refTabla.eliminar(this.getAttribute("data-id"), this);
+        };
+    } else {
+        refTabla.fnEliminar = param.fnEliminar;
+    }
+
+    if (typeof param.fnSeleccionar == "undefined") {
+        refTabla.fnSeleccionar = function (event) {
+            console.log("Funcion de Seleccion no definida");
+        };
+    } else {
+        refTabla.fnSeleccionar = param.fnSeleccionar;
+    }
+    
+    if (typeof param.fnListar == "undefined") {
+        refTabla.fnListar = function () {
+            refTabla.listar();
+        };
+    } else {
+        refTabla.fnListar = param.fnListar;
     }
 
 }
 
-Tabla.prototype.locacion = "http://" + window.location.host + "/biblioteca/";
 
 Tabla.prototype.crearTabla = function () {
-    this.crearBotonesCabecera();
-
-    //var tabla = document.createElement("table");
-    this.crearCheckMostrarTodo();
-    this.crearCabeceraTabla();
-
-    this.listar();
-
-    //this.contenedor.appendChild(this.tabla);
-
-    //this.contenedor.appendChild(this.paginador);
+    var refTabla = this;
+    refTabla.crearBotonesCabecera();
+    refTabla.crearCheckMostrarTodo();
+    refTabla.crearCabeceraTabla();
+    refTabla.fnListar();
 };
 
 Tabla.prototype.crearBotonesCabecera = function () {
@@ -77,7 +122,7 @@ Tabla.prototype.crearBotonesCabecera = function () {
     var button = document.createElement("button");
     button.className = "btn btn-primary btn-lg";
     button.setAttribute("data-tooltip", "Nuevo Registro");
-    $(button).on("click", refTabla.nuevo);
+    $(button).on("click", refTabla.fnNuevo);
     var fa = document.createElement("i");
     fa.className = "fa fa-plus fa-1x";
     button.appendChild(fa);
@@ -90,17 +135,17 @@ Tabla.prototype.crearBotonesCabecera = function () {
     var input = document.createElement("input");
     input.setAttribute("type", "search");
     input.setAttribute("placeholder", "Buscar...");
-    div.setAttribute("data-tooltip", "Ingrese el texto y presione ENTER");
-    var button = document.createElement("button");
-    button.className = "btn btn-primary btn-lg";
     $(input).keypress(function (event) {
         if (event.keyCode == 13 || event.which == 13) {
             refTabla.buscar(this.parentNode.children[0].value);
         }
     });
-    /*$(button).on("click", function (event) {
-     refTabla.buscar(this.parentNode.children[0].value);
-     });*/
+    div.setAttribute("data-tooltip", "Ingrese el texto y presione ENTER");
+    var button = document.createElement("button");
+    button.className = "btn btn-primary btn-lg";
+    $(button).on("click", function (event) {
+        refTabla.buscar(this.parentNode.children[0].value);
+    });
     var fa = document.createElement("i");
     fa.className = "fa fa-search fa-1x";
     button.appendChild(fa);
@@ -132,7 +177,6 @@ Tabla.prototype.crearBotonesCabecera = function () {
     refTabla.contenedor.appendChild(tabla);
 }
 
-
 Tabla.prototype.crearCheckMostrarTodo = function () {
     var refTabla = this;
     var tabla = document.createElement("table");
@@ -145,9 +189,8 @@ Tabla.prototype.crearCheckMostrarTodo = function () {
     label.setAttribute("data-tooltip", "Mostrar registros borrados");
     var input = document.createElement("input");
     input.setAttribute("type", "checkbox");
-    //input.setAttribute("id","listarTodo");
     $(input).on('click', function (event) {
-        refTabla.listar();
+        refTabla.fnListar();
     });
     refTabla.listartodo = input;
     var texto = document.createTextNode("Mostrar Todos");
@@ -173,13 +216,13 @@ Tabla.prototype.crearCabeceraTabla = function () {
         th.appendChild(h3);
         thead.appendChild(th);
     }
-    if (refTabla.opciones) {
+    if (refTabla.verEditar || refTabla.verEliminar || refTabla.verSeleccionar) {
         var th = document.createElement("th");
         var h3 = document.createElement("h3");
         var texto = document.createTextNode("Opciones");
         h3.appendChild(texto);
         th.appendChild(h3);
-        th.setAttribute("colspan", "2");
+        th.setAttribute("colspan", "3");
         th.setAttribute("align", "center");
         thead.appendChild(th);
     }
@@ -298,32 +341,47 @@ Tabla.prototype.mostrarRegistros = function () {
             td.appendChild(texto);
             tr.appendChild(td);
         }
-        if (refTabla.opciones) {
+
+        if (refTabla.verSeleccionar) {
+            var td = document.createElement("td");
+            var seleccionar = document.createElement("a");
+            seleccionar.setAttribute("data-id", refTabla.datos[i].id);
+            seleccionar.setAttribute("data-tooltip", "Seleccionar");
+            $(seleccionar).on("click", refTabla.fnSeleccionar);
+            var fa = document.createElement("i");
+            fa.className = "fa fa-hand-o-left fa-2x";
+            seleccionar.appendChild(fa);
+            td.appendChild(seleccionar);
+            tr.appendChild(td);
+        }
+
+        if (refTabla.verEditar) {
             var td = document.createElement("td");
             var editar = document.createElement("a");
             editar.setAttribute("data-id", refTabla.datos[i].id);
             editar.setAttribute("data-tooltip", "Editar");
-            $(editar).on("click", refTabla.editar);
+            $(editar).on("click", refTabla.fnEditar);
             var fa = document.createElement("i");
             fa.className = "fa fa-pencil fa-2x";
             editar.appendChild(fa);
             td.appendChild(editar);
             tr.appendChild(td);
+        }
 
+        if (refTabla.verEliminar) {
             var td = document.createElement("td");
             var eliminar = document.createElement("a");
             eliminar.setAttribute("data-id", refTabla.datos[i].id);
             eliminar.setAttribute("data-tooltip", "Eliminar");
-            $(eliminar).on("click", function (event) {
-                //console.log(this.getAttribute("data-id"));
-                refTabla.eliminar(this.getAttribute("data-id"), this);
-            });
+            $(eliminar).on("click", refTabla.fnEliminar);
             var fa = document.createElement("i");
             fa.className = "fa fa-trash-o fa-2x";
             eliminar.appendChild(fa);
             td.appendChild(eliminar);
             tr.appendChild(td);
         }
+
+
         refTabla.tbody.appendChild(tr);
     }
     ;
@@ -446,32 +504,37 @@ Tabla.prototype.imprimir = function () {    //funcion para imprimir
     aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
     aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
     console.log(aux);
-    var formulario = document.createElement("form");
-    formulario.setAttribute("target", "_blank");
-    formulario.setAttribute("method", "POST");
-
-    var input = document.createElement("input");
-    input.setAttribute("type", "hidden");
-    input.setAttribute("name", "Formulario");
-    input.setAttribute("value", refTabla.controlador);
-    formulario.appendChild(input);
-
-    input = document.createElement("input");
-    input.setAttribute("type", "hidden");
-    input.setAttribute("name", "html");
-    input.setAttribute("value", aux);
-    formulario.appendChild(input);
-
-    formulario.setAttribute("action", refTabla.locacion + "controladores/Imprimir.php");
-
-    refTabla.contenedor.appendChild(formulario);
-
-    $(formulario).submit();
+    $("#tituloImprimir").val(refTabla.controlador);
+    $("#htmlImprimir").val(aux);
+    $("#formImprimir").attr("action", refTabla.locacion + "controladores/Imprimir.php");
+    $("#formImprimir").submit();//imprimo
+    /*
+     var formulario = document.createElement("form");
+     formulario.setAttribute("target", "_blank");
+     formulario.setAttribute("method", "POST");
+     
+     var input = document.createElement("input");
+     input.setAttribute("type", "hidden");
+     input.setAttribute("name", "Formulario");
+     input.setAttribute("value", refTabla.controlador);
+     formulario.appendChild(input);
+     
+     input = document.createElement("input");
+     input.setAttribute("type", "hidden");
+     input.setAttribute("name", "html");
+     input.setAttribute("value", aux);
+     formulario.appendChild(input);
+     
+     formulario.setAttribute("action", refTabla.locacion + "controladores/Imprimir.php");
+     
+     refTabla.contenedor.appendChild(formulario);
+     
+     $(formulario).submit();*/
 };
 
 Tabla.prototype.buscar = function (criterio) {
     var refTabla = this;
-    alert("buscando " + criterio.length);
+    //alert("buscando " + criterio.length);
     criterio = criterio.trim();
     refTabla.datos = [];
     if (criterio.length > 0) {
@@ -488,4 +551,3 @@ Tabla.prototype.buscar = function (criterio) {
     }
     refTabla.rellenarTbody();
 }
-;

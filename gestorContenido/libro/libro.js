@@ -6,11 +6,11 @@ $(function () {
             contenedor: "aca",
             cabecera: ["Titulo", "Autor", "Editorial", "Disponible", "Destacado"],
             controlador: "Libro",
-            nuevo: function () {
-                sessionStorage.aux = null;
+            fnNuevo: function () {
+                sessionStorage.removeItem("aux");
                 window.location = "../libro/formLibro.html";
             },
-            editar: function () {
+            fnEditar: function () {
                 var id = this.getAttribute("data-id");
                 console.log(id);
                 for (var i = 0, max = tabla.datos.length; i < max; i++) {

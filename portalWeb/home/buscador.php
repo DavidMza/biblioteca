@@ -94,6 +94,7 @@
             <div id="content">
                 <form action="buscador.php" method="get">
                     <input type="text" name="q" class="buscador2"><input type="submit" class="myButton" value="Buscar" >
+                            <input type="hidden" name="pag" value="1">
                             </form>
                             <br>
                                 <!-- Products -->

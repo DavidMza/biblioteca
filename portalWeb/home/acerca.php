@@ -32,9 +32,10 @@
             <div class="cl">&nbsp;</div>
             <!-- Login-details -->
             <div id="login-details">
-                <form class="navbar-form navbar-right">
-                    <input class="buscador" type="text" name="buscar" id="buscar" placeholder="Titulo del libro o autor">
-                        <button type="button" id="btBuscar" class="myButton">
+                <form class="navbar-form navbar-right" action="buscador.php" method="get">
+                    <input class="buscador" type="text" name="q" id="buscar" placeholder="Titulo del libro o autor">
+                        <input type="hidden" name="pag" value="1">
+                            <button type="submit" id="btBuscar" class="myButton">
                             Buscar
                         </button>
                 </form>

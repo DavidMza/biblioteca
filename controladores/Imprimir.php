@@ -1,6 +1,7 @@
 <?php
+//ob_end_clean();
 // Rutas donde tendremos la libreria y el fichero de idiomas.
-require_once('../recursos/tcpdf/tcpdf_import.php');
+require_once('../recursos/tcpdf/tcpdf.php');
 $htmlImprimir = $_POST['html'];
 
 // Crear el documento
@@ -26,11 +27,14 @@ $pdf->SetFont('times', 'BI', 16);
  
 // Añadir página
 $pdf->AddPage();
- 
+
 // Escribir una línea con el método CELL
 $pdf->writeHTML($htmlImprimir, true, false, true, false, '');
  
 // ---------------------------------------------------------
  
 //Cerramos y damos salida al fichero PDF
+//ob_start();
 $pdf->Output('reporte.pdf', 'I');
+//ob_end_flush();
+//ob_end_clean();//ob_clean();

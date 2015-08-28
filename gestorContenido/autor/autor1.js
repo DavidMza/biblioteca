@@ -91,7 +91,6 @@ $(function () {
             var aux = $("#tablaAutor").html();//recupero el html del la tablaAutor
             aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
             aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
-            $("#html").val('<table border="1">'+aux+'</table>');
             $("#formImprimir").attr("action", locacion+"controladores/Imprimir.php");
             $("#formImprimir").submit();//imprimo
         };

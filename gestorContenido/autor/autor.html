@@ -83,6 +83,12 @@
         </nav>  
 
 
+        <form id="formImprimir" target="_blank" method="POST">
+            <input type="hidden" id="tituloImprimir" name="Formulario"/>
+            <input type="hidden" id="htmlImprimir" name="html" value="html" />
+        </form>
+
+
         <div id="contenido">
             <div id="page-wrapper" >
                 <div id="page-inner">
@@ -132,7 +138,6 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnEliminar" class="btn btn-danger pull-left">Eliminar</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
                     </div>

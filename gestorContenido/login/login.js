@@ -11,7 +11,10 @@ $(function () {
             $("#login-button").click(function (event) {
                 event.preventDefault();
                 app.login();
-                setTimeout(function(){ window.location = "../index/index.html"; }, 1500);
+                /*setTimeout(function () {
+                    window.location = "../index/index.html";
+                }, 1500);*/
+
             });
         };
 
@@ -34,6 +37,9 @@ $(function () {
                     sessionStorage.pass = data.pass;
                     $('form').fadeOut(500);
                     $('.wrapper').addClass('form-success');
+                    setTimeout(function () {
+                        window.location = "../index/index.html";
+                    }, 1500);
                 },
                 error: function (data) {
                     alert(data.responseText);

@@ -35,6 +35,7 @@
             <div id="login-details">
                 <form class="navbar-form navbar-right" action="buscador.php" method="get">
                     <input class="buscador" type="text" name="q" id="buscar" placeholder="Titulo del libro o autor">
+                        <input type="hidden" name="pag" value="1">
                         <button type="submit" id="btBuscar" class="myButton">
                             Buscar
                         </button>

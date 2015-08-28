@@ -13,6 +13,7 @@ $(function () {
             var datosCombo = {};
 
             app.bindings();
+            console.log(sessionStorage.aux != null);
             if (sessionStorage.aux != null) {
                 $('#tituloModal').html("Editar Libro");
                 libro = JSON.parse(sessionStorage.aux);
@@ -129,52 +130,6 @@ $(function () {
             });
         };
 
-        app.consumirAPI = function () {
-            var url = locacion + "controladores/Ruteador.php";
-            var datos = {};
-            datos.titulo = $("#titulo").val();
-            datos.accion = "buscar";
-            datos.formulario = "ApiExterna";
-            datos.seccion = "gestor";
-            $.ajax({
-                url: url,
-                method: 'POST',
-                dataType: 'json',
-                data: datos,
-                success: function (data) {
-                    var arrayDatos = [];
-                    var datosRecibidos = {};
-                    //data = data;
-                    app.cargarTablaWebService(data);
-                    $("#modalLibrosApi").modal({show: true});
-
-                },
-                error: function (data) {
-                    alert(data.responseText);
-                }
-            });
-
-        };
-
-        app.cargarTablaWebService = function (data) {
-            $('#tablaLibrosApi').dataTable().fnDestroy();
-            librosApi = $('#tablaLibrosApi').dataTable({
-                data: data,
-                "columns": [
-                    {"data": "isbn"},
-                    {"data": "titulo"},
-                    {"data": "autor"},
-                    {"data": "editorial"}
-                ],
-                "columnDefs": [{
-                        "targets": 4,
-                        "render": function (data, type, row, meta) {
-                            return '<a class="pull-left seleccionar" >Seleccionar</a>';
-                        }
-                    }]
-            }).api();
-        };
-
         app.verificarAutor = function (nameAutor) {
             var combo = $("#autor")[0];
             var index = -1;
@@ -251,19 +206,51 @@ $(function () {
 
         app.bindings = function () {
 
-            $("#cuerpoTablaLibrosApi").on('click', '.seleccionar', function (event) {
-                var fila = this.parentNode.parentNode;
-                $("#isbn").val(fila.cells[0].innerHTML);
-                $("#titulo").val(fila.cells[1].innerHTML);
-                app.verificarAutor(fila.cells[2].innerHTML);
-                app.verificarEditorial(fila.cells[3].innerHTML);
-                //$("#autor").val(fila.cells[2].innerHTML);
-                //$("#editorial").val(fila.cells[3].innerHTML);
-                $("#modalLibrosApi").modal('hide');
-            });
-
             $("#btnWebService").on('click', function (event) {
-                app.consumirAPI();
+                var tabla = new Tabla({
+                    contenedor: "aca",
+                    cabecera: ["Isbn", "Titulo", "Autor", "Editorial"],
+                    controlador: "ApiExterna",
+                    verEditar: false,
+                    verEliminar: false,
+                    verSeleccionar: true,
+                    fnListar: function () {
+                        var url = locacion + "controladores/Ruteador.php";
+                        var datos = {};
+                        datos.titulo = $("#titulo").val();
+                        datos.accion = "buscar";
+                        datos.formulario = "ApiExterna";
+                        datos.seccion = "gestor";
+                        $.ajax({
+                            url: url,
+                            method: 'POST',
+                            dataType: 'json',
+                            data: datos,
+                            success: function (data) {
+                                console.log(data);
+                                tabla.pagActual = 1;
+                                tabla.datos = data;
+                                tabla.listado = data;
+                                tabla.rellenarTbody();
+                                $("#modalLibrosApi").modal({show: true});
+                            },
+                            error: function (data) {
+                                alert(data.responseText);
+                            }
+                        });
+                    },
+                    fnSeleccionar: function () {
+                        var fila = this.parentNode.parentNode;
+                        $("#isbn").val(fila.cells[0].innerHTML);
+                        $("#titulo").val(fila.cells[1].innerHTML);
+                        app.verificarAutor(fila.cells[2].innerHTML);
+                        app.verificarEditorial(fila.cells[3].innerHTML);
+                        $("#modalLibrosApi").modal('hide');
+                    }
+                });
+                tabla.crearCabeceraTabla();
+                tabla.fnListar();
+                //app.consumirAPI();
             });
 
             $("input:file").change(function () {
@@ -305,7 +292,7 @@ $(function () {
                 $.getScript("../libro/log/logLibro.js");
             });
 
-            $('#listCaract').on('click','li', function () {
+            $('#listCaract').on('click', 'li', function () {
                 var id = this.children[0].getAttribute("data-id");
                 if (caract.indexOf(id) == -1) {
                     caract.push(id);
@@ -438,8 +425,8 @@ $(function () {
                 data: datos,
                 success: function (data) {
                     var html = "";
-                    $.each(data, function (clave,valor){
-                        html += '<li><a data-id="'+valor.id+'">'+valor.denominacion+'</a></li>';
+                    $.each(data, function (clave, valor) {
+                        html += '<li><a data-id="' + valor.id + '">' + valor.denominacion + '</a></li>';
                     });
                     $("#listCaract").html(html);
                     console.log(data);
@@ -473,10 +460,10 @@ $(function () {
         };
 
         app.ArmarArbol = function (data) {
-            /*$('#arbol').jstree({'core': {
+            $('#arbol').jstree({'core': {
                     'data': data
                 }});
-            $("#arbol").jstree('open_all');*/
+            $("#arbol").jstree('open_all');
         };
 
         app.comboAutor = function (autorSelected) {

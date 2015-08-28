@@ -2,7 +2,7 @@ $(function () {
     var TallerAvanzada = {};
     var locacion = "http://" + window.location.host + "/biblioteca/";
     (function (app) {
-        var datosClasificaciones;
+        //var datosClasificaciones;
         app.init = function () {
             if (sessionStorage.value == '2') {
                 $("#log").html('<a href="log/logClasificacion.html"> Ver Log de Clasificaciones</a>');
@@ -142,7 +142,7 @@ $(function () {
         };
 
         app.listar = function () {
-            //alert("listar");
+            alert("listar");
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
             if ($("#listarTodo").prop('checked')) {
@@ -158,7 +158,7 @@ $(function () {
                 dataType: 'json',
                 data: datos,
                 success: function (data) {
-                    datosClasificaciones = data;
+                    //datosClasificaciones = data;
                     app.cargarCombo(data);
                     app.ArmarArbol(data);
                 },
@@ -178,12 +178,13 @@ $(function () {
         };
 
         app.ArmarArbol = function (data) {
-            //alert("armarArbol");
-            //$('#arbol').html("");
+            alert("armarArbol");
+            //$('#arbol').jstree.destroy ();
             $('#arbol').jstree({'core': {
                     'data': data
                 }});
-            //$("#arbol").jstree('open_all');
+            $("#arbol").jstree('open_all');
+            data = null;
         };
 
         app.limpiarModal = function () {    //funcion para limpiar los textbox del modal

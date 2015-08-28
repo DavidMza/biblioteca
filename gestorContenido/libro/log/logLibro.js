@@ -6,7 +6,9 @@ $(function () {
             contenedor: "aca",
             cabecera: ["Fecha","Hora","Libro","Usuario","Accion"],
             controlador: "LogLibro",
-            opciones: false
+            verEditar: false,
+            verEliminar: false,
+            verSeleccionar: false
         });
         app.init = function () {
             tabla.crearCabeceraTabla();

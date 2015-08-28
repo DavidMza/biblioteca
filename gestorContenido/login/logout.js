@@ -5,7 +5,7 @@ $(function () {
 
         app.init = function () {
             if (!sessionStorage.usuario && !sessionStorage.value) {
-                window.location = "../login/login.html";
+                window.location = locacion+"gestorContenido/login/login.html";
             }
             if (sessionStorage.value == '2') {
                 $("#liUsuario").html('<a href="'+locacion+'gestorContenido/usuario/usuario.html"><i class="fa fa-user fa-3x"></i> Usuarios</a>');
@@ -13,7 +13,7 @@ $(function () {
             if (sessionStorage.pass == '1') {
                 alert("Bienvenido, Antes de continuar debe definir una Nueva Contraseña");
                 sessionStorage.pass = '0';
-                window.location = "../password/pass.html";
+                window.location = locacion+"gestorContenido/password/pass.html";
             }
             app.bindings();
             $("#nombre_usuario").html('<i class="fa fa-user"></i>' + sessionStorage.usuario + '');
@@ -40,7 +40,7 @@ $(function () {
                 data: datos,
                 success: function (data) {
                     sessionStorage.clear();
-                    window.location = "../login/login.html";
+                    window.location = locacion+"gestorContenido/login/login.html";
                 },
                 error: function (data) {
                     alert(data.responseText);
