@@ -10,7 +10,7 @@ $(function () {
         });
         app.init = function () {
             $("#liUsuario")[0].children[0].className = "active-menu";
-            tabla.crearTabla();
+            tabla.crearABM();
             app.bindings();
         };
 
@@ -21,7 +21,8 @@ $(function () {
 
             $("#btnReset").on("click", function (event) {
                 if ($("#id").val() == 0) {
-                    alert("No hay ningun usuario seleccionado");
+                    //alert("No hay ningun usuario seleccionado");
+                    swal("Oops!", "No hay ningun usuario seleccionado", "warning");
                 } else {
                     var url = locacion + "controladores/Ruteador.php";
                     var datos = {};
@@ -36,11 +37,13 @@ $(function () {
                         data: datos,
                         success: function (data) {
                             if (data == 1) {
-                                alert("Contraseña Reiniciada!!")
+                                //alert("Contraseña Reiniciada!!")
+                                swal("Felicidades!", "Contraseña Reiniciada!!", "success");
                             }
                         },
                         error: function (data) {
-                            alert(data.responseText);
+                            //alert(data.responseText);
+                            swal("Error!", data.responseText, "error");
                         }
                     });
                 }

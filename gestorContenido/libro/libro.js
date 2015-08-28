@@ -28,7 +28,7 @@ $(function () {
             if (sessionStorage.value == '2') {
                 $("#log").html('<a href="log/logLibro.html"> Ver Log de Libros</a>');
             }
-            tabla.crearTabla();
+            tabla.crearABM();
 
             app.bindings();
         };

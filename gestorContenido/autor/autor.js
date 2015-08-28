@@ -11,7 +11,7 @@ $(function () {
             if (sessionStorage.value == '2') {
                 $("#log").html('<a href="log/logAutor.html"> Ver Log de Autores</a>');
             }
-            tabla.crearTabla();
+            tabla.crearABM();
             
             app.bindings();
         };

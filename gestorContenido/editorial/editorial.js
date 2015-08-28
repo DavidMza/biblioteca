@@ -11,7 +11,7 @@ $(function () {
             if (sessionStorage.value == '2') {
                 $("#log").html('<a href="log/logEditorial.html"> Ver Log de Editoriales</a>');
             }
-            tabla.crearTabla();
+            tabla.crearABM();
             
             app.bindings();
         };

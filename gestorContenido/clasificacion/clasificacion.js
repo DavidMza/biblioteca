@@ -75,7 +75,8 @@ $(function () {
                     app.listar();
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -111,7 +112,8 @@ $(function () {
                     app.listar();
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -136,7 +138,8 @@ $(function () {
                     app.listar();
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -163,7 +166,8 @@ $(function () {
                     app.ArmarArbol(data);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -184,7 +188,7 @@ $(function () {
                     'data': data
                 }});
             $("#arbol").jstree('open_all');
-            data = null;
+            //data = null;
         };
 
         app.limpiarModal = function () {    //funcion para limpiar los textbox del modal

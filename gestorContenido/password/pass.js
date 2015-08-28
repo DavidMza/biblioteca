@@ -40,11 +40,13 @@ $(function () {
                             $("#infoCambioPass").modal("hide");
                         }, (2 * 1000));
                     } else {
-                        alert(data.retorno);
+                        //alert(data.retorno);
+                        swal("Error!", data.retorno, "error");
                     }
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -63,11 +65,13 @@ $(function () {
                 if (pass1.length > 0 && passwordActual.length > 0) {
                     app.cambiar(passwordActual, pass1);
                 } else {
-                    alert("No has llenado los campos");
+                    //alert("No has llenado los campos");
+                    swal("Oops!", "No has llenado los campos", "warning");
                 }
 
             } else {
-                alert("Las claves no coinciden");
+                //alert("Las claves no coinciden");
+                swal("Oops!", "Las claves no coinciden", "warning");
             }
         };
 

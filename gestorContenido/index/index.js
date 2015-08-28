@@ -34,7 +34,8 @@ $(function () {
                     app.bindings();
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -58,7 +59,8 @@ $(function () {
                         $("#contactos").find("a[data-id='" + datos.id + "']").parent().parent().remove();
                     },
                     error: function (data) {
-                        alert(data.responseText);
+                        //alert(data.responseText);
+                        swal("Error!", data.responseText, "error");
                     }
                 });
             });
@@ -75,10 +77,12 @@ $(function () {
                     dataType: 'json',
                     data: datos,
                     success: function (data) {
-                        alert(data + " Archivos basuras limpiados");
+                        //alert(data + " Archivos basuras limpiados");
+                        swal("Felicidades!", data + " Archivos basuras limpiados", "success");
                     },
                     error: function (data) {
-                        alert(data.responseText);
+                        //alert(data.responseText);
+                        swal("Error!", data.responseText, "error");
                     }
                 });
             });
@@ -126,7 +130,8 @@ $(function () {
                     $("#cantEditorialesUsu").text(texto);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -152,7 +157,8 @@ $(function () {
                     $("#cantAutoresUsu").text(texto);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -178,7 +184,8 @@ $(function () {
                     $("#cantiLibrosUsu").text(texto);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };

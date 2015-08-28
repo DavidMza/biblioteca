@@ -11,8 +11,7 @@ $(function () {
             verSeleccionar: false
         });
         app.init = function () {
-            tabla.crearCabeceraTabla();
-            tabla.listar();
+            tabla.crearTabla();
         };
 
         app.init();

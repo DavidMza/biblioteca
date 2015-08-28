@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
     <?php
-    require_once __DIR__ . '/../../controladores/portalWeb/persistencia/DBSentenciasPortal.php';
-    require_once __DIR__ . '/../../controladores/portalWeb/persistencia/ControladorPersistencia.php';
+    require_once __DIR__ . '/../controladores/portalWeb/persistencia/DBSentenciasPortal.php';
+    require_once __DIR__ . '/../controladores/portalWeb/persistencia/ControladorPersistencia.php';
     $controladorPersistencia = ControladorPersistencia::obtenerCP();
     $resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::TRAER_LIBRO, array(base64_decode($_GET["lib"])));
     $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -12,10 +12,10 @@
         <title>Biblioteca</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
-        <link rel="shortcut icon" href="../../recursos/portalWeb/home/css/images/favicon.ico" />
-        <link href="../../recursos/portalWeb/home/css/style.css" rel="stylesheet" type="text/css"/>
-        <script src="../../recursos/portalWeb/home/js/jquery-1.6.2.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="../../recursos/portalWeb/home/js/jquery.jcarousel.min.js"></script>
+        <link rel="shortcut icon" href="../recursos/portalWeb/home/css/images/favicon.ico" />
+        <link href="../recursos/portalWeb/home/css/style.css" rel="stylesheet" type="text/css"/>
+        <script src="../recursos/portalWeb/home/js/jquery-1.6.2.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../recursos/portalWeb/home/js/jquery.jcarousel.min.js"></script>
         <script src="funcionesHome.js" type="text/javascript"></script>
         <script src="js/home.js" type="text/javascript"></script>
     </head>
@@ -49,7 +49,7 @@
                     <li>
                         <h4>Portada</h4>
                         <ul>
-                            <img src="../../<?php echo $listado["ruta"] ?>" width="175px" height="280px"></img>
+                            <img src="../<?php echo $listado["ruta"] ?>" width="175px" height="280px"></img>
                         </ul>
                     </li>
                 </ul>
@@ -120,7 +120,7 @@
                             <li><a href="buscador.php" class="active">Buscador</a></li>
                             <li><a href="acerca.php">Acerca de</a></li>
                             <li><a href="contacto.php">Contacto</a></li>
-                            <li><a href="../../gestorContenido/login/login.html">Gestor</a></li>
+                            <li><a href="../gestorContenido/login/login.html">Gestor</a></li>
                         </ul>
                     </div>
                     <div class="col" id="newsletter">

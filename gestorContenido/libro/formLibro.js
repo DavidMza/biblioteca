@@ -66,7 +66,7 @@ $(function () {
                     });
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -101,7 +101,7 @@ $(function () {
                     console.log(data);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -125,7 +125,7 @@ $(function () {
                     });
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -156,10 +156,11 @@ $(function () {
                             $("#autor").append('<option selected value="' + data + '">' + nameAutor + '</option>');
                         },
                         error: function (data) {
-                            alert(data.responseText);
+                            swal("Error!", data.responseText, "error");
                         }
                     });
-                    alert("Autor agregado");
+                    //alert("Autor agregado");
+                    swal("Felicidades!", "Autor agregado!!", "success");
                 }
 
             } else {
@@ -193,10 +194,11 @@ $(function () {
                             $("#editorial").append('<option selected value="' + data + '">' + nameEditorial + '</option>');
                         },
                         error: function (data) {
-                            alert(data.responseText);
+                            swal("Error!", data.responseText, "error");
                         }
                     });
-                    alert("Editorial agregada!!");
+                    //alert("Editorial agregada!!");
+                    swal("Felicidades!", "Editorial agregada!!", "success");
                 }
 
             } else {
@@ -235,7 +237,7 @@ $(function () {
                                 $("#modalLibrosApi").modal({show: true});
                             },
                             error: function (data) {
-                                alert(data.responseText);
+                                swal("Error!", data.responseText, "error");
                             }
                         });
                     },
@@ -248,8 +250,7 @@ $(function () {
                         $("#modalLibrosApi").modal('hide');
                     }
                 });
-                tabla.crearCabeceraTabla();
-                tabla.fnListar();
+                tabla.crearTabla();
                 //app.consumirAPI();
             });
 
@@ -407,7 +408,7 @@ $(function () {
                     $("#idioma").html(html);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -432,7 +433,7 @@ $(function () {
                     console.log(data);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
 
@@ -454,7 +455,7 @@ $(function () {
                     app.ArmarArbol(data);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -537,7 +538,7 @@ $(function () {
                     $.getScript("../libro/libro.js");
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };
@@ -632,11 +633,12 @@ $(function () {
                         //app.actualizarTabla(data, $("#id").val());
                     },
                     error: function (data) {
-                        alert(data.responseText);
+                        swal("Error!", data.responseText, "error");
                     }
                 });
             } else {
-                alert("Revise los siguiente campos:\n" + valido.msj);
+                //alert("Revise los siguiente campos:\n" + valido.msj);
+                swal("Oops!", "Revise los siguiente campos:\n" + valido.msj, "warning");
             }
         };
 
@@ -675,11 +677,12 @@ $(function () {
                         $.getScript("../libro/libro.js");
                     },
                     error: function (data) {
-                        alert(data.responseText);
+                        swal("Error!", data.responseText, "error");
                     }
                 });
             } else {
-                alert("Revise los siguiente campos:\n" + valido.msj);
+                //alert("Revise los siguiente campos:\n" + valido.msj);
+                swal("Oops!", "Revise los siguiente campos:\n" + valido.msj, "warning");
             }
         };
 

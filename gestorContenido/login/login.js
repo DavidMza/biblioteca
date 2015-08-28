@@ -11,10 +11,6 @@ $(function () {
             $("#login-button").click(function (event) {
                 event.preventDefault();
                 app.login();
-                /*setTimeout(function () {
-                    window.location = "../index/index.html";
-                }, 1500);*/
-
             });
         };
 
@@ -42,7 +38,8 @@ $(function () {
                     }, 1500);
                 },
                 error: function (data) {
-                    alert(data.responseText);
+                    //alert(data.responseText);
+                    swal("Error!", data.responseText, "error");
                 }
             });
         };

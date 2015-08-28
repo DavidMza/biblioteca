@@ -105,12 +105,12 @@ function Tabla(param) {
 }
 
 
-Tabla.prototype.crearTabla = function () {
+Tabla.prototype.crearABM = function () {
     var refTabla = this;
     refTabla.crearBotonesCabecera();
     refTabla.crearCheckMostrarTodo();
-    refTabla.crearCabeceraTabla();
-    refTabla.fnListar();
+    refTabla.crearTabla();
+    //refTabla.fnListar();
 };
 
 Tabla.prototype.crearBotonesCabecera = function () {
@@ -204,7 +204,7 @@ Tabla.prototype.crearCheckMostrarTodo = function () {
     refTabla.contenedor.appendChild(tabla);
 };
 
-Tabla.prototype.crearCabeceraTabla = function () {
+Tabla.prototype.crearTabla = function () {
     var refTabla = this;
     refTabla.tabla.className = "table table-striped";
     var thead = document.createElement("thead");
@@ -227,6 +227,7 @@ Tabla.prototype.crearCabeceraTabla = function () {
         thead.appendChild(th);
     }
     refTabla.tabla.appendChild(thead);
+    refTabla.fnListar();
 };
 
 Tabla.prototype.listar = function () {
@@ -252,7 +253,8 @@ Tabla.prototype.listar = function () {
             refTabla.rellenarTbody();
         },
         error: function (data) {
-            alert(data.responseText);
+            //alert(data.responseText);
+            swal("Error!", data.responseText, "error");
         }
     });
 }
@@ -416,7 +418,8 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
             refTabla.rellenarTbody();
         },
         error: function (data) {
-            alert(data.responseText);
+            //alert(data.responseText);
+            swal("Error!", data.responseText, "error");
         }
     });
 };
@@ -459,7 +462,8 @@ Tabla.prototype.guardar = function () {
             refTabla.rellenarTbody();
         },
         error: function (data) {
-            alert(data.responseText);
+            //alert(data.responseText);
+            swal("Error!", data.responseText, "error");
         }
     });
 };
@@ -493,7 +497,8 @@ Tabla.prototype.modificar = function () {
             $("#modal" + refTabla.controlador).modal('hide');
         },
         error: function (data) {
-            alert(data.responseText);
+            //alert(data.responseText);
+            swal("Error!", data.responseText, "error");
         }
     });
 };

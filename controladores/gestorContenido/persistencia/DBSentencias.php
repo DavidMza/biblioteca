@@ -100,10 +100,11 @@ INNER JOIN `usuario` ON `id_usuario_log_libro` = `id_usuario` WHERE id_accion_lo
     const LISTAR_USUARIOS = "SELECT id_usuario AS id, nombre_usuario AS nombre, descripcion_usuario AS usuario FROM usuario INNER JOIN tipos_usuario ON id_tipo_tipo_usuario = id_tipo_usuario WHERE borrado = 0";
     const LISTAR_TODO_USUARIOS = "SELECT id_usuario AS id, nombre_usuario AS nombre, descripcion_usuario AS usuario FROM usuario INNER JOIN tipos_usuario ON id_tipo_tipo_usuario = id_tipo_usuario";
     const MODIFICAR_USUARIO = "UPDATE usuario SET nombre_usuario = ? WHERE id_usuario = ?";
-    const AGREGAR_USUARIO = "INSERT INTO usuario (nombre_usuario,clave_usuario,fecha_alta_usuario,id_tipo_tipo_usuario,definirPass) VALUES(?,?,CURDATE(),1,?)";
+    const AGREGAR_USUARIO = "INSERT INTO usuario (nombre_usuario,clave_usuario,fecha_alta_usuario,id_tipo_tipo_usuario,definirPass) VALUES(?,?,CURDATE(),1,1)";
     const ULTIMO_ID_USUARIO = "SELECT MAX(id_usuario) FROM usuario;";
     const ELIMINAR_USUARIO = "UPDATE usuario SET borrado = 1, fecha_baja_usuario = CURDATE() WHERE id_usuario = ?;";
-    const CAMBIAR_PASSWORD = "UPDATE usuario SET clave_usuario = ? WHERE id_usuario = ?";
+    const CAMBIAR_PASSWORD = "UPDATE usuario SET clave_usuario = ?, definirPass = 0 WHERE id_usuario = ?";
+    const REINICIAR_PASSWORD = "UPDATE usuario SET clave_usuario = '25d55ad283aa400af464c76d713c07ad', definirPass = 1 WHERE id_usuario = ?";
     const OBTENER_PASSWORD = "SELECT clave_usuario FROM usuario WHERE id_usuario = ?";
 //CONTACTOS
     const LISTAR_CONTACTOS = "SELECT * FROM `biblioteca`.`consultas` WHERE borrado = 0;";
