@@ -76,7 +76,9 @@ $(function () {
                 },
                 error: function (data) {
                     //alert(data.responseText);
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -113,7 +115,9 @@ $(function () {
                 },
                 error: function (data) {
                     //alert(data.responseText);
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -139,7 +143,9 @@ $(function () {
                 },
                 error: function (data) {
                     //alert(data.responseText);
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -167,7 +173,9 @@ $(function () {
                 },
                 error: function (data) {
                     //alert(data.responseText);
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };

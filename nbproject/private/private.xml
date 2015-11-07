@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/clasificacion/clasificacion.html</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/usuario/usuario.html</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/login/login.js</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.html</file>
             <file>file:/C:/wamp/www/biblioteca/gestorContenido/clasificacion/clasificacion.js</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/login/login.html</file>
+            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorFoto.php</file>
+            <file>file:/C:/wamp/www/biblioteca/recursos/tabla/tabla.js</file>
+            <file>file:/C:/wamp/www/biblioteca/portalWeb/acerca.php</file>
         </group>
     </open-files>
 </project-private>

@@ -31,31 +31,42 @@
 function Tabla(param) {
     var refTabla = this;
     refTabla.locacion = "http://" + window.location.host + "/biblioteca/";
+
+    //Inicializamos el contenedor donde vamos a inyectar el codigo html generado
     refTabla.contenedor = $("#" + param.contenedor)[0];
+    //Inicializamos la cabecera de la tabla
     refTabla.cabecera = param.cabecera;
+    //Inicializamos el controlador que va a ser instanciado en el servidor
     refTabla.controlador = param.controlador;
+    //Inicializamos la tabla
     refTabla.tabla = document.createElement("table");
+    //Inicializamos el body de la tabla
     refTabla.tbody = document.createElement("tbody");
+    //Inicializamos el contenedor del paginador
     refTabla.paginador = document.createElement("div");
 
+    //Inicializamos opcion verEditar, si no se especifica valor por defecto es true.
     if (typeof param.verEditar == "undefined") {
         refTabla.verEditar = true;
     } else {
         refTabla.verEditar = param.verEditar;
     }
 
+    //Inicializamos opcion verEliminar, si no se especifica valor por defecto es true.
     if (typeof param.verEliminar == "undefined") {
         refTabla.verEliminar = true;
     } else {
         refTabla.verEliminar = param.verEliminar;
     }
 
+    //Inicializamos opcion verSeleccionar, si no se especifica valor por defecto es true.
     if (typeof param.verSeleccionar == "undefined") {
         refTabla.verSeleccionar = false;
     } else {
         refTabla.verSeleccionar = param.verSeleccionar;
     }
 
+    //Inicializamos la funcion a ejecutar cdo se toque NUEVO registro, si no se especifica valor por defecto se le asigna una funcion por defecto.
     if (typeof param.fnNuevo == "undefined") {
         refTabla.fnNuevo = function (event) {
             $('#id').val(0);
@@ -65,6 +76,7 @@ function Tabla(param) {
         refTabla.fnNuevo = param.fnNuevo;
     }
 
+    //Inicializamos la funcion a ejecutar cdo se toque EDITAR un registro, si no se especifica valor por defecto se le asigna una funcion por defecto.
     if (typeof param.fnEditar == "undefined") {
         refTabla.fnEditar = function (event) {
             $('#id').val(this.getAttribute("data-id"));
@@ -77,15 +89,16 @@ function Tabla(param) {
         refTabla.fnEditar = param.fnEditar;
     }
 
+    //Inicializamos la funcion a ejecutar cdo se toque ELIMINAR un registro, si no se especifica valor por defecto se le asigna una funcion por defecto.
     if (typeof param.fnEliminar == "undefined") {
         refTabla.fnEliminar = function (event) {
-            //console.log(this.getAttribute("data-id"));
             refTabla.eliminar(this.getAttribute("data-id"), this);
         };
     } else {
         refTabla.fnEliminar = param.fnEliminar;
     }
 
+    //Inicializamos la funcion a ejecutar cdo se toque SELECCIONAR un registro, si no se especifica valor por defecto se le asigna una funcion por defecto.
     if (typeof param.fnSeleccionar == "undefined") {
         refTabla.fnSeleccionar = function (event) {
             console.log("Funcion de Seleccion no definida");
@@ -93,7 +106,8 @@ function Tabla(param) {
     } else {
         refTabla.fnSeleccionar = param.fnSeleccionar;
     }
-    
+
+    //Inicializamos la funcion a ejecutar cdo para LISTAR los registros, si no se especifica valor por defecto se le asigna una funcion por defecto.
     if (typeof param.fnListar == "undefined") {
         refTabla.fnListar = function () {
             refTabla.listar();
@@ -104,23 +118,25 @@ function Tabla(param) {
 
 }
 
-
+//Funcion para crear el ABM COMPLETO
 Tabla.prototype.crearABM = function () {
     var refTabla = this;
     refTabla.crearBotonesCabecera();
     refTabla.crearCheckMostrarTodo();
     refTabla.crearTabla();
-    //refTabla.fnListar();
 };
 
+//Funcion para crear solo la CABECERA DEL ABM
 Tabla.prototype.crearBotonesCabecera = function () {
     var refTabla = this;
     var tabla = document.createElement("table");
     var tr = document.createElement("tr");
 
+    //Creo el boton de NUEVO registro
     var td = document.createElement("td");
     var button = document.createElement("button");
     button.className = "btn btn-primary btn-lg";
+    //Tooltip que se mostrara al pasar el mouse por arriba
     button.setAttribute("data-tooltip", "Nuevo Registro");
     $(button).on("click", refTabla.fnNuevo);
     var fa = document.createElement("i");
@@ -130,16 +146,19 @@ Tabla.prototype.crearBotonesCabecera = function () {
     td.setAttribute("align", "center");
     tr.appendChild(td);
 
+    //Creo input y boton para BUSCAR un registro
     var td = document.createElement("td");
     var div = document.createElement("div");
     var input = document.createElement("input");
     input.setAttribute("type", "search");
     input.setAttribute("placeholder", "Buscar...");
+    //Se activara la busqueda al presionar la tecla ENTER
     $(input).keypress(function (event) {
         if (event.keyCode == 13 || event.which == 13) {
             refTabla.buscar(this.parentNode.children[0].value);
         }
     });
+    //Tooltip que se mostrara al pasar el mouse por arriba
     div.setAttribute("data-tooltip", "Ingrese el texto y presione ENTER");
     var button = document.createElement("button");
     button.className = "btn btn-primary btn-lg";
@@ -157,6 +176,7 @@ Tabla.prototype.crearBotonesCabecera = function () {
     td.setAttribute("width", "33%");
     tr.appendChild(td);
 
+    //Creo boton para IMPRIMIR la tabla
     var td = document.createElement("td");
     var button = document.createElement("button");
     button.className = "btn btn-primary btn-lg";
@@ -177,6 +197,7 @@ Tabla.prototype.crearBotonesCabecera = function () {
     refTabla.contenedor.appendChild(tabla);
 }
 
+//Funcion para crear el checkbox que MUESTRE TODOS los registros
 Tabla.prototype.crearCheckMostrarTodo = function () {
     var refTabla = this;
     var tabla = document.createElement("table");
@@ -186,6 +207,7 @@ Tabla.prototype.crearCheckMostrarTodo = function () {
     var div = document.createElement("div");
     div.className = "checkbox";
     var label = document.createElement("label");
+    //Tooltip que se mostrara al pasar el mouse por arriba
     label.setAttribute("data-tooltip", "Mostrar registros borrados");
     var input = document.createElement("input");
     input.setAttribute("type", "checkbox");
@@ -204,10 +226,12 @@ Tabla.prototype.crearCheckMostrarTodo = function () {
     refTabla.contenedor.appendChild(tabla);
 };
 
+//Funcion para crear la CABECERA de la TABLA, al finalizar la ejecucion se llama a la funcion fnListar
 Tabla.prototype.crearTabla = function () {
     var refTabla = this;
     refTabla.tabla.className = "table table-striped";
     var thead = document.createElement("thead");
+    //Recorro las cabeceras para crear la cabecera de la tabla
     for (var i = 0; i < this.cabecera.length; i++) {
         var th = document.createElement("th");
         var h3 = document.createElement("h3");
@@ -216,6 +240,7 @@ Tabla.prototype.crearTabla = function () {
         th.appendChild(h3);
         thead.appendChild(th);
     }
+    //Si hay alguna opcion para mostrar creo la columna opciones, sino no se crea
     if (refTabla.verEditar || refTabla.verEliminar || refTabla.verSeleccionar) {
         var th = document.createElement("th");
         var h3 = document.createElement("h3");
@@ -230,6 +255,7 @@ Tabla.prototype.crearTabla = function () {
     refTabla.fnListar();
 };
 
+//Funcion por defecto para fnListar
 Tabla.prototype.listar = function () {
     var refTabla = this;
     var url = this.locacion + "controladores/Ruteador.php";
@@ -254,22 +280,27 @@ Tabla.prototype.listar = function () {
         },
         error: function (data) {
             //alert(data.responseText);
-            swal("Error!", data.responseText, "error");
+            //swal("Error!", data.responseText, "error");
+            sessionStorage.aux = JSON.stringify(data.responseText);
+            window.location = refTabla.locacion + "gestorContenido/error/error.html";
         }
     });
 }
 
-
+//Funcion para crear el PAGINADOR
 Tabla.prototype.rellenarTbody = function () {
     var refTabla = this;
-    //console.log(refTabla.datos);
-
+    //Llamo a la funcion mostrarRegistros
     refTabla.mostrarRegistros();
     refTabla.tabla.appendChild(refTabla.tbody);
 
+    //Inicio Crear Paginador
+    //Cantidad de Registros a mostrar
     var cantRegistros = refTabla.datos.length;
+    //Si son mas de 10 registros se necesita paginar
     if (cantRegistros > 10) {
         this.paginador.innerHTML = "";
+        //Si no estoy en la primera pagina se dibuja el boton para volver a la pagina ANTERIOR
         if (refTabla.pagActual > 1) {
             var a = document.createElement("a");
             a.className = "myButton";
@@ -282,7 +313,9 @@ Tabla.prototype.rellenarTbody = function () {
             });
             this.paginador.appendChild(a);
         }
+        //calculo las paginas que se necesitan, Math.ceil redondea al entero superior
         var paginas = Math.ceil(cantRegistros / 10);
+        //Dibujo cada uno de los botones de las paginas
         for (var i = 0, max = paginas; i < max; i++) {
             var a = document.createElement("a");
             a.className = "myButton";
@@ -298,6 +331,7 @@ Tabla.prototype.rellenarTbody = function () {
             });
             this.paginador.appendChild(a);
         }
+        //Si no estoy en la ultima pagina dibujo el boton de siguiente pagina
         if (refTabla.pagActual < paginas) {
             var a = document.createElement("a");
             a.className = "myButton";
@@ -311,32 +345,41 @@ Tabla.prototype.rellenarTbody = function () {
             this.paginador.appendChild(a);
         }
         this.paginador.setAttribute("align", "center");
-    } else {
+    } else {//NO se necesita paginar
         this.paginador.innerHTML = "";
     }
+    //Fin Crear Paginador
 }
 
+//Funcion que se encarga de RELLENAR el BODY de la tabla con los registros
 Tabla.prototype.mostrarRegistros = function () {
     var refTabla = this;
     refTabla.tbody.innerHTML = "";
     refTabla.tbody = document.createElement("tbody");
+    //Cantidad de Registros
     var cantRegistros = refTabla.datos.length;
     var limite = 0;
     var inicio = 0;
+    //Si son mas de 10 registros se necesita paginar
     if (cantRegistros > 10) {
-        //alert("necesito paginar");
+        //limite superior de los registros que se van a mostrar
         limite = 10 * refTabla.pagActual;
+        //limite inferior de los registros que se van a mostrar
         inicio = limite - 10;
+        //Si el limite es mayor a la cantidad de registros, el limite superior sera la cantidad de registros
         if (limite > cantRegistros) {
             limite = cantRegistros;
         }
-    } else {
-        //alert(" No necesito paginar");
+    } else {//No se necesita paginar
+        //limite inferior de los registros que se van a mostrar
         inicio = 0;
+        //limite superior de los registros que se van a mostrar
         limite = cantRegistros;
     }
+    //Creo las filas de la tabla de acuerdo a los limites calculados
     for (var i = inicio; i < limite; i++) {
         var tr = document.createElement("tr");
+        //creo los campos de los registros que coinciden con los nombres de las cabeceras en minusculas
         for (var j = 0; j < this.cabecera.length; j++) {
             var td = document.createElement("td");
             var texto = document.createTextNode(refTabla.datos[i][this.cabecera[j].toLowerCase()]);
@@ -344,6 +387,7 @@ Tabla.prototype.mostrarRegistros = function () {
             tr.appendChild(td);
         }
 
+        //Si se desea mostrar la opcion seleccionar registro
         if (refTabla.verSeleccionar) {
             var td = document.createElement("td");
             var seleccionar = document.createElement("a");
@@ -357,6 +401,7 @@ Tabla.prototype.mostrarRegistros = function () {
             tr.appendChild(td);
         }
 
+        //Si se desea mostrar la opcion editar registro
         if (refTabla.verEditar) {
             var td = document.createElement("td");
             var editar = document.createElement("a");
@@ -370,6 +415,7 @@ Tabla.prototype.mostrarRegistros = function () {
             tr.appendChild(td);
         }
 
+        //Si se desea mostrar la opcion eliminar registro
         if (refTabla.verEliminar) {
             var td = document.createElement("td");
             var eliminar = document.createElement("a");
@@ -383,15 +429,14 @@ Tabla.prototype.mostrarRegistros = function () {
             tr.appendChild(td);
         }
 
-
         refTabla.tbody.appendChild(tr);
     }
-    ;
     refTabla.contenedor.appendChild(refTabla.tabla);
 
     refTabla.contenedor.appendChild(refTabla.paginador);
 };
 
+//Funcion por defecto para fnEliminar
 Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
     var refTabla = this;
     //console.log(tag)
@@ -419,11 +464,14 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
         },
         error: function (data) {
             //alert(data.responseText);
-            swal("Error!", data.responseText, "error");
+            //swal("Error!", data.responseText, "error");
+            sessionStorage.aux = JSON.stringify(data.responseText);
+            window.location = refTabla.locacion + "gestorContenido/error/error.html";
         }
     });
 };
 
+//Funcion para detectar si se esta creando un NUEVO registro o se esta EDITANDO uno existente
 Tabla.prototype.accion = function () {
     var refTabla = this;
     if ($("#id").val() == 0) {
@@ -433,6 +481,7 @@ Tabla.prototype.accion = function () {
     }
 };
 
+//Funcion por defecto para fnNuevo
 Tabla.prototype.guardar = function () {
     var refTabla = this;
     var url = refTabla.locacion + "controladores/Ruteador.php";
@@ -463,11 +512,14 @@ Tabla.prototype.guardar = function () {
         },
         error: function (data) {
             //alert(data.responseText);
-            swal("Error!", data.responseText, "error");
+            //swal("Error!", data.responseText, "error");
+            sessionStorage.aux = JSON.stringify(data.responseText);
+            window.location = refTabla.locacion + "gestorContenido/error/error.html";
         }
     });
 };
 
+//Funcion por defecto para fnModificar
 Tabla.prototype.modificar = function () {
     var refTabla = this;
     var url = refTabla.locacion + "controladores/Ruteador.php";
@@ -498,11 +550,14 @@ Tabla.prototype.modificar = function () {
         },
         error: function (data) {
             //alert(data.responseText);
-            swal("Error!", data.responseText, "error");
+            //swal("Error!", data.responseText, "error");
+            sessionStorage.aux = JSON.stringify(data.responseText);
+            window.location = refTabla.locacion + "gestorContenido/error/error.html";
         }
     });
 };
 
+//Funcion por defecto para fnImprimir
 Tabla.prototype.imprimir = function () {    //funcion para imprimir
     var refTabla = this;
     var aux = '<table border="1">' + refTabla.tabla.innerHTML + '</table>';//recupero el html del la tablaAutor
@@ -537,6 +592,7 @@ Tabla.prototype.imprimir = function () {    //funcion para imprimir
      $(formulario).submit();*/
 };
 
+//Funcion por defecto para fnBuscar
 Tabla.prototype.buscar = function (criterio) {
     var refTabla = this;
     //alert("buscando " + criterio.length);

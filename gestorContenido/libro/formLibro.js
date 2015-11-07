@@ -66,7 +66,9 @@ $(function () {
                     });
                 },
                 error: function (data) {
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -101,7 +103,9 @@ $(function () {
                     console.log(data);
                 },
                 error: function (data) {
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -125,7 +129,9 @@ $(function () {
                     });
                 },
                 error: function (data) {
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -156,7 +162,9 @@ $(function () {
                             $("#autor").append('<option selected value="' + data + '">' + nameAutor + '</option>');
                         },
                         error: function (data) {
-                            swal("Error!", data.responseText, "error");
+                            //swal("Error!", data.responseText, "error");
+                            sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                         }
                     });
                     //alert("Autor agregado");
@@ -194,7 +202,9 @@ $(function () {
                             $("#editorial").append('<option selected value="' + data + '">' + nameEditorial + '</option>');
                         },
                         error: function (data) {
-                            swal("Error!", data.responseText, "error");
+                            //swal("Error!", data.responseText, "error");
+                            sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                         }
                     });
                     //alert("Editorial agregada!!");
@@ -237,7 +247,9 @@ $(function () {
                                 $("#modalLibrosApi").modal({show: true});
                             },
                             error: function (data) {
-                                swal("Error!", data.responseText, "error");
+                                //swal("Error!", data.responseText, "error");
+                                sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                             }
                         });
                     },
@@ -408,7 +420,9 @@ $(function () {
                     $("#idioma").html(html);
                 },
                 error: function (data) {
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -433,7 +447,9 @@ $(function () {
                     console.log(data);
                 },
                 error: function (data) {
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
 
@@ -455,7 +471,9 @@ $(function () {
                     app.ArmarArbol(data);
                 },
                 error: function (data) {
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -538,7 +556,9 @@ $(function () {
                     $.getScript("../libro/libro.js");
                 },
                 error: function (data) {
-                    swal("Error!", data.responseText, "error");
+                    //swal("Error!", data.responseText, "error");
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                 }
             });
         };
@@ -633,7 +653,9 @@ $(function () {
                         //app.actualizarTabla(data, $("#id").val());
                     },
                     error: function (data) {
-                        swal("Error!", data.responseText, "error");
+                        //swal("Error!", data.responseText, "error");
+                        sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                     }
                 });
             } else {
@@ -677,7 +699,9 @@ $(function () {
                         $.getScript("../libro/libro.js");
                     },
                     error: function (data) {
-                        swal("Error!", data.responseText, "error");
+                        //swal("Error!", data.responseText, "error");
+                        sessionStorage.aux = JSON.stringify(data.responseText);
+                        window.location = "../error/error.html";
                     }
                 });
             } else {

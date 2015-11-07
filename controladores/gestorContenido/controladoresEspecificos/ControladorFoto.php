@@ -56,7 +56,7 @@ class ControladorFoto extends ControladorGeneral {
     }
 
     private function borrarFoto($datos) {
-        unlink($_SERVER["DOCUMENT_ROOT"] . "biblioteca/" . $datos);
+        $elimino = unlink($_SERVER["DOCUMENT_ROOT"] . "biblioteca/" . $datos);
     }
 
     private function listarFotos() {
@@ -73,14 +73,23 @@ class ControladorFoto extends ControladorGeneral {
 
     public function limpiarFotos() {
         $listadoDir = $this->listarFotos();
+        //print_r($listadoDir);
         $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_FOTOS);
         $listadoBD = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        //print_r($listadoBD);
+        $listadoFotosBorrar = array();
         foreach ($listadoBD as $value) {
+            //echo $value['rutaArchivo_foto']."\n";
             if (($key = array_search($value['rutaArchivo_foto'], $listadoDir)) !== false) {
+                //echo $listadoDir[$key]."\n";
                 unset($listadoDir[$key]);
-                array_splice($listadoDir, $key, 1);
+                //array_splice($listadoDir, $key, 1);
+                //array_push($listadoFotosBorrar, $listadoDir[$key]);
             }
         }
+        
+        //print_r($listadoFotosBorrar);
+        //print_r($listadoDir);
         foreach ($listadoDir as $value) {
             $this->borrarFoto($value);
         }

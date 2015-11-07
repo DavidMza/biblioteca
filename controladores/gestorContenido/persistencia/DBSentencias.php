@@ -40,7 +40,7 @@ interface DBSentencias {
     const ELIMINAR_EDITORIAL = "UPDATE editoriales SET borrado = 1 WHERE id_editorial = ?";
     const ULTIMA_EDITORIAL = "SELECT MAX(id_editorial) AS id FROM editoriales";
     const NOMBRE_EDITORIAL = "SELECT nombre_editorial AS nombre FROM editoriales WHERE id_editorial = ?";
-    const CONTAR_EDITORIALES_CARGADAS = "SELECT COUNT(*) AS editoriales FROM editoriales";
+    const CONTAR_EDITORIALES_CARGADAS = "SELECT COUNT(*) AS editoriales FROM editoriales WHERE borrado = 0";
     const CONTAR_EDITORIALES_CARGADAS_X_USUARIO = "SELECT COUNT(*) AS editoriales FROM editoriales INNER JOIN `log_editoriales` ON `id_editorial` = `id_editorial_log_editorial` INNER JOIN `usuario` ON `id_usuario` = `id_usuario_log_editorial` WHERE `id_accion_log_editorial` = 1 AND `id_usuario_log_editorial` = 1 AND editoriales.borrado = 0";
 //FOTOS EMMA
     const AGREGAR_FOTO = "INSERT INTO fotos (rutaArchivo_foto, id_libro_foto) VALUES(?, ?)";

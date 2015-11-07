@@ -67,7 +67,7 @@
                 <!-- Products -->
                 <div class="acerca">
                     <h3>A Cerca de Nosotros</h3>
-                    <p>Este es un trabajo integrador para la materia de Laboratorio IV, el cual consta de un gestor de contenido para administrar libros y una portal Web para visualizar los mismos.</p>
+                    <p>Este es un trabajo integrador para la materia de Practica Profecional, el cual consta de un gestor de contenido para administrar libros y una portal Web para visualizar los mismos.</p>
                     <p>Para la realizacion de los mismo se utilizo las siguientes tecnologias:</p>
                     <br>
                     <li class="acercali">HTML5</li>

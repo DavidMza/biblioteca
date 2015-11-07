@@ -108,7 +108,7 @@ class ControladorEditorial extends ControladorGeneral {
         return $listado[0]["nombre"];
     }
 
-    public function contarAutoresCargados($datos = null) {
+    public function contarEditorialesCargadas($datos = null) {
         try {
             session_start();
             $resultado = null;
