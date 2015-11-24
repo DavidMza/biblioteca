@@ -4,6 +4,7 @@
 //echo __DIR__;
 require_once __DIR__.'/../persistencia/ControladorPersistencia.php';
 require_once __DIR__.'/../persistencia/DBSentencias.php';
+require_once 'Constantes.php';
 
 abstract class ControladorGeneral implements DBSentencias {
 

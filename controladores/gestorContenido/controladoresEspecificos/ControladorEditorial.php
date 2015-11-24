@@ -1,7 +1,7 @@
 <?php
 
 require_once 'ControladorGeneral.php';
-require_once 'ControladorLogEditoriales.php';
+require_once 'ControladorLog.php';
 
 class ControladorEditorial extends ControladorGeneral {
 
@@ -9,6 +9,7 @@ class ControladorEditorial extends ControladorGeneral {
 
     function __construct() {
         parent::__construct();
+        $this->refLog = new ControladorLog();
     }
 
     public function listar() {
@@ -20,14 +21,16 @@ class ControladorEditorial extends ControladorGeneral {
             throw new Exception("Editorial-listar: " . $e->getMessage());
         }
     }
-
-    public function listarTodo() {
+    
+    public function listarLog() {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_EDITORIALES);
-            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            unset($parametros);
+            $parametros = array("entidad" => Constantes::ENTIDAD_EDITORIAL);
+            $listado = $this->refLog->listarLog($parametros);
+            //$listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {
-            throw new Exception("Editorial-listar: " . $e->getMessage());
+            throw new Exception("Editorial-listarLog: " . $e->getMessage());
         }
     }
 
@@ -36,14 +39,13 @@ class ControladorEditorial extends ControladorGeneral {
             session_start();
             $parametros = array("nombreEditorial" => $datos["nombre"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_EDITORIAL, $parametros);
-            unset($parametros);
+            
             //Rescato la editorial insertada
             $idUltimaEditorial = $this->ultimoID();
-
-            $parametros = array("id_Editorial" => $idUltimaEditorial, "nuevo_nombre_Editorial" => $datos["nombre"], "id_Usuario" => $_SESSION["user"]);
-            //print_r($_SESSION);
-            $this->refLog = new Controlador_LogEditoriales($parametros);
-            $this->refLog->agregar();
+            
+            unset($parametros);
+            $parametros = array("accion" => Constantes::ACCION_ALTA, "entidad" => Constantes::ENTIDAD_EDITORIAL, "id_Usuario" => $_SESSION["user"], "nombre" => $datos["nombre"]);
+            $this->refLog->registrarLog($parametros);
 
             return $idUltimaEditorial;
         } catch (Exception $e) {
@@ -54,21 +56,14 @@ class ControladorEditorial extends ControladorGeneral {
     public function modificar($datos) {
         try {
             session_start();
-            //Primero rescato el nombre de la editorial que voy a modificar
-            $nombreEditorialAnterior = $this->traerNombreEditorial($datos["id"]);
             //Cargo los parametros y aplico la modificacion
             $parametros = array("nombreEditorial" => $datos["nombre"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_EDITORIAL, $parametros);
 
             unset($parametros);
-            $parametros = array("id_Editorial" => $datos["id"],
-                "id_Usuario" => $_SESSION["user"],
-                "nuevo_nombre_Editorial" => $datos["nombre"],
-                "anterior_nombre_Editorial" => $nombreEditorialAnterior
-            );
-
-            $this->refLog = new Controlador_LogEditoriales($parametros);
-            $this->refLog->modificar();
+            $parametros = array("accion" => Constantes::ACCION_MODIFICACION, "entidad" => Constantes::ENTIDAD_EDITORIAL, "id_Usuario" => $_SESSION["user"], "nombre" => $datos["nombre"]);
+            $this->refLog->registrarLog($parametros);
+            
         } catch (Exception $e) {
             throw new Exception("Editorial-modificar: " . $e->getMessage());
         }
@@ -83,13 +78,10 @@ class ControladorEditorial extends ControladorGeneral {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_EDITORIAL, $parametros);
 
             unset($parametros);
-            $parametros = array("id_Editorial" => $datos["id"],
-                "id_Usuario" => $_SESSION["user"],
-                "anterior_nombre_Editorial" => $nombreEditorialAnterior
-            );
-
-            $this->refLog = new Controlador_LogEditoriales($parametros);
-            $this->refLog->eliminar();
+            $parametros = array("accion" => Constantes::ACCION_BAJA, "entidad" => Constantes::ENTIDAD_EDITORIAL, "id_Usuario" => $_SESSION["user"], "nombre" => $nombreEditorialAnterior);
+            $this->refLog->registrarLog($parametros);
+            
+            
         } catch (Exception $e) {
             throw new Exception("Editorlal-eliminar: " . $e->getMessage());
         }

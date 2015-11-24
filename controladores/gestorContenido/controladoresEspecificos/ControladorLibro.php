@@ -2,18 +2,19 @@
 
 require_once 'ControladorGeneral.php';
 require_once 'ControladorFoto.php';
-require_once 'Constantes.php';
+require_once 'ControladorLog.php';
 
 class ControladorLibro extends ControladorGeneral {
 
+    private $refLog;
+    
     function __construct() {
         parent::__construct();
+        $this->refLog = new ControladorLog();
     }
 
     public function agregar($datos) {
         try {
-            //print_r($datos);
-            //throw new Exception();
             $contrFoto = new ControladorFoto();
             $nombreFoto = $contrFoto->guardarFoto($datos["fotos"]);
             session_start();
@@ -46,8 +47,10 @@ class ControladorLibro extends ControladorGeneral {
                 $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_LIBRO_CARACTERISTICA, $parametros);
             }
 
-            $parametros = array("id" => $id_, "usuario" => $_SESSION["usuario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_AGREGAR_LIBROS, $parametros);
+            unset($parametros);
+            $parametros = array("accion" => Constantes::ACCION_ALTA, "entidad" => Constantes::ENTIDAD_LIBRO, "id_Usuario" => $_SESSION["user"], "nombre" => $datos["titulo"]);
+            $this->refLog->registrarLog($parametros);
+            
             return $id_;
         } catch (Exception $e) {
             throw new Exception("Libro-agregar: " . $e->getMessage());
@@ -56,15 +59,7 @@ class ControladorLibro extends ControladorGeneral {
 
     public function listar() {
         try {
-            session_start();
-            $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LIBROS);
-            } else {
-                $parametros = array("usuario" => $_SESSION["usuario"]);
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LIBROS_X_USUARIO, $parametros);
-            }
-
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LIBROS);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {
@@ -72,21 +67,14 @@ class ControladorLibro extends ControladorGeneral {
         }
     }
 
-    public function listarTodo() {
+    public function listarLog() {
         try {
-            session_start();
-            $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_LIBROS);
-            } else {
-                $parametros = array("usuario" => $_SESSION["usuario"]);
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_LIBROS_X_USUARIO, $parametros);
-            }
-
-            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            unset($parametros);
+            $parametros = array("entidad" => Constantes::ENTIDAD_LIBRO);
+            $listado = $this->refLog->listarLog($parametros);
             return $listado;
         } catch (Exception $e) {
-            throw new Exception("Libro-listarTodo: " . $e->getMessage());
+            throw new Exception("Libro-listarLog: " . $e->getMessage());
         }
     }
 
@@ -127,8 +115,10 @@ class ControladorLibro extends ControladorGeneral {
                 $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_LIBRO_CARACTERISTICA, $parametros);
             }
 
-            $parametros = array("id" => $id_, "usuario" => $_SESSION["usuario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_MODIFICAR_LIBROS, $parametros);
+            unset($parametros);
+            $parametros = array("accion" => Constantes::ACCION_MODIFICACION, "entidad" => Constantes::ENTIDAD_LIBRO, "id_Usuario" => $_SESSION["user"], "nombre" => $datos["titulo"]);
+            $this->refLog->registrarLog($parametros);
+            
         } catch (Exception $e) {
             throw new Exception("Libro-modificar: " . $e->getMessage());
         }
@@ -137,10 +127,14 @@ class ControladorLibro extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             session_start();
+            $nombre = $this->traerNombre($datos["id"]);
             $parametros = array("id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO, $parametros);
-            $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["usuario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_LIBROS, $parametros);
+            
+            unset($parametros);
+            $parametros = array("accion" => Constantes::ACCION_BAJA, "entidad" => Constantes::ENTIDAD_LIBRO, "id_Usuario" => $_SESSION["user"], "nombre" => $nombre);
+            $this->refLog->registrarLog($parametros);
+            
         } catch (Exception $e) {
             throw new Exception("Libro-eliminar: " . $e->getMessage());
         }
@@ -150,6 +144,13 @@ class ControladorLibro extends ControladorGeneral {
         $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID_LIBRO);
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
         return $listado[0]["MAX(id_libro)"];
+    }
+    
+    private function traerNombre($id) {
+        $parametros = array("id" => $id);
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::NOMBRE_LIBROS, $parametros);
+        $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        return $listado[0]["nombre"];
     }
 
     public function contarLibrosCargados($datos = null) {

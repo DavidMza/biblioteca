@@ -13,7 +13,7 @@ class ControladorLogLibro extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_LIBROS);
             }
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);

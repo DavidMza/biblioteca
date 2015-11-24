@@ -5,8 +5,9 @@ $(function () {
         //"aca",["Fecha","Hora","Editorial","Usuario","Accion"],"LogEditoriales",false
         var tabla = new Tabla({
             contenedor: "aca",
-            cabecera: ["Fecha","Hora","Editorial","Usuario","Accion"],
-            controlador: "LogEditoriales",
+            cabecera: ["Fecha","Hora","Nombre","Usuario","Accion"],
+            controlador: "Editorial",
+            esLog: true,
             verEditar: false,
             verEliminar: false,
             verSeleccionar: false

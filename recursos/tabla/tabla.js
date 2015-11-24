@@ -44,7 +44,8 @@ function Tabla(param) {
     refTabla.tbody = document.createElement("tbody");
     //Inicializamos el contenedor del paginador
     refTabla.paginador = document.createElement("div");
-
+    //Inicializamos opcion esLog
+    refTabla.esLog = param.esLog;
     //Inicializamos opcion verEditar, si no se especifica valor por defecto es true.
     if (typeof param.verEditar == "undefined") {
         refTabla.verEditar = true;
@@ -122,7 +123,7 @@ function Tabla(param) {
 Tabla.prototype.crearABM = function () {
     var refTabla = this;
     refTabla.crearBotonesCabecera();
-    refTabla.crearCheckMostrarTodo();
+    //refTabla.crearCheckMostrarTodo();
     refTabla.crearTabla();
 };
 
@@ -252,8 +253,42 @@ Tabla.prototype.crearTabla = function () {
         thead.appendChild(th);
     }
     refTabla.tabla.appendChild(thead);
-    refTabla.fnListar();
+    if (refTabla.esLog) {
+        refTabla.listarLog();
+    } else {
+        refTabla.fnListar();
+    }
 };
+
+//Funcion por defecto para fnListar
+Tabla.prototype.listarLog = function () {
+    var refTabla = this;
+    var url = this.locacion + "controladores/Ruteador.php";
+    var datos = {};
+    datos.accion = "listarLog";
+    datos.formulario = this.controlador;
+    datos.seccion = "gestor";
+    $.ajax({
+        url: url,
+        method: 'POST',
+        dataType: 'json',
+        data: datos,
+        success: function (data) {
+            
+            refTabla.pagActual = 1;
+            refTabla.datos = data;
+            refTabla.listado = data;
+            refTabla.rellenarTbody();
+        },
+        error: function (data) {
+            
+            //alert(data.responseText);
+            swal("Error!", data.responseText, "error");
+            sessionStorage.aux = JSON.stringify(data.responseText);
+            window.location = refTabla.locacion + "gestorContenido/error/error.html";
+        }
+    });
+}
 
 //Funcion por defecto para fnListar
 Tabla.prototype.listar = function () {
@@ -273,6 +308,7 @@ Tabla.prototype.listar = function () {
         dataType: 'json',
         data: datos,
         success: function (data) {
+            console.log(data);
             refTabla.pagActual = 1;
             refTabla.datos = data;
             refTabla.listado = data;
@@ -454,6 +490,7 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
         success: function (data) {
             //alert("eliminado");
             //tag.parentNode.parentNode.remove();
+            console.log(data.split("%S%"));
             for (var i = 0, max = refTabla.datos.length; i < max; i++) {
                 if (refTabla.datos[i]["id"] == id) {
                     refTabla.datos.splice(i, 1);
@@ -463,6 +500,7 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
             refTabla.rellenarTbody();
         },
         error: function (data) {
+            console.log("error");
             //alert(data.responseText);
             //swal("Error!", data.responseText, "error");
             sessionStorage.aux = JSON.stringify(data.responseText);

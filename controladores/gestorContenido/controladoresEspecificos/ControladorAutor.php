@@ -1,18 +1,19 @@
 <?php
 
 require_once 'ControladorGeneral.php';
-require_once 'Constantes.php';
+require_once 'ControladorLog.php';
 
 class ControladorAutor extends ControladorGeneral {
 
+    private $refLog;
+    
     function __construct() {
         parent::__construct();
+        $this->refLog = new ControladorLog();
     }
 
     public function listar() {
         try {
-            session_start();
-            
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_AUTORES);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
@@ -20,49 +21,31 @@ class ControladorAutor extends ControladorGeneral {
             throw new Exception("Autor-listar: " . $e->getMessage());
         }
     }
-
-    public function listarTodo() {
-        try {
-            session_start();
-            $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES);
-            }else{
-                $parametros = array("usuario" => $_SESSION["user"]);
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_AUTORES_X_USUARIO,$parametros);
-            }
-            
-            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $listado;
-        } catch (Exception $e) {
-            throw new Exception("Autor-listarTodo: " . $e->getMessage());
-        }
-    }
     
-    public function listarLogs() {
+    public function listarLog() {
         try {
-            session_start();
-            $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
-                $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_LISTAR_AUTORES);
-            }
-            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            unset($parametros);
+            $parametros = array("entidad" => Constantes::ENTIDAD_AUTOR);
+            $listado = $this->refLog->listarLog($parametros);
+            //$listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $listado;
         } catch (Exception $e) {
-            throw new Exception("Autor-listarLogs: " . $e->getMessage());
+            throw new Exception("Autor-listarLog: " . $e->getMessage());
         }
     }
 
     public function agregar($datos) {
         try {
-            //print_r($datos);
-            //echo 'paso';
             session_start();
             $parametros = array("nombreAutor" => $datos["nombre"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_AUTOR, $parametros);
+            
             $id_autor = $this->ultimoID();
-            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["user"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_AGREGAR_AUTORES, $parametros);
+            
+            unset($parametros);
+            $parametros = array("accion" => Constantes::ACCION_ALTA, "entidad" => Constantes::ENTIDAD_AUTOR, "id_Usuario" => $_SESSION["user"], "nombre" => $datos["nombre"]);
+            $this->refLog->registrarLog($parametros);
+            
             return $id_autor;
         } catch (Exception $e) {
             throw new Exception("Autor-agregar: " . $e->getMessage());
@@ -74,9 +57,11 @@ class ControladorAutor extends ControladorGeneral {
             session_start();
             $parametros = array("nombreAutor" => $datos["nombre"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_AUTOR, $parametros);
-            $id_autor = $datos["id"];
-            $parametros = array("id" => $id_autor, "usuario" => $_SESSION["user"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_MODIFICAR_AUTORES, $parametros);
+            
+            unset($parametros);
+            $parametros = array("accion" => Constantes::ACCION_MODIFICACION, "entidad" => Constantes::ENTIDAD_AUTOR, "id_Usuario" => $_SESSION["user"], "nombre" => $datos["nombre"]);
+            $this->refLog->registrarLog($parametros);
+            
         } catch (Exception $e) {
             throw new Exception("Autor-modificar: " . $e->getMessage());
         }
@@ -85,10 +70,14 @@ class ControladorAutor extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             session_start();
+            $nombre = $this->traerNombre($datos["id"]);
             $parametros = array("id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_AUTOR, $parametros);
-            $parametros = array("id" => $datos["id"], "usuario" => $_SESSION["user"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LOG_ELIMINAR_AUTORES, $parametros);
+            
+            unset($parametros);
+            $parametros = array("accion" => Constantes::ACCION_BAJA, "entidad" => Constantes::ENTIDAD_AUTOR, "id_Usuario" => $_SESSION["user"], "nombre" => $nombre);
+            $this->refLog->registrarLog($parametros);
+            
         } catch (Exception $e) {
             throw new Exception("Autor-eliminar: " . $e->getMessage());
         }
@@ -98,6 +87,13 @@ class ControladorAutor extends ControladorGeneral {
         $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID_AUTOR);
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
         return $listado[0]["MAX(id_autor)"];
+    }
+    
+    private function traerNombre($id) {
+        $parametros = array("id" => $id);
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::NOMBRE_AUTORES, $parametros);
+        $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        return $listado[0]["nombre"];
     }
     
     public function contarAutoresCargados($datos = null) {

@@ -1,7 +1,6 @@
 <?php
 
 require_once 'ControladorGeneral.php';
-require_once 'Constantes.php';
 
 class ControladorUsuario extends ControladorGeneral {
 
@@ -13,7 +12,7 @@ class ControladorUsuario extends ControladorGeneral {
         try {
             session_start();
             $parametros = array("nombre" => $datos["nombre"], "clave" => "25d55ad283aa400af464c76d713c07ad");
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_USUARIO, $parametros);                
             }
             $id_usuario = $this->ultimoID();
@@ -27,7 +26,7 @@ class ControladorUsuario extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_USUARIOS);
             }
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -41,7 +40,7 @@ class ControladorUsuario extends ControladorGeneral {
         try {
             session_start();
             $resultado = null;
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
                 $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TODO_USUARIOS);
             }
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -55,7 +54,7 @@ class ControladorUsuario extends ControladorGeneral {
         try {
             session_start();
             $parametros = array("nombre" => $datos["nombre"], "id" => $datos["id"]);
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_USUARIO, $parametros);
             }
         } catch (Exception $e) {
@@ -67,7 +66,7 @@ class ControladorUsuario extends ControladorGeneral {
         try {
             session_start();
             $parametros = array("id" => $datos["id"]);
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_USUARIO, $parametros);
             }
         } catch (Exception $e) {
@@ -76,7 +75,7 @@ class ControladorUsuario extends ControladorGeneral {
     }
 
     private function ultimoID() {
-        if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+        if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
         $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID_USUARIO);
         }
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -113,7 +112,7 @@ class ControladorUsuario extends ControladorGeneral {
         try {
             session_start();
             $parametros = array("id" => $datos["id"]);
-            if ($_SESSION["tipo"] == Constantes::SUPER_ADMINISTRADOR) {
+            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::REINICIAR_PASSWORD, $parametros);
             return 1;
             }

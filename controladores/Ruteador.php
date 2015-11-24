@@ -28,8 +28,10 @@ try {
     echo json_encode($resultado);
     $refPersistencia->confirmarTransaccion();
 } catch (Exception $ex) {
-    echo $ex->getMessage();
     $refPersistencia->rollBackTransaccion();
+    $parametros = array('E',$ex->getMessage());
+    //echo $ex->getMessage();
+    echo join("%S%", $parametros);
 } finally {
     $refPersistencia->cerrarConexion();
 }
