@@ -65,7 +65,7 @@ class ControladorUsuario extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             session_start();
-            $parametros = array("id" => $datos["id"]);
+            $parametros = array("user" => Constantes::USER_SUPER_ADMINISTRADOR, "id" => $datos["id"]);
             if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_USUARIO, $parametros);
             }

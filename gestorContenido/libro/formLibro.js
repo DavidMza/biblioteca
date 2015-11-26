@@ -219,6 +219,7 @@ $(function () {
         app.bindings = function () {
 
             $("#btnWebService").on('click', function (event) {
+                $("#aca").html("");
                 var tabla = new Tabla({
                     contenedor: "aca",
                     cabecera: ["Isbn", "Titulo", "Autor", "Editorial"],
@@ -321,6 +322,10 @@ $(function () {
                 } else {
                     app.modificar();
                 }
+            });
+            
+            $("#cancelar").on("click", function (event) {
+                window.location = locacion + "gestorContenido/libro/libro.html";
             });
 
             $("#arbol").bind("select_node.jstree", function (e, data) {

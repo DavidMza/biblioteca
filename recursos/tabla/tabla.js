@@ -235,9 +235,11 @@ Tabla.prototype.crearTabla = function () {
     //Recorro las cabeceras para crear la cabecera de la tabla
     for (var i = 0; i < this.cabecera.length; i++) {
         var th = document.createElement("th");
+        //var td = document.createElement("td");
         var h3 = document.createElement("h3");
         var texto = document.createTextNode(this.cabecera[i]);
         h3.appendChild(texto);
+        //td.appendChild(h3);
         th.appendChild(h3);
         thead.appendChild(th);
     }
@@ -274,14 +276,14 @@ Tabla.prototype.listarLog = function () {
         dataType: 'json',
         data: datos,
         success: function (data) {
-            
+
             refTabla.pagActual = 1;
             refTabla.datos = data;
             refTabla.listado = data;
             refTabla.rellenarTbody();
         },
         error: function (data) {
-            
+
             //alert(data.responseText);
             swal("Error!", data.responseText, "error");
             sessionStorage.aux = JSON.stringify(data.responseText);
@@ -599,13 +601,35 @@ Tabla.prototype.modificar = function () {
 Tabla.prototype.imprimir = function () {    //funcion para imprimir
     var refTabla = this;
     var aux = '<table border="1">' + refTabla.tabla.innerHTML + '</table>';//recupero el html del la tablaAutor
-    aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
-    aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
+    console.log(aux);
+    aux = aux.replace("<thead>", "<tr>");//reemplazo el <thead> por cadena vacia
+    aux = aux.replace("</thead>", "</tr>");//reemplazo el </thead> por cadena vacia
+    aux = aux.replace("<tbody>", "");//reemplazo el <thead> por cadena vacia
+    aux = aux.replace("</tbody>", "");//reemplazo el </thead> por cadena vacia
+    aux = aux.replace('<th colspan="3" align="center"><h3>Opciones</h3></th>', "");//reemplazo el </thead> por cadena vacia
+    var inicio = aux.indexOf("<th>", 0);//busco la primera aparicion de esa cadena y guardo su posicion
+    while (inicio > 0) {
+        aux = aux.replace("<th>", "<td>");//reemplazo el string a borrar por cadena vacia
+        aux = aux.replace("</th>", "</td>");//reemplazo el </thead> por cadena vacia
+        inicio = aux.indexOf("<th>", 0);
+    }
+    
+    var inicio = aux.indexOf("<td><a data-tooltip", 0);//busco la primera aparicion de esa cadena y guardo su posicion
+    while (inicio > 0) {
+        var fin = aux.indexOf("</td>", inicio) + 5;//busco el final del <td> y guardo su posicion
+        var strBorrar = aux.substring(inicio, fin);//extraigo el string que debo borrar de la tabla
+        aux = aux.replace(strBorrar, "");//reemplazo el string a borrar por cadena vacia
+        inicio = aux.indexOf("<td><a data-tooltip", 0);
+    }
+
+    //aux = "<table><tr><td>asd</td></tr><tr><td>Antologia Romanticas</td></tr><tr><td>Blake Crouch</td></tr><tr><td>Cielo Latini</td></tr><tr><td>Coelho Paulo</td></tr><tr><td>Heinlein Robert A</td></tr><tr><td>John Green</td></tr><tr><td>Paula Hawkins</td></tr><tr><td>Tolkien J R R</td></tr></table>"
     console.log(aux);
     $("#tituloImprimir").val(refTabla.controlador);
     $("#htmlImprimir").val(aux);
     $("#formImprimir").attr("action", refTabla.locacion + "controladores/Imprimir.php");
     $("#formImprimir").submit();//imprimo
+
+
     /*
      var formulario = document.createElement("form");
      formulario.setAttribute("target", "_blank");
