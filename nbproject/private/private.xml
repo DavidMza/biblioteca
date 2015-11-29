@@ -3,23 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/Error/error.html</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorAutor.php</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorCaracteristica.php</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorUsuario.php</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorLibro.php</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.html</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/clasificacion/clasificacion.html</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/usuario/usuario.html</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/caracteristica/caracteristica.html</file>
+            <file>file:/C:/wamp/www/biblioteca/recursos/tabla/tabla.js</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/editorial/editorial.html</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/autor.js</file>
+            <file>file:/C:/wamp/www/biblioteca/gestorContenido/libro/libro.html</file>
             <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/persistencia/DBSentencias.php</file>
             <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorLog.php</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/editorial/editorial.js</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/Ruteador.php</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/autor/log/logAutor.js</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/editorial/log/logEditorial.js</file>
-            <file>file:/C:/wamp/www/biblioteca/recursos/tabla/tabla.js</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/caracteristica/log/logCaracteristica.js</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorLogLibro.php</file>
-            <file>file:/C:/wamp/www/biblioteca/gestorContenido/libro/log/logLibro.js</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorEditorial.php</file>
-            <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/ControladorGeneral.php</file>
             <file>file:/C:/wamp/www/biblioteca/controladores/gestorContenido/controladoresEspecificos/Constantes.php</file>
         </group>
     </open-files>

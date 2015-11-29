@@ -54,8 +54,8 @@ $(function () {
             });
 
             /*$("#formClasificacion").bootstrapValidator({
-                excluded: [],
-            });*/
+             excluded: [],
+             });*/
         };
 
         app.eliminar = function (id) {    //funcion para eliminar
@@ -78,16 +78,15 @@ $(function () {
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
                     sessionStorage.aux = JSON.stringify(data.responseText);
-                        window.location = "../error/error.html";
+                    window.location = "../error/error.html";
                 }
             });
         };
 
         app.imprimir = function () {    //funcion para imprimir
-            var aux = $("#tablaClasificacion").html();//recupero el html del la tablaClasificacion
-            aux = aux.replace("<thead>", "");//reemplazo el <thead> por cadena vacia
-            aux = aux.replace("</thead>", "");//reemplazo el </thead> por cadena vacia
-            $("#html").val('<table border="1">' + aux + '</table>');
+            var aux = $("#arbol").html();//recupero el html del la tablaClasificacion
+            $("#tituloImprimir").val('Clasificaciones');
+            $("#htmlImprimir").val(aux);
             $("#formImprimir").attr("action", locacion + "controladores/Imprimir.php");
             $("#formImprimir").submit();//imprimo
         };
@@ -117,7 +116,7 @@ $(function () {
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
                     sessionStorage.aux = JSON.stringify(data.responseText);
-                        window.location = "../error/error.html";
+                    window.location = "../error/error.html";
                 }
             });
         };
@@ -145,20 +144,17 @@ $(function () {
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
                     sessionStorage.aux = JSON.stringify(data.responseText);
-                        window.location = "../error/error.html";
+                    window.location = "../error/error.html";
                 }
             });
         };
 
         app.listar = function () {
-            alert("listar");
+            //alert("listar");
+            //$('#arbol').jstree.destroy ();
             var url = locacion + "controladores/Ruteador.php";
             var datos = {};
-            if ($("#listarTodo").prop('checked')) {
-                datos.accion = "listarTodo";
-            } else {
-                datos.accion = "listar";
-            }
+            datos.accion = "listar";
             datos.formulario = "Clasificacion";
             datos.seccion = "gestor";
             $.ajax({
@@ -175,7 +171,7 @@ $(function () {
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
                     sessionStorage.aux = JSON.stringify(data.responseText);
-                        window.location = "../error/error.html";
+                    window.location = "../error/error.html";
                 }
             });
         };
@@ -190,12 +186,13 @@ $(function () {
         };
 
         app.ArmarArbol = function (data) {
-            alert("armarArbol");
+            //alert("armarArbol");
+            //$('#arbol').redraw();
             //$('#arbol').jstree.destroy ();
             $('#arbol').jstree({'core': {
                     'data': data
                 }});
-            $("#arbol").jstree('open_all');
+            //$("#arbol").jstree('open_all');
             //data = null;
         };
 

@@ -488,11 +488,13 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
     $.ajax({
         url: url,
         method: 'POST',
+        dataType: 'json',
         data: datos,
         success: function (data) {
             //alert("eliminado");
             //tag.parentNode.parentNode.remove();
-            console.log(data.split("%S%"));
+            console.log(data);
+            
             for (var i = 0, max = refTabla.datos.length; i < max; i++) {
                 if (refTabla.datos[i]["id"] == id) {
                     refTabla.datos.splice(i, 1);
@@ -502,11 +504,22 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
             refTabla.rellenarTbody();
         },
         error: function (data) {
-            console.log("error");
+            //console.log("error");
             //alert(data.responseText);
-            //swal("Error!", data.responseText, "error");
-            sessionStorage.aux = JSON.stringify(data.responseText);
-            window.location = refTabla.locacion + "gestorContenido/error/error.html";
+            var str = data.responseText;
+            var inicio = str.indexOf("1451 Cannot delete or update", 0);
+            if (inicio > 0){
+                swal("Error!", "No se puede eliminar el objeto ya que esta siendo referenciado", "error");
+            }else{
+                inicio = str.indexOf("959595",0);
+                if (inicio > 0){
+                    swal("Error!", "No se puede eliminar un Super-Administrador", "error");
+                }else{
+                sessionStorage.aux = JSON.stringify(data.responseText);
+                window.location = refTabla.locacion + "gestorContenido/error/error.html";
+            }
+            }
+            //console.log(data);
         }
     });
 };
@@ -552,9 +565,14 @@ Tabla.prototype.guardar = function () {
         },
         error: function (data) {
             //alert(data.responseText);
-            //swal("Error!", data.responseText, "error");
-            sessionStorage.aux = JSON.stringify(data.responseText);
-            window.location = refTabla.locacion + "gestorContenido/error/error.html";
+            var str = data.responseText;
+            var inicio = str.indexOf("1062 Duplicate entry", 0);
+            if (inicio > 0){
+                swal("Error!", "Nombre Duplicado", "error");
+            }else{
+                sessionStorage.aux = JSON.stringify(data.responseText);
+                window.location = refTabla.locacion + "gestorContenido/error/error.html";
+            }
         }
     });
 };
@@ -575,6 +593,7 @@ Tabla.prototype.modificar = function () {
     $.ajax({
         url: url,
         method: 'POST',
+        dataType: 'json',
         data: datos,
         success: function (data) {
             for (var i = 0, max = refTabla.datos.length; i < max; i++) {
@@ -590,9 +609,14 @@ Tabla.prototype.modificar = function () {
         },
         error: function (data) {
             //alert(data.responseText);
-            //swal("Error!", data.responseText, "error");
-            sessionStorage.aux = JSON.stringify(data.responseText);
-            window.location = refTabla.locacion + "gestorContenido/error/error.html";
+            var str = data.responseText;
+            var inicio = str.indexOf("1062 Duplicate entry", 0);
+            if (inicio > 0){
+                swal("Error!", "Nombre Duplicado", "error");
+            }else{
+                sessionStorage.aux = JSON.stringify(data.responseText);
+                window.location = refTabla.locacion + "gestorContenido/error/error.html";
+            }
         }
     });
 };

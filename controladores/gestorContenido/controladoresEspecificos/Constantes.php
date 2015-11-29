@@ -14,5 +14,6 @@ interface Constantes {
     const ENTIDAD_EDITORIAL = "2";
     const ENTIDAD_CARACTERISTICA = "3";
     const ENTIDAD_LIBRO = "4";
+    const ENTIDAD_CLASIFICACION = "5";
     
 }

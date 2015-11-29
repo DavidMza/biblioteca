@@ -35,10 +35,11 @@ $(function () {
                     app.bindings();
                 },
                 error: function (data) {
+                    console.log(data);
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
-                    sessionStorage.aux = JSON.stringify(data.responseText);
-                    window.location = "../error/error.html";
+                    //sessionStorage.aux = JSON.stringify(data.responseText);
+                    //window.location = "../error/error.html";
                 }
             });
         };
@@ -62,10 +63,11 @@ $(function () {
                         $("#contactos").find("a[data-id='" + datos.id + "']").parent().parent().remove();
                     },
                     error: function (data) {
+                        console.log(data);
                         //alert(data.responseText);
                         //swal("Error!", data.responseText, "error");
-                        sessionStorage.aux = JSON.stringify(data.responseText);
-                        window.location = "../error/error.html";
+                        //sessionStorage.aux = JSON.stringify(data.responseText);
+                        //window.location = "../error/error.html";
                     }
                 });
             });
@@ -89,9 +91,10 @@ $(function () {
                             nopaso = true;
                         },
                         error: function (data) {
+                            console.log(data);
                             //alert(data.responseText);
-                            sessionStorage.aux = JSON.stringify(data.responseText);
-                            window.location = "../error/error.html";
+                            //sessionStorage.aux = JSON.stringify(data.responseText);
+                            //window.location = "../error/error.html";
                             //swal("Error!", data.responseText, "error");
                             nopaso = true;
                         }
@@ -115,17 +118,18 @@ $(function () {
                 success: function (data) {
                     //console.log(data);
                     //Cantidad general
-                    var texto = data.cantTotal + " editoriales";
+                    var texto = data + " editoriales";
                     $("#cantEditoriales").text(texto);
                     //Cantidad x usuario
-                    texto = "Has cargado " + data.cantXusu + " editoriales";
-                    $("#cantEditorialesUsu").text(texto);
+                    //texto = "Has cargado " + data.cantXusu + " editoriales";
+                    //$("#cantEditorialesUsu").text(texto);
                 },
                 error: function (data) {
+                    console.log(data);
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
-                    sessionStorage.aux = JSON.stringify(data.responseText);
-                    window.location = "../error/error.html";
+                    //sessionStorage.aux = JSON.stringify(data.responseText);
+                    //window.location = "../error/error.html";
                 }
             });
         };
@@ -144,17 +148,18 @@ $(function () {
                 success: function (data) {
                     //console.log(data);
                     //Cantidad general
-                    var texto = data.cantTotal + " autores";
+                    var texto = data + " autores";
                     $("#cantAutores").text(texto);
                     //Cantidad x usuario
-                    texto = "Has cargado " + data.cantXusu + " autores";
-                    $("#cantAutoresUsu").text(texto);
+                    //texto = "Has cargado " + data.cantXusu + " autores";
+                    //$("#cantAutoresUsu").text(texto);
                 },
                 error: function (data) {
+                    console.log(data);
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
-                    sessionStorage.aux = JSON.stringify(data.responseText);
-                    window.location = "../error/error.html";
+                    //sessionStorage.aux = JSON.stringify(data.responseText);
+                    //window.location = "../error/error.html";
                 }
             });
         };
@@ -173,17 +178,18 @@ $(function () {
                 success: function (data) {
                     //console.log(data);
                     //Cantidad general
-                    var texto = data.cantTotal + " libros";
+                    var texto = data + " libros";
                     $("#cantLibros").text(texto);
                     //Cantidad x usuario
-                    texto = "Has cargado " + data.cantXusu + " libros";
-                    $("#cantiLibrosUsu").text(texto);
+                    //texto = "Has cargado " + data.cantXusu + " libros";
+                    //$("#cantiLibrosUsu").text(texto);
                 },
                 error: function (data) {
+                    console.log(data);
                     //alert(data.responseText);
                     //swal("Error!", data.responseText, "error");
-                    sessionStorage.aux = JSON.stringify(data.responseText);
-                    window.location = "../error/error.html";
+                    //sessionStorage.aux = JSON.stringify(data.responseText);
+                    //window.location = "../error/error.html";
                 }
             });
         };

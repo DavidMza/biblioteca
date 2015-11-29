@@ -101,21 +101,11 @@ class ControladorAutor extends ControladorGeneral {
             session_start();
             $resultado = null;
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_AUTORES_CARGADOS);
-            $retorno = array();
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            
-            $retorno["cantTotal"] = $listado[0]["autores"];
-            $resultado = null;
-            $parametros = array("usuario" => $_SESSION["user"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_AUTORES_CARGADOS_X_USUARIO, $parametros);
-            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            
-            $retorno["cantXusu"] = $listado[0]["autores"];
-            //var_dump($listado);
-            //print_r();
-            return $retorno;
+
+            return $listado[0]["autores"];
         } catch (Exception $e) {
-            throw new Exception("Libro-CotarTodo: " . $e->getMessage());
+            throw new Exception("Libro-ContarTodo: " . $e->getMessage());
         }
     }
 

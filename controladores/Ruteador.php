@@ -29,9 +29,9 @@ try {
     $refPersistencia->confirmarTransaccion();
 } catch (Exception $ex) {
     $refPersistencia->rollBackTransaccion();
-    $parametros = array('E',$ex->getMessage());
-    //echo $ex->getMessage();
-    echo join("%S%", $parametros);
+    //$parametros = array('E',$ex->getMessage());
+    echo $ex->getMessage();
+    //echo join("%S%", $parametros);
 } finally {
     $refPersistencia->cerrarConexion();
 }

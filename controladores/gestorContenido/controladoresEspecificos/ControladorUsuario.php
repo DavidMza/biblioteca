@@ -13,7 +13,7 @@ class ControladorUsuario extends ControladorGeneral {
             session_start();
             $parametros = array("nombre" => $datos["nombre"], "clave" => "25d55ad283aa400af464c76d713c07ad");
             if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_USUARIO, $parametros);                
+                $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_USUARIO, $parametros);
             }
             $id_usuario = $this->ultimoID();
             return $id_usuario;
@@ -55,7 +55,7 @@ class ControladorUsuario extends ControladorGeneral {
             session_start();
             $parametros = array("nombre" => $datos["nombre"], "id" => $datos["id"]);
             if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_USUARIO, $parametros);
+                $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_USUARIO, $parametros);
             }
         } catch (Exception $e) {
             throw new Exception("Usuario-modificar: " . $e->getMessage());
@@ -65,9 +65,14 @@ class ControladorUsuario extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             session_start();
-            $parametros = array("user" => Constantes::USER_SUPER_ADMINISTRADOR, "id" => $datos["id"]);
-            if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_USUARIO, $parametros);
+            $tipo = $this->traerTipo($datos["id"]);
+            if ($tipo != Constantes::USER_SUPER_ADMINISTRADOR) {
+                $parametros = array("user" => Constantes::USER_SUPER_ADMINISTRADOR, "id" => $datos["id"]);
+                if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
+                    $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_USUARIO, $parametros);
+                }
+            } else {
+                throw new Exception("Usuario-eliminar: 959595 No se puede eliminar un Super-Administrador");
             }
         } catch (Exception $e) {
             throw new Exception("Usuario-eliminar: " . $e->getMessage());
@@ -76,45 +81,50 @@ class ControladorUsuario extends ControladorGeneral {
 
     private function ultimoID() {
         if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
-        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID_USUARIO);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ULTIMO_ID_USUARIO);
         }
         $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
         return $listado[0]["MAX(id_usuario)"];
     }
-    
-    public function cambiarPass($datos){
-        try{
+
+    private function traerTipo($id) {
+        $parametros = array("id" => $id);
+        $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::TRAER_TIPO_USUARIO, $parametros);
+        $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+        return $listado[0]["tipo"];
+    }
+
+    public function cambiarPass($datos) {
+        try {
             session_start();
             $passwordActualIngresada = $datos["claveActual"];
-            
+
             $parametros = array("idUsuario" => $_SESSION["user"]);
             $retorno = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::OBTENER_PASSWORD, $parametros);
             $retorno = $retorno->fetchAll(PDO::FETCH_ASSOC);
 
             $passwordActualObtenida = $retorno[0]["clave_usuario"];
-            
+
             if ($passwordActualIngresada == $passwordActualObtenida) {
                 unset($parametros);
                 $parametros = array("nuevaPass" => $datos["claveNueva"], "idUsuario" => $_SESSION["user"]);
                 $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CAMBIAR_PASSWORD, $parametros);
                 return array("retorno" => "Se ha actualizado la contrasena", "bandera" => true);
-            }else{
+            } else {
                 return array("retorno" => "Has introducido una contrasena incorrecta", "bandera" => false);
             }
-            
-            
-        }  catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception("cambiarPass-usuario: " . $e->getMessage());
         }
     }
-    
+
     public function reiniciarPass($datos) {
         try {
             session_start();
             $parametros = array("id" => $datos["id"]);
             if ($_SESSION["tipo"] == Constantes::USER_SUPER_ADMINISTRADOR) {
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::REINICIAR_PASSWORD, $parametros);
-            return 1;
+                $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::REINICIAR_PASSWORD, $parametros);
+                return 1;
             }
         } catch (Exception $e) {
             throw new Exception("Usuario-reiniciarPass: " . $e->getMessage());

@@ -105,21 +105,11 @@ class ControladorEditorial extends ControladorGeneral {
             session_start();
             $resultado = null;
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_EDITORIALES_CARGADAS);
-            $retorno = array();
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
-            $retorno["cantTotal"] = $listado[0]["editoriales"];
-            $resultado = null;
-            $parametros = array("usuario" => $_SESSION["user"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::CONTAR_EDITORIALES_CARGADAS_X_USUARIO, $parametros);
-            $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
-
-            $retorno["cantXusu"] = $listado[0]["editoriales"];
-            //var_dump($listado);
-            //print_r();
-            return $retorno;
+            return $listado[0]["editoriales"];
         } catch (Exception $e) {
-            throw new Exception("Libro-CotarTodo: " . $e->getMessage());
+            throw new Exception("Libro-ContarTodo: " . $e->getMessage());
         }
     }
 

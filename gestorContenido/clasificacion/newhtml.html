@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+
+        <div id="contenido">
+            <div id="page-wrapper">
+                <div id="page-inner">
+                    <h1>Administrar Clasificaciones</h1>
+                    <div id="log">
+                        <a href="log/logClasificacion.html"> Ver Log de Clasificaciones</a>
+                    </div>
+                    <br>
+                    <table width="50%" align="center">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <button id="agregarClasificacion" class="btn btn-primary btn-lg" data-tooltip="Nuevo Registro">
+                                        <i class="fa fa-plus fa-1x"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button id="imprimir" class="btn btn-primary btn-lg" data-tooltip="Imprimir Tabla">
+                                        <i class="fa fa-print fa-1x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="arbol" class="jstree jstree-1 jstree-default" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="16" aria-busy="false">
+                        <ul class="jstree-container-ul jstree-children" role="group">
+                            <li id="1" class="jstree-node jstree-last jstree-open" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="1_anchor" aria-expanded="true">
+                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                <a id="1_anchor" class="jstree-anchor" href="#" tabindex="-1">
+                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                    Genero
+                                </a>
+                                <ul class="jstree-children" role="group" style="">
+                                    <li id="11" class="jstree-node jstree-leaf" role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="11_anchor">
+                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                        <a id="11_anchor" class="jstree-anchor" href="#" tabindex="-1">
+                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                            Terror
+                                        </a>
+                                    </li>
+                                    <li id="12" class="jstree-node jstree-leaf" role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="12_anchor">
+                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                        <a id="12_anchor" class="jstree-anchor" href="#" tabindex="-1">
+                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                            Drama
+                                        </a>
+                                    </li>
+                                    <li id="13" class="jstree-node jstree-open" role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="13_anchor" aria-expanded="true">
+                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                        <a id="13_anchor" class="jstree-anchor" href="#" tabindex="-1">
+                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                            Ciencia Ficcion
+                                        </a>
+                                        <ul class="jstree-children" role="group" style="">
+                                            <li id="16" class="jstree-node jstree-leaf jstree-last" role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="16_anchor">
+                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                <a id="16_anchor" class="jstree-anchor" href="#" tabindex="-1">
+                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                                    Fantasia
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li id="14" class="jstree-node jstree-open" role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="14_anchor" aria-expanded="true">
+                                        <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                        <a id="14_anchor" class="jstree-anchor" href="#" tabindex="-1">
+                                            <i class="jstree-icon jstree-themeicon" role="presentation"></i>
+                                            Infantil
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>
