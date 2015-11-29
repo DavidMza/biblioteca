@@ -494,7 +494,7 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
             //alert("eliminado");
             //tag.parentNode.parentNode.remove();
             console.log(data);
-            
+
             for (var i = 0, max = refTabla.datos.length; i < max; i++) {
                 if (refTabla.datos[i]["id"] == id) {
                     refTabla.datos.splice(i, 1);
@@ -508,16 +508,16 @@ Tabla.prototype.eliminar = function (id, tag) {    //funcion para eliminar
             //alert(data.responseText);
             var str = data.responseText;
             var inicio = str.indexOf("1451 Cannot delete or update", 0);
-            if (inicio > 0){
+            if (inicio > 0) {
                 swal("Error!", "No se puede eliminar el objeto ya que esta siendo referenciado", "error");
-            }else{
-                inicio = str.indexOf("959595",0);
-                if (inicio > 0){
+            } else {
+                inicio = str.indexOf("959595", 0);
+                if (inicio > 0) {
                     swal("Error!", "No se puede eliminar un Super-Administrador", "error");
-                }else{
-                sessionStorage.aux = JSON.stringify(data.responseText);
-                window.location = refTabla.locacion + "gestorContenido/error/error.html";
-            }
+                } else {
+                    sessionStorage.aux = JSON.stringify(data.responseText);
+                    window.location = refTabla.locacion + "gestorContenido/error/error.html";
+                }
             }
             //console.log(data);
         }
@@ -567,9 +567,9 @@ Tabla.prototype.guardar = function () {
             //alert(data.responseText);
             var str = data.responseText;
             var inicio = str.indexOf("1062 Duplicate entry", 0);
-            if (inicio > 0){
+            if (inicio > 0) {
                 swal("Error!", "Nombre Duplicado", "error");
-            }else{
+            } else {
                 sessionStorage.aux = JSON.stringify(data.responseText);
                 window.location = refTabla.locacion + "gestorContenido/error/error.html";
             }
@@ -611,9 +611,9 @@ Tabla.prototype.modificar = function () {
             //alert(data.responseText);
             var str = data.responseText;
             var inicio = str.indexOf("1062 Duplicate entry", 0);
-            if (inicio > 0){
+            if (inicio > 0) {
                 swal("Error!", "Nombre Duplicado", "error");
-            }else{
+            } else {
                 sessionStorage.aux = JSON.stringify(data.responseText);
                 window.location = refTabla.locacion + "gestorContenido/error/error.html";
             }
@@ -624,58 +624,45 @@ Tabla.prototype.modificar = function () {
 //Funcion por defecto para fnImprimir
 Tabla.prototype.imprimir = function () {    //funcion para imprimir
     var refTabla = this;
-    var aux = '<table border="1">' + refTabla.tabla.innerHTML + '</table>';//recupero el html del la tablaAutor
+    var aux = '<table border="1" align="center">' + refTabla.tabla.innerHTML + '</table>';//recupero el html del la tablaAutor
     console.log(aux);
     aux = aux.replace("<thead>", "<tr>");//reemplazo el <thead> por cadena vacia
     aux = aux.replace("</thead>", "</tr>");//reemplazo el </thead> por cadena vacia
     aux = aux.replace("<tbody>", "");//reemplazo el <thead> por cadena vacia
     aux = aux.replace("</tbody>", "");//reemplazo el </thead> por cadena vacia
     aux = aux.replace('<th colspan="3" align="center"><h3>Opciones</h3></th>', "");//reemplazo el </thead> por cadena vacia
+
     var inicio = aux.indexOf("<th>", 0);//busco la primera aparicion de esa cadena y guardo su posicion
+    var fin = 0;
     while (inicio > 0) {
-        aux = aux.replace("<th>", "<td>");//reemplazo el string a borrar por cadena vacia
+        aux = aux.replace('<th>', '<td bgcolor="#0076D0" color="white">');//reemplazo el string a borrar por cadena vacia
+        fin = aux.indexOf("</th>", 0)
         aux = aux.replace("</th>", "</td>");//reemplazo el </thead> por cadena vacia
         inicio = aux.indexOf("<th>", 0);
     }
-    
-    var inicio = aux.indexOf("<td><a data-tooltip", 0);//busco la primera aparicion de esa cadena y guardo su posicion
+
+    inicio = aux.indexOf("<tr>", fin);
     while (inicio > 0) {
-        var fin = aux.indexOf("</td>", inicio) + 5;//busco el final del <td> y guardo su posicion
+        aux = aux.replace('<tr>', '<tr bgcolor="#A5D4F9">');//reemplazo el string a borrar por cadena vacia
+        inicio = aux.indexOf("<tr>", fin);
+    }
+
+
+
+    inicio = aux.indexOf("<td><a data-tooltip", 0);//busco la primera aparicion de esa cadena y guardo su posicion
+    while (inicio > 0) {
+        fin = aux.indexOf("</td>", inicio) + 5;//busco el final del <td> y guardo su posicion
         var strBorrar = aux.substring(inicio, fin);//extraigo el string que debo borrar de la tabla
         aux = aux.replace(strBorrar, "");//reemplazo el string a borrar por cadena vacia
         inicio = aux.indexOf("<td><a data-tooltip", 0);
     }
 
-    //aux = "<table><tr><td>asd</td></tr><tr><td>Antologia Romanticas</td></tr><tr><td>Blake Crouch</td></tr><tr><td>Cielo Latini</td></tr><tr><td>Coelho Paulo</td></tr><tr><td>Heinlein Robert A</td></tr><tr><td>John Green</td></tr><tr><td>Paula Hawkins</td></tr><tr><td>Tolkien J R R</td></tr></table>"
+
     console.log(aux);
     $("#tituloImprimir").val(refTabla.controlador);
     $("#htmlImprimir").val(aux);
     $("#formImprimir").attr("action", refTabla.locacion + "controladores/Imprimir.php");
     $("#formImprimir").submit();//imprimo
-
-
-    /*
-     var formulario = document.createElement("form");
-     formulario.setAttribute("target", "_blank");
-     formulario.setAttribute("method", "POST");
-     
-     var input = document.createElement("input");
-     input.setAttribute("type", "hidden");
-     input.setAttribute("name", "Formulario");
-     input.setAttribute("value", refTabla.controlador);
-     formulario.appendChild(input);
-     
-     input = document.createElement("input");
-     input.setAttribute("type", "hidden");
-     input.setAttribute("name", "html");
-     input.setAttribute("value", aux);
-     formulario.appendChild(input);
-     
-     formulario.setAttribute("action", refTabla.locacion + "controladores/Imprimir.php");
-     
-     refTabla.contenedor.appendChild(formulario);
-     
-     $(formulario).submit();*/
 };
 
 //Funcion por defecto para fnBuscar

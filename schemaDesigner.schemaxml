@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">biblioteca</database>
+</source>
+<canvas zoom="80">
+<tables>
+<table name="acciones" view="colnames">
+<left>706</left>
+<top>51</top>
+<width>106</width>
+<height>90</height>
+<sql_create_table>CREATE TABLE `acciones` (
+  `id_accion` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_accion` char(1) COLLATE utf8_spanish_ci NOT NULL COMMENT 'A -&gt; alta. B -&gt; baja. M -&gt; modificacion',
+  PRIMARY KEY (`id_accion`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="autores" view="colnames">
+<left>708</left>
+<top>406</top>
+<width>102</width>
+<height>103</height>
+<sql_create_table>CREATE TABLE `autores` (
+  `id_autor` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_autor` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_autor`),
+  UNIQUE KEY `Nombre` (`nombre_autor`)
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="caracteristicas" view="colnames">
+<left>119</left>
+<top>314</top>
+<width>166</width>
+<height>103</height>
+<sql_create_table>CREATE TABLE `caracteristicas` (
+  `id_caracteristicas` int(11) NOT NULL AUTO_INCREMENT,
+  `denominacion_caracteristica` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_caracteristicas`),
+  UNIQUE KEY `Nombre` (`denominacion_caracteristica`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="clasificaciones" view="colnames">
+<left>117</left>
+<top>180</top>
+<width>160</width>
+<height>117</height>
+<sql_create_table>CREATE TABLE `clasificaciones` (
+  `id_clasificacion` int(11) NOT NULL AUTO_INCREMENT,
+  `denominacion_clasificacion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `id_clasificacion_padre` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_clasificacion`),
+  UNIQUE KEY `nombre` (`denominacion_clasificacion`),
+  KEY `id_clasificacion_padre` (`id_clasificacion_padre`),
+  CONSTRAINT `clasificaciones_ibfk_1` FOREIGN KEY (`id_clasificacion_padre`) REFERENCES `clasificaciones` (`id_clasificacion`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="consultas" view="colnames">
+<left>854</left>
+<top>14</top>
+<width>93</width>
+<height>144</height>
+<sql_create_table>CREATE TABLE `consultas` (
+  `id_consultas` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(70) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Usuario',
+  `email` varchar(150) COLLATE utf8_spanish_ci NOT NULL,
+  `mensaje` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `borrado` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id_consultas`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="editoriales" view="colnames">
+<left>343</left>
+<top>424</top>
+<width>114</width>
+<height>103</height>
+<sql_create_table>CREATE TABLE `editoriales` (
+  `id_editorial` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_editorial` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_editorial`),
+  UNIQUE KEY `Nombre_Editorial` (`nombre_editorial`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="fotos" view="colnames">
+<left>711</left>
+<top>176</top>
+<width>113</width>
+<height>117</height>
+<sql_create_table>CREATE TABLE `fotos` (
+  `id_foto` int(11) NOT NULL AUTO_INCREMENT,
+  `rutaArchivo_foto` varchar(250) COLLATE utf8_spanish_ci NOT NULL,
+  `id_libro_foto` int(11) NOT NULL,
+  PRIMARY KEY (`id_foto`),
+  KEY `id_libro_foto` (`id_libro_foto`),
+  CONSTRAINT `fotos_ibfk_1` FOREIGN KEY (`id_libro_foto`) REFERENCES `libro` (`id_libro`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="idioma" view="colnames">
+<left>717</left>
+<top>303</top>
+<width>81</width>
+<height>90</height>
+<sql_create_table>CREATE TABLE `idioma` (
+  `id_idioma` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_idioma`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="libro" view="colnames">
+<left>526</left>
+<top>199</top>
+<width>124</width>
+<height>212</height>
+<sql_create_table>CREATE TABLE `libro` (
+  `id_libro` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo_libro` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `ISBN_libro` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `paginas_libro` int(4) NOT NULL,
+  `idioma_libro` int(11) NOT NULL,
+  `publicacion_libro` int(4) NOT NULL,
+  `disponibilidad_libro` tinyint(1) NOT NULL,
+  `destacado_libro` tinyint(1) NOT NULL,
+  `id_autor_libro` int(11) NOT NULL,
+  `id_editorial_libro` int(11) NOT NULL,
+  PRIMARY KEY (`id_libro`),
+  KEY `id_autor_libro` (`id_autor_libro`),
+  KEY `id_editorial_libro` (`id_editorial_libro`),
+  KEY `idioma_libro` (`idioma_libro`),
+  CONSTRAINT `libro_ibfk_1` FOREIGN KEY (`id_autor_libro`) REFERENCES `autores` (`id_autor`),
+  CONSTRAINT `libro_ibfk_2` FOREIGN KEY (`id_editorial_libro`) REFERENCES `editoriales` (`id_editorial`),
+  CONSTRAINT `libro_ibfk_3` FOREIGN KEY (`idioma_libro`) REFERENCES `idioma` (`id_idioma`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="libro_caracteristica" view="colnames">
+<left>343</left>
+<top>313</top>
+<width>112</width>
+<height>90</height>
+<sql_create_table>CREATE TABLE `libro_caracteristica` (
+  `fk_caracteristica` int(11) NOT NULL,
+  `fk_libro` int(11) NOT NULL,
+  PRIMARY KEY (`fk_caracteristica`,`fk_libro`),
+  KEY `fk_libro` (`fk_libro`),
+  CONSTRAINT `libro_caracteristica_ibfk_1` FOREIGN KEY (`fk_libro`) REFERENCES `libro` (`id_libro`),
+  CONSTRAINT `libro_caracteristica_ibfk_2` FOREIGN KEY (`fk_caracteristica`) REFERENCES `caracteristicas` (`id_caracteristicas`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="libro_clasificacion" view="colnames">
+<left>346</left>
+<top>210</top>
+<width>106</width>
+<height>90</height>
+<sql_create_table>CREATE TABLE `libro_clasificacion` (
+  `fk_clasificacion` int(11) NOT NULL,
+  `fk_libro` int(11) NOT NULL,
+  PRIMARY KEY (`fk_clasificacion`,`fk_libro`),
+  KEY `fk_libro` (`fk_libro`),
+  CONSTRAINT `libro_clasificacion_ibfk_1` FOREIGN KEY (`fk_libro`) REFERENCES `libro` (`id_libro`),
+  CONSTRAINT `libro_clasificacion_ibfk_2` FOREIGN KEY (`fk_clasificacion`) REFERENCES `clasificaciones` (`id_clasificacion`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="listamail" view="colnames">
+<left>864</left>
+<top>177</top>
+<width>72</width>
+<height>103</height>
+<sql_create_table>CREATE TABLE `listamail` (
+  `id_mail` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Usuario',
+  `email` varchar(150) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id_mail`),
+  UNIQUE KEY `EMAIL` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="log" view="colnames">
+<left>521</left>
+<top>20</top>
+<width>106</width>
+<height>158</height>
+<sql_create_table>CREATE TABLE `log` (
+  `id_log` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_log` date NOT NULL,
+  `hora_log` time NOT NULL,
+  `id_accion_log` int(11) NOT NULL,
+  `id_entidad_log` int(11) NOT NULL,
+  `id_usuario_log` int(11) NOT NULL,
+  `nombre_objeto` varchar(150) NOT NULL,
+  PRIMARY KEY (`id_log`),
+  KEY `id_accion_log` (`id_accion_log`),
+  KEY `id_usuario_log` (`id_usuario_log`),
+  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`id_accion_log`) REFERENCES `acciones` (`id_accion`),
+  CONSTRAINT `log_ibfk_2` FOREIGN KEY (`id_usuario_log`) REFERENCES `usuario` (`id_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="tipos_usuario" view="colnames">
+<left>137</left>
+<top>36</top>
+<width>127</width>
+<height>103</height>
+<sql_create_table>CREATE TABLE `tipos_usuario` (
+  `id_tipo_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_usuario` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `nivel_acceso` int(2) NOT NULL,
+  PRIMARY KEY (`id_tipo_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+<table name="usuario" view="colnames">
+<left>332</left>
+<top>17</top>
+<width>129</width>
+<height>171</height>
+<sql_create_table>CREATE TABLE `usuario` (
+  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `clave_usuario` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre_usuario` varchar(25) COLLATE utf8_spanish_ci NOT NULL,
+  `fecha_alta_usuario` date NOT NULL,
+  `fecha_baja_usuario` date DEFAULT NULL,
+  `id_tipo_tipo_usuario` int(11) NOT NULL,
+  `definirPass` tinyint(1) NOT NULL DEFAULT '0',
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_usuario`),
+  UNIQUE KEY `Nombre` (`nombre_usuario`),
+  KEY `id_tipo_tipo_usuario` (`id_tipo_tipo_usuario`),
+  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_tipo_tipo_usuario`) REFERENCES `tipos_usuario` (`id_tipo_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>

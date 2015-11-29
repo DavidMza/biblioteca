@@ -91,7 +91,7 @@ if (!defined('K_PATH_URL')) {
 }
 
 if (!defined('K_PATH_IMAGES')) {
-	$tcpdf_images_dirs = array(K_PATH_MAIN.'examples/images/', K_PATH_MAIN.'images/', '/usr/share/doc/php-tcpdf/examples/images/', '/usr/share/doc/tcpdf/examples/images/', '/usr/share/doc/php/tcpdf/examples/images/', '/var/www/tcpdf/images/', '/var/www/html/tcpdf/images/', '/usr/local/apache2/htdocs/tcpdf/images/', K_PATH_MAIN);
+	$tcpdf_images_dirs = array(K_PATH_MAIN.'/../imagenes/',K_PATH_MAIN.'examples/images/', K_PATH_MAIN.'images/', '/usr/share/doc/php-tcpdf/examples/images/', '/usr/share/doc/tcpdf/examples/images/', '/usr/share/doc/php/tcpdf/examples/images/', '/var/www/tcpdf/images/', '/var/www/html/tcpdf/images/', '/usr/local/apache2/htdocs/tcpdf/images/', K_PATH_MAIN);
 	foreach ($tcpdf_images_dirs as $tcpdf_images_path) {
 		if (@file_exists($tcpdf_images_path)) {
 			define ('K_PATH_IMAGES', $tcpdf_images_path);
@@ -102,15 +102,15 @@ if (!defined('K_PATH_IMAGES')) {
 
 if (!defined('PDF_HEADER_LOGO')) {
 	$tcpdf_header_logo = '';
-	if (@file_exists(K_PATH_IMAGES.'tcpdf_logo.jpg')) {
-		$tcpdf_header_logo = 'tcpdf_logo.jpg';
+	if (@file_exists(K_PATH_IMAGES.'logo_biblioteca.png')) {
+		$tcpdf_header_logo = 'logo_biblioteca.png';
 	}
 	define ('PDF_HEADER_LOGO', $tcpdf_header_logo);
 }
 
 if (!defined('PDF_HEADER_LOGO_WIDTH')) {
 	if (!empty($tcpdf_header_logo)) {
-		define ('PDF_HEADER_LOGO_WIDTH', 30);
+		define ('PDF_HEADER_LOGO_WIDTH', 20);
 	} else {
 		define ('PDF_HEADER_LOGO_WIDTH', 0);
 	}
@@ -145,11 +145,11 @@ if (!defined('PDF_AUTHOR')) {
 }
 
 if (!defined('PDF_HEADER_TITLE')) {
-	define ('PDF_HEADER_TITLE', 'TCPDF Example');
+	define ('PDF_HEADER_TITLE', 'Sistema Integral');
 }
 
 if (!defined('PDF_HEADER_STRING')) {
-	define ('PDF_HEADER_STRING', "by Nicola Asuni - Tecnick.com\nwww.tcpdf.org");
+	define ('PDF_HEADER_STRING', "by Senese - Caceres\nSistema de Administracion de ");
 }
 
 if (!defined('PDF_UNIT')) {
