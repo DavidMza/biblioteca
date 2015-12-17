@@ -20,6 +20,7 @@ $(function () {
                 console.log(libro);
                 sessionStorage.removeItem("aux");
                 $("#id").val(libro.id);
+                $("#resumen").val(libro.resumen);
                 $("#titulo").val(libro.titulo);
                 $("#isbn").val(libro.isbn);
                 $("#pag").val(libro.paginas);
@@ -285,20 +286,6 @@ $(function () {
                 };
                 img.src = url;
                 div.appendChild(canvas);
-                /*console.log(canvas.width);
-                 if (canvas.width <= 200 && canvas.width >= 100) {
-                 if (canvas.height <= 300 && canvas.height >= 200) {
-                 div.appendChild(canvas);
-                 } else {
-                 alert("alto de la imagen esta mal");
-                 }
-                 } else {
-                 alert("ancho de la imagen esta mal");
-                 }*/
-                //var data = canvas.toDataURL().split('base64,')[1];
-                //fotos.push(data);
-                //console.log(data);
-                //app.mostrarVistaPrevia();
             });
 
             $("#refLog").on('click', function (event) {
@@ -598,6 +585,12 @@ $(function () {
                 retorno.msj += "publicacion\n";
                 retorno.valido = false;
             }
+            
+            var resumen = datos.resumen.trim();
+            if (resumen == ""){
+                retorno.msj += "resumen\n";
+                retorno.valido = false;
+            }
 
             var clasificaciones = datos.clasificaciones;
             if (clasificaciones.length == 0) {
@@ -634,6 +627,7 @@ $(function () {
             datos.idioma = $("#idioma").val();
             datos.disponible = $("#disponible").prop('checked');
             datos.destacado = $("#destacado").prop('checked');
+            datos.resumen = $("#resumen").val();
 
             datos.clasificaciones = clasif;
             datos.caracteristicas = caract;
@@ -683,6 +677,7 @@ $(function () {
             datos.idioma = $("#idioma").val();
             datos.disponible = $("#disponible").prop('checked');
             datos.destacado = $("#destacado").prop('checked');
+            datos.resumen = $("#resumen").val();
 
             datos.clasificaciones = clasif;
             datos.caracteristicas = caract;

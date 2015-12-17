@@ -67,20 +67,33 @@
                         <li>
                             <div>
                                 <span class="holder">
-                                    <span class="titulo" name="titulo">Titulo: <?php echo $listado["titulo"] ?></span>
-                                    <span class="detalle"><b>ISBN:</b> <?php echo $listado["isbn"] ?></span>
-                                    <span class="detalle"><b>Autor:</b> <a href="buscador.php?q=<?php echo $listado["autor"]."&pag=1"  ?>"><?php echo $listado["autor"] ?></a></span>
-                                    <span class="detalle"><b>Editorial:</b> <a href="buscador.php?edi=<?php echo base64_encode($listado["idEditorial"])."&pag=1"  ?>"><?php echo $listado["editorial"] ?></a></span>
-                                    <span class="detalle"><b>Paginas:</b> <?php echo $listado["paginas"] ?></span>
-                                    <span class="detalle"><b>Año Publicacion:</b> <?php echo $listado["publicacion"] ?></span>
-                                    <span class="detalle"><b>Idioma:</b> <?php echo $listado["idioma"] ?></span>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <span class="titulo" name="titulo">Titulo: <?php echo $listado["titulo"] ?></span>
+                                                <span class="detalle"><b>ISBN:</b> <?php echo $listado["isbn"] ?></span>
+                                                <span class="detalle"><b>Autor:</b> <a href="buscador.php?q=<?php echo $listado["autor"] . "&pag=1" ?>"><?php echo $listado["autor"] ?></a></span>
+                                                <span class="detalle"><b>Editorial:</b> <a href="buscador.php?edi=<?php echo base64_encode($listado["idEditorial"]) . "&pag=1" ?>"><?php echo $listado["editorial"] ?></a></span>
+                                                <span class="detalle"><b>Paginas:</b> <?php echo $listado["paginas"] ?></span>
+                                                <span class="detalle"><b>Año Publicacion:</b> <?php echo $listado["publicacion"] ?></span>
+                                                <span class="detalle"><b>Idioma:</b> <?php echo $listado["idioma"] ?></span>
+                                            </td>
+                                            <td width="30px"></td>
+                                            <td valign="top">
+                                                <b class="detalle">Resumen del Libro:</b>
+                                                <br>
+                                                    <textarea class="form-control" readonly style="width: 363px; height: 107px;"><?php echo $listado["resumen"] ?></textarea>
+                                            </td>
+                                        </tr>
+                                    </table>
+
                                     <h3>Clasificaciones</h3>
                                     <?php
                                     $resultado = $controladorPersistencia->ejecutarSentencia(DBSentenciasPortal::TRAER_CLASIFICACIONES_LIBRO, array(base64_decode($_GET["lib"])));
                                     $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($listado as $value) {
                                         ?>
-                                        <a class="clasificaciones" href="buscador.php?clas=<?php echo base64_encode($value["id"])."&pag=1"  ?>"><?php echo $value["text"] ?></a>
+                                        <a class="clasificaciones" href="buscador.php?clas=<?php echo base64_encode($value["id"]) . "&pag=1" ?>"><?php echo $value["text"] ?></a>
                                     <?php } ?>
                                     <h3>Caracteristicas</h3>
                                     <?php
@@ -88,7 +101,7 @@
                                     $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($listado as $value) {
                                         ?>
-                                        <a class="clasificaciones" href="buscador.php?car=<?php echo base64_encode($value["id"])."&pag=1"  ?>"><?php echo $value["text"] ?></a>
+                                        <a class="clasificaciones" href="buscador.php?car=<?php echo base64_encode($value["id"]) . "&pag=1" ?>"><?php echo $value["text"] ?></a>
                                     <?php } ?>
                                 </span>
 

@@ -97,7 +97,7 @@ class ControladorLibro extends ControladorGeneral {
             } else {
                 $disponible = 0;
             }
-            $parametros = array("titulo" => $datos["titulo"], "isbn" => $datos["isbn"], "paginas" => $datos["paginas"], "idioma" => $datos["idioma"], "publicacion" => $datos["publicacion"], "disponible" => $disponible, "destacado" => $destacado, "autor" => $datos["autor"], "editorial" => $datos["editorial"], "id" => $datos["id"]);
+            $parametros = array("titulo" => $datos["titulo"], "isbn" => $datos["isbn"], "paginas" => $datos["paginas"], "idioma" => $datos["idioma"], "publicacion" => $datos["publicacion"], "disponible" => $disponible, "destacado" => $destacado, "autor" => $datos["autor"], "editorial" => $datos["editorial"], "resumen" => $datos["resumen"], "id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::MODIFICAR_LIBRO, $parametros);
             $id_ = $datos["id"];
 
