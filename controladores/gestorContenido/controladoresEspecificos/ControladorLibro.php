@@ -7,10 +7,12 @@ require_once 'ControladorLog.php';
 class ControladorLibro extends ControladorGeneral {
 
     private $refLog;
+    private $refCtrlFoto;
     
     function __construct() {
         parent::__construct();
         $this->refLog = new ControladorLog();
+        $this->refCtrlFoto = new ControladorFoto();
     }
 
     public function agregar($datos) {
@@ -30,7 +32,7 @@ class ControladorLibro extends ControladorGeneral {
             } else {
                 $disponible = 0;
             }
-            $parametros = array("titulo" => $datos["titulo"], "isbn" => $datos["isbn"], "paginas" => $datos["paginas"], "idioma" => $datos["idioma"], "publicacion" => $datos["publicacion"], "disponible" => $disponible, "destacado" => $destacado, "autor" => $datos["autor"], "editorial" => $datos["editorial"]);
+            $parametros = array("titulo" => $datos["titulo"], "isbn" => $datos["isbn"], "paginas" => $datos["paginas"], "idioma" => $datos["idioma"], "publicacion" => $datos["publicacion"], "disponible" => $disponible, "destacado" => $destacado, "autor" => $datos["autor"], "editorial" => $datos["editorial"], "resumen" => $datos["resumen"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::AGREGAR_LIBRO, $parametros);
             $id_ = $this->ultimoID();
 
@@ -61,6 +63,18 @@ class ControladorLibro extends ControladorGeneral {
         try {
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LIBROS);
             $listado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            for ($index = 0; $index < count($listado); $index++) {
+                if ($listado[$index]['disponible'] == '1') {
+                    $listado[$index]['disponible'] = 'Si';
+                }else{
+                    $listado[$index]['disponible'] = 'No';
+                }
+                if ($listado[$index]['destacado'] == '1') {
+                    $listado[$index]['destacado'] = 'Si';
+                }else{
+                    $listado[$index]['destacado'] = 'No';
+                }
+            }
             return $listado;
         } catch (Exception $e) {
             throw new Exception("Libro-listar: " . $e->getMessage());
@@ -127,6 +141,19 @@ class ControladorLibro extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             session_start();
+            
+            $parametros = array("id" => $datos["id"]);
+            $this->refCtrlFoto->eliminar($parametros);
+            
+            unset($parametros);
+            $parametros = array("id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO_CARACTERISTICA, $parametros);
+            
+            unset($parametros);
+            $parametros = array("id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO_CLASIFICACION, $parametros);
+            
+            unset($parametros);
             $nombre = $this->traerNombre($datos["id"]);
             $parametros = array("id" => $datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_LIBRO, $parametros);

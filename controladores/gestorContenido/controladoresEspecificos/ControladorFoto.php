@@ -18,6 +18,15 @@ class ControladorFoto extends ControladorGeneral {
             throw new Exception("Foto-buscar: " . $e->getMessage());
         }
     }
+    
+    public function eliminar($datos) {
+        try {
+            $parametros = array("id" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_FOTO, $parametros);
+        } catch (Exception $e) {
+            throw new Exception("Foto-eliminar: " . $e->getMessage());
+        }
+    }
 
     public function listar() {
         try {

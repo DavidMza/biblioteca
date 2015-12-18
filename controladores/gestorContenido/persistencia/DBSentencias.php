@@ -40,6 +40,7 @@ interface DBSentencias {
     const LISTAR_FOTO_ORDER_LIBROS = "SELECT * FROM fotos INNER JOIN libro ON id_libro_foto = id_libro ORDER BY id_libro_foto";
     const LISTAR_FOTOS = "SELECT rutaArchivo_foto FROM fotos";
     const BUSCAR_FOTO = "SELECT rutaArchivo_foto AS ruta, id_foto AS id FROM fotos WHERE id_libro_foto = ?";
+    const ELIMINAR_FOTO = "DELETE FROM fotos WHERE `id_libro_foto` = ?;";
 //FOTOS
     //const AGREGAR_FOTO = "INSERT INTO `biblioteca`.`fotos`(`rutaArchivo_foto`,`id_libro_foto`) VALUES (?,?);";
 //IDIOMA
@@ -47,7 +48,7 @@ interface DBSentencias {
 //LIBROS
     const NOMBRE_LIBROS = "SELECT titulo_libro AS nombre FROM libro WHERE id_libro = ?";
     const LISTAR_LIBROS = "SELECT id_libro AS id, titulo_libro AS titulo, nombre_autor AS autor, id_autor_libro AS hidAutor, nombre_editorial AS editorial, id_editorial_libro AS hidEditorial, disponibilidad_libro AS 'disponible', destacado_libro AS 'destacado', ISBN_libro AS isbn, idioma_libro AS idioma, paginas_libro AS paginas, publicacion_libro AS 'publicacion', resumen_libro AS 'resumen' FROM libro INNER JOIN autores ON id_autor = id_autor_libro INNER JOIN editoriales ON id_editorial = id_editorial_libro";
-    const AGREGAR_LIBRO = "INSERT INTO `biblioteca`.`libro` (`titulo_libro`,`ISBN_libro`,`paginas_libro`,`idioma_libro`,`publicacion_libro`,`disponibilidad_libro`,`destacado_libro`,`id_autor_libro`,`id_editorial_libro`) VALUES (?,?,?,?,?,?,?,?,?);";
+    const AGREGAR_LIBRO = "INSERT INTO `biblioteca`.`libro` (`titulo_libro`,`ISBN_libro`,`paginas_libro`,`idioma_libro`,`publicacion_libro`,`disponibilidad_libro`,`destacado_libro`,`id_autor_libro`,`id_editorial_libro`, `resumen_libro`) VALUES (?,?,?,?,?,?,?,?,?,?);";
     const ULTIMO_ID_LIBRO = "SELECT MAX(id_libro) FROM libro;";
     const MODIFICAR_LIBRO = "UPDATE `biblioteca`.`libro` SET  `titulo_libro` = ?,  `ISBN_libro` = ?,  `paginas_libro` = ?,  `idioma_libro` = ?,  `publicacion_libro` = ?,  `disponibilidad_libro` = ?,  `destacado_libro` = ?,  `id_autor_libro` = ?,  `id_editorial_libro` = ?, `resumen_libro` = ? WHERE `id_libro` = ?;";
     const ELIMINAR_LIBRO = "DELETE FROM libro WHERE id_libro = ?;";

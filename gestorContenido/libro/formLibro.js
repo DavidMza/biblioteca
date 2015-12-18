@@ -29,13 +29,13 @@ $(function () {
                 datosCombo.autor = libro.hidAutor;
                 datosCombo.editorial = libro.hidEditorial;
                 datosCombo.publicacion = libro.publicacion;
-                //app.cargarFormulario(datosCombo);
-                if (libro.destacado == "0") {
+
+                if (libro.destacado == "No") {
                     $("#destacado").prop('checked', false);
                 } else {
                     $("#destacado").prop('checked', true);
                 }
-                if (libro.disponible == "0") {
+                if (libro.disponible == "No") {
                     $("#disponible").prop('checked', false);
                 } else {
                     $("#disponible").prop('checked', true);
@@ -441,7 +441,7 @@ $(function () {
                 error: function (data) {
                     //swal("Error!", data.responseText, "error");
                     sessionStorage.aux = JSON.stringify(data.responseText);
-                        window.location = "../error/error.html";
+                       window.location = "../error/error.html";
                 }
             });
 
@@ -647,9 +647,10 @@ $(function () {
                     data: datos,
                     success: function (data) {
                         console.log(data);
-                        $("#contenido").load('../libro/libro.html #contenido');
-                        $.getScript("../libro/libro.js");
+                        //$("#contenido").load('../libro/libro.html #contenido');
+                        //$.getScript("../libro/libro.js");
                         //app.actualizarTabla(data, $("#id").val());
+                        window.location = "libro.html";
                     },
                     error: function (data) {
                         //swal("Error!", data.responseText, "error");
@@ -695,8 +696,9 @@ $(function () {
                     method: 'POST',
                     data: datos,
                     success: function (data) {
-                        $("#contenido").load('../libro/libro.html #contenido');
-                        $.getScript("../libro/libro.js");
+                        window.location = "libro.html"
+                        //$("#contenido").load('../libro/libro.html #contenido');
+                        //$.getScript("../libro/libro.js");
                     },
                     error: function (data) {
                         //swal("Error!", data.responseText, "error");

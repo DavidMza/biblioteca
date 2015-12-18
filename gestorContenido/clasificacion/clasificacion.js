@@ -72,7 +72,8 @@ $(function () {
                 data: datos,
                 success: function (data) {
                     $("#modalClasificacion").modal('hide');
-                    app.listar();
+                    //app.listar();
+                    window.location = "clasificacion.html"
                 },
                 error: function (data) {
                     //alert(data.responseText);
@@ -110,7 +111,8 @@ $(function () {
                 success: function (data) {
                     $("#modalClasificacion").modal('hide');
                     //app.actualizarTabla(data, $("#id").val());
-                    app.listar();
+                    //app.listar();
+                    window.location = "clasificacion.html"
                 },
                 error: function (data) {
                     //alert(data.responseText);
@@ -138,7 +140,8 @@ $(function () {
                 data: datos,
                 success: function (data) {
                     $("#modalClasificacion").modal('hide');
-                    app.listar();
+                    //app.listar();
+                    window.location = "clasificacion.html"
                 },
                 error: function (data) {
                     //alert(data.responseText);
@@ -192,7 +195,10 @@ $(function () {
             $('#arbol').jstree({'core': {
                     'data': data
                 }});
-            //$("#arbol").jstree('open_all');
+            setTimeout(function () {
+                $("#arbol").jstree('open_all');
+            }, 150);
+
             //data = null;
         };
 
